@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Searching{% endblock title %}
+
+{% block content %}
+{<h1>New Recipes:</h1>
+<table>
+    {% for item in object_list %}
+    <tr>
+        <td>{{ item.title }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.author }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

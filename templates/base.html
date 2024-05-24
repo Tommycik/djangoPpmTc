@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Newspaper App{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    {% block css %}{% endblock %}
+
+<body>
+    <header>
+
+        <div class="homeLogo">
+            <a href="{% url 'home' %}"><h1>Recipe world</h1></a>
+        </div>
+        <div class="userInteraction">
+            <div class="userAction">
+                {% if user.is_authenticated %}
+                    <button>{{ user.username }}></button>
+                    <div class="dropdown">
+
+                    </div>
+                {% else %}
+                    <div class="sub">
+
+                    </div>
+
+                {% endif %}
+            </div>
+        </div>
+
+    </header>
+     <main>
+         <div class="container">
+          {% block content %}
+          {% endblock content %}
+        </div>
+     </main>
+</body>
+</html>

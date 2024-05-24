@@ -1,0 +1,111 @@
+*{
+    font-family: Arial,sans-serif;
+    width: 100%;
+}
+
+.body{
+    padding: 10px;
+    width: 100%;
+    margin: 0;
+    display: flex;
+}
+
+div{
+    display:flex;
+}
+
+a{
+    text-decoration: none;
+}
+
+header{
+    border-bottom: black solid 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    position: sticky;
+    top:0;
+}
+
+.homeLogo{
+    justify-content: center;
+    align-content: center;
+}
+
+.homeLogo a{
+    color: green;
+    width: fit-content;
+}
+.userAction{
+    width: auto;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+}
+
+.userInteraction{
+    width: auto;
+    align-content: center;
+    flex-direction: column;
+}
+
+.userAction button{
+    background-color: inherit;
+    position: relative;
+    width: fit-content;
+    border:none;
+    min-height: 10px;
+}
+
+.dropdown{
+    display: none;
+    width: fit-content;
+    flex-direction: column;
+    gap:5px;
+    position: relative;
+    top:25px;
+    z-index: 10;
+    border: darkgray solid 1px;
+    background-color: white;
+    padding:10px;
+}
+
+.dropdown a:hover{
+    background-color: green;
+    color:white;
+}
+
+.sub{
+    flex-wrap: wrap;
+    column-gap:20px;
+    justify-content: center;
+    row-gap: 5px;
+}
+.subLog{
+    width: fit-content;
+    height: fit-content;
+    padding:10px;
+    border:green solid 1px;
+    border-radius: 10px;
+}
+
+.subLog:hover{
+    background-color: green;
+    color: white;
+}
+
+.container{
+    flex-direction: column;
+}
+
+main{
+    width:auto ;
+}
+@media only screen and (min-width: 1000px){
+    /*
+    header{
+        flex-direction: row;
+        justify-content: space-between;
+    }*/
+}

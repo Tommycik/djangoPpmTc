@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{object.title }}{% endblock title %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'detail.css' %}">{% endblock %}
+
+
+{% block content %}
+    <h2>{{object.title}}</h2>
+    <div class="recipe">
+        <img src="{{ object.image}}" alt="recipe photo">
+        <p>{{ object.description }}</p>
+        <p>{{ object.author}}</p>
+        <p class="date">{{ object.date}}</p>
+    </div>
+{% endblock content %}

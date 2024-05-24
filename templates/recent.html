@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Recent{% endblock title %}
+
+{% block content %}
+{<h2>New Recipes:</h2>
+<ul>
+    {% for item in object_list %}
+    <li>
+        <img src="{{ item.image}}" alt="recipe photo">
+        <h3><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3>
+        <p>{{ item.description }}</p>
+        <p>{{ item.author}}</p>
+        <p class="date">{{ item.date}}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}
