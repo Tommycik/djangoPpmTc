@@ -2,15 +2,34 @@
 {% load static %}
 {% block title %}{{object.title }}{% endblock title %}
 
-{% block css %}<link rel="stylesheet" href="{% static 'detail.css' %}">{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'detail.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+{% endblock %}
 
 
 {% block content %}
     <h2>{{object.title}}</h2>
     <div class="recipe">
-        <img src="{{ object.image}}" alt="recipe photo">
+        <div class="imageWrapper">
+            <span><img src="{{ item.image}}" alt="recipe photo"></span>
+        </div>
         <p>{{ object.description }}</p>
+        <div class="preparation">
+            <div class="ingredients">
+                <ul>
+                    {% for ingredient in ingredients %}
+                        <li>
+                            <p>{{ingredient.title}}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+            <p class="time">{{ object.time}}min</p>
+        </div>
         <p>{{ object.author}}</p>
         <p class="date">{{ object.date}}</p>
+        <p>{{ object.body }}</p>
     </div>
 {% endblock content %}

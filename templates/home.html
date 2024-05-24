@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}Home{% endblock title %}
 
-{% block css %}<link rel="stylesheet" href="{% static 'home.css' %}">{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+{% endblock %}
 
 
 {% block content %}
@@ -13,6 +17,7 @@
         {% if user.is_authenticated %}
             <a class="choice" href="{% url 'recent' %}">See your recipes</a>
             <a class="choice" href="{% url 'recent' %}">See your favorites</a>
+            <a class="choice" href="{% url 'recent' %}">New recipe</a>
         {% endif %}
 
     </div>

@@ -1,17 +1,32 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Recent{% endblock title %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'recent.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+{% endblock %}
+
 {% block content %}
-{<h2>New Recipes:</h2>
+<h2>New Recipes:</h2>
 <ul>
     {% for item in object_list %}
     <li>
-        <img src="{{ item.image}}" alt="recipe photo">
-        <h3><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3>
-        <p>{{ item.description }}</p>
-        <p>{{ item.author}}</p>
-        <p class="date">{{ item.date}}</p>
+        <div class="imageWrapper">
+            <a href="{{ item.get_absolute_url }}"><img src="{{ item.image}}" alt="recipe photo"></a>
+        </div>
+        <div class="recipeText">
+            <a href="{{ item.get_absolute_url }}">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.description }}</p>
+            </a>
+        </div>
+        <div class="recipeInfo">
+            <p>{{ item.author}}</p>
+            <p class="date">{{ item.date}}</p>
+            <p class="time">{{ item.time}}min</p>
+        </div>
     </li>
     {% endfor %}
 </ul>

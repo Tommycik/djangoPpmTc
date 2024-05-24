@@ -5,10 +5,11 @@
     <meta charset="utf-8">
     <title>{% block title %}Newspaper App{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'base.css' %}">
-    {% block css %}{% endblock %}
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'base.css' %}">
+    {% endblock %}
 
-<body>
+<body id="body">
     <header>
 
         <div class="homeLogo">
@@ -17,13 +18,15 @@
         <div class="userInteraction">
             <div class="userAction">
                 {% if user.is_authenticated %}
-                    <button>{{ user.username }}></button>
-                    <div class="dropdown">
-
+                    <div class="sub">
+                        <p>{{ user.username }}</p>
+                        <a class="subLog" href="{% url 'password_change' %}">Change your password</a>
+                        <a class="subLog" href="{% url 'logout' %}">Log out</a>
                     </div>
                 {% else %}
                     <div class="sub">
-
+                        <a class="subLog" href="{% url 'login' %}">Log In</a>
+                        <a  class="subLog" href="{% url 'signup' %}">Sign Up</a>
                     </div>
 
                 {% endif %}
@@ -31,11 +34,11 @@
         </div>
 
     </header>
-     <main>
+     <section class="main">
          <div class="container">
           {% block content %}
           {% endblock content %}
         </div>
-     </main>
+     </section>
 </body>
 </html>
