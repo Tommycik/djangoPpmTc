@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<h2>New Recipes:</h2>
+{% block head %}<h2>New Recipes:</h2>{% endblock head %}
 <ul>
     {% for item in object_list %}
     <li>
@@ -23,9 +23,12 @@
             </a>
         </div>
         <div class="recipeInfo">
-            <p>{{ item.author}}</p>
+            <a href="/recipes/{{item.author}}/authorRecipes/">{{ item.author}}</a>
             <p class="date">{{ item.date}}</p>
             <p class="time">{{ item.time}}min</p>
+            {% if user.is_authenticated and item.author == user %}
+                <a class="choice" href="{{ item.get_absolute_url }}delete/">Delete recipe</a>
+            {% endif %}
         </div>
     </li>
     {% endfor %}

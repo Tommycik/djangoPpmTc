@@ -63,6 +63,7 @@ header{
     flex-direction: column;
     justify-content: center;
     align-content: center;
+    background-color: white;
     position: sticky;
     top:0;
 }

@@ -15,9 +15,9 @@
         <a class="choice" href="{% url 'recent' %}">See new recipes</a>
         <a class="choice" href="{% url 'recent' %}">Search</a>
         {% if user.is_authenticated %}
-            <a class="choice" href="{% url 'recent' %}">See your recipes</a>
-            <a class="choice" href="{% url 'recent' %}">See your favorites</a>
-            <a class="choice" href="{% url 'recent' %}">New recipe</a>
+            <a class="choice" href="{% url 'recipe_yours' %}">See your recipes</a>
+            <a class="choice" href="{% url 'recipe_favourites' %}">See your favorites</a>
+            <a class="choice" href="{% url 'recipe_new' %}">New recipe</a>
         {% endif %}
 
     </div>
