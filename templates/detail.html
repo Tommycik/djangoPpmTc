@@ -28,11 +28,12 @@
             </div>
             <p class="time">{{ object.time}}min</p>
         </div>
-        <a href="/recipes/{{ item.author}}/authorRecipes/">{{ object.author}}</a>
+        <a href="/recipes/{{ object.author}}/authorRecipes/">{{ object.author}}</a>
         <p class="date">{{ object.date}}</p>
-        {% if user.is_authenticated and item.author == user %}
-            <a class="choice" href="/recipes/{{ item.pk }}/modify/">modify recipe</a>
-                <a class="choice" href="{{ item.get_absolute_url }}delete/">Delete recipe</a>
+        {% if user.is_authenticated and object.author == user %}
+            <a class="choice" href="/recipes/favourites/{{ object.pk }}" >favourite</a>
+            <a class="choice" href="/recipes/{{ object.pk }}/modify/">modify recipe</a>
+            <a class="choice" href="{{ object.get_absolute_url }}delete/">Delete recipe</a>
         {% endif %}
         <p>{{ object.body }}</p>
     </div>

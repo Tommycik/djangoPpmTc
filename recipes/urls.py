@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path("favourites/", views.FavouritesPageView.as_view(), name="recipe_favourites"),
+    path("favourites/<int:pk>", views.favourite_add, name="recipe_favouriteAdd"),
     path("yours/", views.YoursPageView.as_view(), name="recipe_yours"),
     path("<str:name>/authorRecipes/", views.AuthorPageView.as_view(), name="recipe_author"),
     path("<int:pk>/delete/", views.DeletePageView.as_view(), name="recipe_delete"),

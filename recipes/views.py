@@ -81,7 +81,7 @@ class FavouritesPageView(YoursPageView):
     template_name = "../templates/favourites.html"
 
     def get_queryset(self):
-        queryset = Recipe.objects.all().filter(title__in=(Cook.objects.get(title=self.request.user).favourites.all()))
+        queryset = Recipe.objects.filter(title__in=(Cook.objects.get(title=self.request.user).favourites.all()))
         return queryset
 
 
@@ -97,3 +97,9 @@ class AuthorPageView(YoursPageView):
         context['author'] = self.kwargs['name']
         return context
 
+
+def favourite_add(request, pk):
+    favourite = Cook.objects.get(title=request.user)
+    favourite.favourites.add(pk)
+    #favourite.save()
+    return HttpResponseRedirect(reverse('home'))
