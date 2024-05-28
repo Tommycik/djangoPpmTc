@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -79,7 +80,7 @@ class AuthorPageView(YoursPageView):
     template_name = "../templates/authorRecipes.html"
 
     def get_queryset(self):
-        queryset = Recipe.objects.all().filter(author=self.kwargs['name'])
+        queryset = Recipe.objects.all().filter(author=User.objects.get(username=self.kwargs['name']).pk)
         return queryset
 
     def get_context_data(self, **kwargs):
