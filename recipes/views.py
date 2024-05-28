@@ -2,10 +2,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import TemplateView
-
-from accounts.models import Cook
-from .models import Recipe
+from .models import Recipe, Ingredient, Category
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView  # new
 
 
@@ -15,6 +12,38 @@ from django.views.generic import ListView, DetailView, FormView, CreateView, Upd
 class RecentPageView(ListView):
     model = Recipe
     template_name = "../templates/recent.html"
+    paginate_by = 10
+
+
+class RecipesCategoryPageView(ListView):
+    model = Category
+    template_name = "../templates/category.html"
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = Recipe.objects.all().filter(categories=self.kwargs['pk'])
+        return queryset
+
+
+class RecipesIngredientPageView(ListView):
+    model = Ingredient
+    template_name = "../templates/ingredient.html"
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = Recipe.objects.all().filter(ingredients=self.kwargs['pk'])
+        return queryset
+
+
+class CategoriesPageView(ListView):
+    model = Category
+    template_name = "../templates/categories.html"
+    paginate_by = 10
+
+
+class IngredientsPageView(ListView):
+    model = Ingredient
+    template_name = "../templates/ingredients.html"
     paginate_by = 10
 
 
@@ -77,14 +106,6 @@ class YoursPageView(ListView):
         return queryset
 
 
-class FavouritesPageView(YoursPageView):
-    template_name = "../templates/favourites.html"
-
-    def get_queryset(self):
-        queryset = Recipe.objects.filter(title__in=(Cook.objects.get(title=self.request.user).favourites.all()))
-        return queryset
-
-
 class AuthorPageView(YoursPageView):
     template_name = "../templates/authorRecipes.html"
 
@@ -97,9 +118,3 @@ class AuthorPageView(YoursPageView):
         context['author'] = self.kwargs['name']
         return context
 
-
-def favourite_add(request, pk):
-    favourite = Cook.objects.get(title=request.user)
-    favourite.favourites.add(pk)
-    #favourite.save()
-    return HttpResponseRedirect(reverse('home'))

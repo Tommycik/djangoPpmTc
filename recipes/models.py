@@ -8,15 +8,29 @@ class Category(models.Model):
     title = models.CharField(max_length=255, primary_key=True)
     description = models.TextField()
 
+    class Meta:
+        db_table = "Categories"
+        ordering = ['title']
+
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("recipes_category", kwargs={"pk": self.pk})
 
 
 class Ingredient(models.Model):
     title = models.CharField(max_length=255, primary_key=True)
 
+    class Meta:
+        db_table = "Ingredients"
+        ordering = ['title']
+
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("recipes_ingredient", kwargs={"pk": self.pk})
 
 
 class Recipe(models.Model):

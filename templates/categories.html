@@ -1,0 +1,22 @@
+{% extends "recent.html" %}
+{% load static %}
+
+{% block title %}Categories{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'recent.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+{% endblock %}
+
+{% block content %}
+{% block head %}<h2>Categories:</h2>{% endblock head %}
+<ul>
+    {% for item in object_list %}
+    <li>
+        <div class="element">
+            <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}
