@@ -17,8 +17,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Cook.objects.create(title=instance)
 
-
 # this method to update profile when user is updated
 #@receiver(post_save, sender=User)
 #def save_user_profile(sender, instance, **kwargs):
-   # instance.favourites.save()
+# instance.favourites.save()

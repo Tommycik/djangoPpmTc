@@ -50,6 +50,15 @@ class CreatePageView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+class ModifyPageView(UpdateView):
+    model = Recipe
+    fields = ['title', 'description', 'ingredients', 'time', 'body', 'image', 'categories']
+    template_name = "../templates/modify.html"
+
+    def get_success_url(self):
+        return reverse('home')
+
+
 class DeletePageView(DeleteView):
     model = Recipe
     template_name = "../templates/delete.html"
@@ -87,3 +96,4 @@ class AuthorPageView(YoursPageView):
         context = super().get_context_data(**kwargs)
         context['author'] = self.kwargs['name']
         return context
+

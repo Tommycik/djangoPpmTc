@@ -31,7 +31,8 @@
         <a href="/recipes/{{ item.author}}/authorRecipes/">{{ object.author}}</a>
         <p class="date">{{ object.date}}</p>
         {% if user.is_authenticated and item.author == user %}
-            <a class="choice" href="{{ item.get_absolute_url }}delete/">Delete recipe</a>
+            <a class="choice" href="/recipes/{{ item.pk }}/modify/">modify recipe</a>
+                <a class="choice" href="{{ item.get_absolute_url }}delete/">Delete recipe</a>
         {% endif %}
         <p>{{ object.body }}</p>
     </div>

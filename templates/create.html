@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-  <h2>New Recipe</h2>
+  {% block head %}<h2>New Recipe</h2>{% endblock %}
     <form method="POST" enctype="multipart/form-data">
 
         <!-- Security token -->
