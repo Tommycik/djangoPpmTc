@@ -27,11 +27,11 @@
             <p class="date">{{ item.date}}</p>
             <p class="time">{{ item.time}}min</p>
             {% if user.is_authenticated and item.author == user %}
-                <a class="choice" href="/accounts/favourites/{{ object.pk }}" >favourite</a>
+                <a class="choice" href="/accounts/favourites/{{ item.pk }}" >favourite</a>
                 <a class="choice" href="/recipes/{{ item.pk }}/modify/">modify recipe</a>
                 <a class="choice" href="{{ item.get_absolute_url }}delete/">Delete recipe</a>
             {% elif user.is_authenticated%}
-                 <a class="choice" href="/accounts/favourites/{{ object.pk }}" >favourite</a>
+                 <a class="choice" href="/accounts/favourites/{{ item.pk }}" >favourite</a>
             {% endif %}
         </div>
     </li>

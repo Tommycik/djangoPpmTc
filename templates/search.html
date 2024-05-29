@@ -1,16 +1,25 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Searching{% endblock title %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'search.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+{% endblock %}
+
 {% block content %}
-{<h1>New Recipes:</h1>
-<table>
-    {% for item in object_list %}
-    <tr>
-        <td>{{ item.title }}</td>
-        <td>{{ item.description }}</td>
-        <td>{{ item.author }}</td>
-    </tr>
-    {% endfor %}
-</table>
+    <h1>Search what you want:</h1>
+    <div class="search">
+
+        <div>
+{#            <img alt="search" src="img/search.svg">#}
+        </div>
+
+        <form action="#">
+          <label><input type="text" placeholder="Type your search" name="search"></label>
+          <button type="submit">Search</button>
+        </form>
+
+    </div>
 {% endblock content %}

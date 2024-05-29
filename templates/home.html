@@ -13,7 +13,7 @@
     <h2>What recipes are you searching?</h2>
     <div class="choices">
         <a class="choice" href="{% url 'recent' %}">See new recipes</a>
-        <a class="choice" href="{% url 'recent' %}">Search</a>
+        <a class="choice" href="{% url 'search' %}">Search</a>
          <a class="choice" href="{% url 'recipe_categories' %}">Categories</a>
          <a class="choice" href="{% url 'recipe_ingredients' %}">Ingredients</a>
         {% if user.is_authenticated %}

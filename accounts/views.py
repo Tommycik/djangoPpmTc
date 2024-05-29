@@ -34,8 +34,12 @@ class FavouritesPageView(YoursPageView):
 
 
 def favourite_add(request, pk):
-    favourite = Cook.objects.get(title=request.user)
-    favourite.favourites.add(pk)
+    cook = Cook.objects.get(title=request.user)
+    favourites=cook.favourites.all()
+    if favourites.filter(pk=pk).exists():
+        cook.favourites.remove(pk)
+    else:
+        cook.favourites.add(pk)
     return HttpResponseRedirect(reverse('home'))
 
 
