@@ -11,7 +11,7 @@ class HomePageView(TemplateView):
     template_name = "../templates/home.html"
 
 
-def SearchPageView(request):
+def search_page_view(request):
     if request.method == "POST":
         # create a form instance and populate it with data from the request:
         form = SearchForm(request.POST)

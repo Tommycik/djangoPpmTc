@@ -1,10 +1,8 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from . import views
 
 urlpatterns = [
-    #path("results/<str:somevar>/ ", views.SearchResultsView, name="search_results"),
-    path("input/", views.SearchPageView, name="search"),
+    path("input/", views.search_page_view, name="search"),
     path("", views.HomePageView.as_view(), name="home"),
 ]
 

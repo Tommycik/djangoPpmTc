@@ -63,16 +63,13 @@ class CreatePageView(LoginRequiredMixin, CreateView):
     fields = ['title', 'description', 'ingredients', 'time', 'body', 'image', 'categories']
     template_name = "../templates/create.html"
 
-    def get_success_url(self):
-        return reverse('home')
-
     def form_valid(self, form):
         instance = form.save(commit=False)
         # define the slug and any other programmatically generated fields
         instance.author = self.request.user
         instance.save()
 
-        return HttpResponseRedirect(self.get_success_url())
+        return HttpResponseRedirect(instance.get_absolute_url()+"recipe/")
 
 
 class ModifyPageView(LoginRequiredMixin, UpdateView):
@@ -80,8 +77,11 @@ class ModifyPageView(LoginRequiredMixin, UpdateView):
     fields = ['title', 'description', 'ingredients', 'time', 'body', 'image', 'categories']
     template_name = "../templates/modify.html"
 
-    def get_success_url(self):
-        return reverse('home')
+    def form_valid(self, form):
+        instance = form.save()
+        instance.save()
+
+        return HttpResponseRedirect(instance.get_absolute_url()+"recipe/")
 
 
 class DeletePageView(DeleteView):
@@ -89,7 +89,7 @@ class DeletePageView(DeleteView):
     template_name = "../templates/delete.html"
 
     def get_success_url(self):
-        return reverse('home')
+        return reverse('recipe_yours')
 
 
 class AuthorPageView(ListView):
@@ -115,5 +115,5 @@ class YoursPageView(LoginRequiredMixin, AuthorPageView):
         return queryset
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = (super(AuthorPageView, self).get_context_data(**kwargs))
         return context

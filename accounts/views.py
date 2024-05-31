@@ -27,7 +27,7 @@ class RecipeLoginView(LoginView):
     template_name = "registration/login.html"
 
 
-class FavouritesPageView(LoginRequiredMixin, YoursPageView):
+class FavouritesPageView(YoursPageView):
     template_name = "../templates/favourites.html"
 
     def get_queryset(self):
