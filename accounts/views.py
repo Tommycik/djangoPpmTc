@@ -1,5 +1,7 @@
 from urllib import request
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 
 from recipes.models import Recipe
@@ -25,7 +27,7 @@ class RecipeLoginView(LoginView):
     template_name = "registration/login.html"
 
 
-class FavouritesPageView(YoursPageView):
+class FavouritesPageView(LoginRequiredMixin, YoursPageView):
     template_name = "../templates/favourites.html"
 
     def get_queryset(self):
@@ -33,6 +35,7 @@ class FavouritesPageView(YoursPageView):
         return queryset
 
 
+@login_required
 def favourite_add(request, pk):
     cook = Cook.objects.get(title=request.user)
     favourites=cook.favourites.all()

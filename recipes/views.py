@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -57,12 +58,7 @@ class DetailPageView(DetailView):
         return context
 
 
-class SearchPageView(ListView):
-    model = Recipe
-    template_name = "../templates/recent.html"
-
-
-class CreatePageView(CreateView):
+class CreatePageView(LoginRequiredMixin, CreateView):
     model = Recipe
     fields = ['title', 'description', 'ingredients', 'time', 'body', 'image', 'categories']
     template_name = "../templates/create.html"
@@ -79,7 +75,7 @@ class CreatePageView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class ModifyPageView(UpdateView):
+class ModifyPageView(LoginRequiredMixin, UpdateView):
     model = Recipe
     fields = ['title', 'description', 'ingredients', 'time', 'body', 'image', 'categories']
     template_name = "../templates/modify.html"
@@ -96,18 +92,10 @@ class DeletePageView(DeleteView):
         return reverse('home')
 
 
-class YoursPageView(ListView):
+class AuthorPageView(ListView):
     model = Recipe
-    template_name = "../templates/userRecipes.html"
-    paginate_by = 10
-
-    def get_queryset(self):
-        queryset = Recipe.objects.all().filter(author=self.request.user)
-        return queryset
-
-
-class AuthorPageView(YoursPageView):
     template_name = "../templates/authorRecipes.html"
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = Recipe.objects.all().filter(author=User.objects.get(username=self.kwargs['name']).pk)
@@ -118,3 +106,14 @@ class AuthorPageView(YoursPageView):
         context['author'] = self.kwargs['name']
         return context
 
+
+class YoursPageView(LoginRequiredMixin, AuthorPageView):
+    template_name = "../templates/userRecipes.html"
+
+    def get_queryset(self):
+        queryset = Recipe.objects.all().filter(author=self.request.user)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
