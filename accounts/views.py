@@ -1,19 +1,11 @@
-from urllib import request
-
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-
-from recipes.models import Recipe
 from recipes.views import YoursPageView
 from .models import Cook
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.views import LogoutView
 
 
 # Create your views here.
@@ -23,8 +15,19 @@ class RecipeSignUpView(CreateView):
 
 
 class RecipeLoginView(LoginView):
-    success_url = reverse_lazy("/accounts/login")
     template_name = "registration/login.html"
+
+    def get(self, request, *args, **kwargs):
+        request.session['previous_page'] = request.META.get('HTTP_REFERER', self.success_url)
+        return super().get(request, *args, **kwargs)
+
+    def get_success_url(self):
+        control = self.request.session['previous_page']
+        check = self.request.build_absolute_uri(reverse_lazy("signup"))
+        if control == check:
+            return reverse_lazy("home")
+        else:
+            return self.request.session['previous_page']
 
 
 class FavouritesPageView(YoursPageView):
