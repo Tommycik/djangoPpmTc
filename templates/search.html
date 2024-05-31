@@ -16,9 +16,11 @@
 {#            <img alt="search" src="img/search.svg">#}
         </div>
 
-        <form action="#">
-          <label><input type="text" placeholder="Type your search" name="search"></label>
-          <button type="submit">Search</button>
+        <form  method="post">
+            {% csrf_token %}
+            {{ form.search }}
+            {{ form.filter_field }}
+            <button type="submit"  value="Submit">Search</button>
         </form>
 
     </div>

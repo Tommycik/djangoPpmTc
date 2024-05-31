@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Search Results{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'recent.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+{% endblock %}
+
+{% block content %}
+{% block head %}<h2>Search Results:</h2>{% endblock head %}
+<ul>
+
+        {% if mode == "recipe" or mode == "all" %}
+            {% if results.0 %}
+                <h2>Recipes:</h2>
+                {% for item in results.0 %}
+                    <li>
+                        <div class="imageWrapper">
+                            <a href="{{ item.get_absolute_url }}"><img src="{{ item.image }}" alt="recipe photo"></a>
+                        </div>
+                        <div class="recipeText">
+                            <a href="{{ item.get_absolute_url }}">
+                                <h3>{{ item.title }}</h3>
+                                <p>{{ item.description }}</p>
+                            </a>
+                        </div>
+                        <div class="recipeInfo">
+                            <a href="/recipes/{{ item.author }}/authorRecipes/">{{ item.author }}</a>
+                            <p class="date">{{ item.date }}</p>
+                            <p class="time">{{ item.time }}min</p>
+                            {% if user.is_authenticated and item.author == user %}
+                                <a class="choice" href="/accounts/favourites/{{ item.pk }}">favourite</a>
+                                <a class="choice" href="/recipes/{{ item.pk }}/modify/">modify recipe</a>
+                                <a class="choice" href="{{ item.get_absolute_url }}delete/">Delete recipe</a>
+                            {% elif user.is_authenticated %}
+                                <a class="choice" href="/accounts/favourites/{{ item.pk }}">favourite</a>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                No recipe match your search
+            {% endif %}
+        {% endif %}
+        {% if  mode == "category" or mode == "all" %}
+             {% if results.1 %}
+                 <h2>Categories:</h2>
+                {% for item in results.1 %}
+                    <li>
+                        <a href="{{ item.get_absolute_url }}">
+                            <h3>{{ item.title }}</h3>
+                        </a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                No category match your search
+            {% endif %}
+        {% endif %}
+        {% if  mode == "ingredient" or mode == "all" %}
+             {% if results.2 %}
+                 <h2>Ingredients:</h2>
+                {% for item in results.2 %}
+                    <li>
+                        <a href="{{ item.get_absolute_url }}">
+                            <h3>{{ item.title }}</h3>
+                        </a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                No ingredient match your search
+            {% endif %}
+        {% endif %}
+        {% if mode == "cook" or mode == "all" %}
+            {% if results.3 %}
+                <h2>Cooks:</h2>
+                {% for item in results.3 %}
+                    <li>
+                        <a href="{{ item.get_absolute_url }}">
+                            <h3>{{ item.title }}</h3>
+                        </a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                No cook match your search
+            {% endif %}
+
+        {% endif %}
+
+</ul>
+{% endblock content %}

@@ -7,7 +7,6 @@ urlpatterns = [
     path("<int:pk>/delete/", views.DeletePageView.as_view(), name="recipe_delete"),
     path("<int:pk>/modify/", views.ModifyPageView.as_view(), name="recipe_modify"),
     path("create/", views.CreatePageView.as_view(), name="recipe_new"),
-    path("search/", views.SearchPageView.as_view(), name="search"),
     path("<str:pk>/ingredient/", views.RecipesIngredientPageView.as_view(), name="recipes_ingredient"),
     path("<str:pk>/category/", views.RecipesCategoryPageView.as_view(), name="recipes_category"),
     path("<int:pk>/recipe", views.DetailPageView.as_view(), name="recipe_detail"),
