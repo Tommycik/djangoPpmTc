@@ -41,11 +41,21 @@ class CategoriesPageView(ListView):
     template_name = "../templates/categories.html"
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['alphabet'] = map(chr, range(97, 123))
+        return context
+
 
 class IngredientsPageView(ListView):
     model = Ingredient
     template_name = "../templates/ingredients.html"
     paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['alphabet'] = map(chr, range(97, 123))
+        return context
 
 
 class DetailPageView(DetailView):
