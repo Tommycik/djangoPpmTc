@@ -21,6 +21,7 @@ class Category(models.Model):
 
 class Ingredient(models.Model):
     title = models.CharField(max_length=255, primary_key=True)
+    description = models.TextField(blank=True)
 
     class Meta:
         db_table = "Ingredients"
