@@ -75,19 +75,19 @@ class CreatePageView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
 
-        c = form.cleaned_data["category"]
-        i = form.cleaned_data["ingredient"]
-        category = Category.objects.filter(name=c).first()
-        ingredient = Ingredient.objects.filter(name=i).first()
-        if not category:
-            category = Category.objects.create(name=c)
-        if not ingredient:
-            category = Category.objects.create(name=c)
+        #c = form.cleaned_data["category"]
+       # i = form.cleaned_data["ingredient"]
+        #category = Category.objects.filter(name=c).first()
+        #ingredient = Ingredient.objects.filter(name=i).first()
+       # if not category:
+        #    category = Category.objects.create(name=c)
+        #if not ingredient:
+        #    category = Category.objects.create(name=c)
         instance = form.save(commit=False)
         # define the slug and any other programmatically generated fields
         instance.author = self.request.user
-        instance.categories.add(category)
-        instance.ingredients.add(ingredient)
+        #instance.categories.add(category)
+        #instance.ingredients.add(ingredient)
         instance.save()
 
         return HttpResponseRedirect(instance.get_absolute_url()+"recipe/")
