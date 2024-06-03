@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from .forms import RecipeForm, RecipeIngredientFormset
 from .models import Recipe, Ingredient, Category
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView  # new
 
@@ -68,12 +69,29 @@ class DetailPageView(DetailView):
         return context
 
 
-class CreatePageView(LoginRequiredMixin, CreateView):
-    model = Recipe
-    fields = ['title', 'description', 'ingredients', 'time', 'body', 'image', 'categories']
-    template_name = "../templates/create.html"
+def create_recipe_view(request):
+    form = RecipeForm(request.POST or None, request.FILES or None)
+    if request.POST and form.is_valid():
+        recipe = form.save(commit=False)
+        formset = RecipeIngredientFormset(request.POST, instance=recipe)
+        if formset.is_valid():
+            recipe.save()
+            formset.save()
+            return redirect('/costing/')
+    else:
+        formset = RecipeIngredientFormset(request.POST or None, instance=Recipe())
+    context = {
+        'form': form,
+        'formset': formset
+    }
+    return render(request, 'recipes/recipe_create.html', context)
 
-    def form_valid(self, form):
+#class CreatePageView(LoginRequiredMixin, CreateView):
+   # model = Recipe
+   # fields = ['title', 'description', 'ingredients', 'time', 'body', 'image', 'categories']
+   # template_name = "../templates/create.html"
+
+   # def form_valid(self, form):
 
         #c = form.cleaned_data["category"]
        # i = form.cleaned_data["ingredient"]
@@ -83,14 +101,14 @@ class CreatePageView(LoginRequiredMixin, CreateView):
         #    category = Category.objects.create(name=c)
         #if not ingredient:
         #    category = Category.objects.create(name=c)
-        instance = form.save(commit=False)
+   #     instance = form.save(commit=False)
         # define the slug and any other programmatically generated fields
-        instance.author = self.request.user
+        #instance.author = self.request.user
         #instance.categories.add(category)
         #instance.ingredients.add(ingredient)
-        instance.save()
+      #  instance.save()
 
-        return HttpResponseRedirect(instance.get_absolute_url()+"recipe/")
+    #    return HttpResponseRedirect(instance.get_absolute_url()+"recipe/")
 
 
 class ModifyPageView(LoginRequiredMixin, UpdateView):

@@ -37,7 +37,7 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField(blank=True, max_length=400)
-    ingredients = models.ManyToManyField(Ingredient)
+    ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
     time = models.IntegerField(default=0)
     body = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
@@ -56,3 +56,12 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
         return reverse("recipe_detail", kwargs={"pk": self.pk})
+
+
+class RecipeIngredient(models.Model):
+    recipe = models.ForeignKey(Recipe, blank=True, null=True, on_delete=models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, blank=True, null=True, on_delete=models.CASCADE)
+    quantity = models.DecimalField(max_digits=20, decimal_places=2)
+    unit = models.CharField(
+        choices=[('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')], default='g',
+        max_length=2)
