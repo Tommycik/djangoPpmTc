@@ -77,14 +77,14 @@ def create_recipe_view(request):
         if formset.is_valid():
             recipe.save()
             formset.save()
-            return redirect('/costing/')
+            return reverse('recent')
     else:
         formset = RecipeIngredientFormset(request.POST or None, instance=Recipe())
     context = {
         'form': form,
         'formset': formset
     }
-    return render(request, 'recipes/recipe_create.html', context)
+    return render(request, '../templates/create.html', context)
 
 #class CreatePageView(LoginRequiredMixin, CreateView):
    # model = Recipe
