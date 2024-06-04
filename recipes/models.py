@@ -44,7 +44,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE)
-    image = models.ImageField(null=True)
+    image = models.ImageField(null=True, upload_to = "recipes/")
     categories = models.ManyToManyField(Category)
 
     class Meta:
@@ -56,6 +56,12 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
         return reverse("recipe_detail", kwargs={"pk": self.pk})
+
+    def recipe_delete(self):
+        return reverse("recipe_delete", kwargs={"pk": self.pk})
+
+    def recipe_modify(self):
+        return reverse("recipe_modify", kwargs={"pk": self.pk})
 
 
 class RecipeIngredient(models.Model):

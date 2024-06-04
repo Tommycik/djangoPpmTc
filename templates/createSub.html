@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}New Recipe{% endblock title %}
+{% block title %}{{ title}}{% endblock title %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'detail.css' %}">
@@ -8,17 +8,15 @@
 {% endblock %}
 
 {% block content %}
-  {% block head %}<h2>New Recipe</h2>{% endblock %}
+  {% block head %}<h2>{{ title}}</h2>{% endblock %}
     <form method="POST" enctype="multipart/form-data">
 
         <!-- Security token -->
         {% csrf_token %}
 
         <!-- Using the formset -->
-        {{ formset.as_p }}
-        <a href={% url 'ingredient_new' %}?next={{ request.path|urlencode }}>New Ingredient</a>
-        <a href={% url 'category_new' %}?next={{ request.path|urlencode }} >New Category</a>
         {{ form.as_p }}
+         <input type="hidden" name="next" value="{{ request.GET.next }}">
 
         <input type="submit" value="Submit">
     </form>
