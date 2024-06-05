@@ -45,7 +45,7 @@ class RecipesIngredientPageView(ListView):
 
 class CategoriesPageView(ListView):
     model = Category
-    template_name = "../templates/categories.html"
+    template_name = "../templates/subList.html"
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
