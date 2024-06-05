@@ -20,7 +20,7 @@
                 {% if user.is_authenticated %}
                     <div class="sub">
                         <p>{{ user.username }}</p>
-                        <a class="subLog" href="{% url 'password_reset' %}">Change your password</a>
+                        <a class="subLog" href="/accounts/{{ user.pk }}/user">Your account</a>
                         <a class="subLog" href="{% url 'logout' %}">Log out</a>
                     </div>
                 {% else %}

@@ -3,6 +3,7 @@ from uuid import uuid4
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect
@@ -15,7 +16,7 @@ from .functions import ForgotEmail, sendEmail
 from .models import Cook
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 from django.contrib.auth.views import LoginView
 
 
@@ -34,7 +35,7 @@ def register(request):
             email = form.cleaned_data.get('email')
             ######################### mail system ####################################
             htmly = get_template('registration/signupSuccess.html')
-            d = { 'username': username }
+            d = {'username': username}
             subject, from_email, to = 'welcome', 'tcRicette@outlook.it', email
             html_content = htmly.render(d)
             msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
@@ -75,14 +76,14 @@ def Login(request):
 
 def forgot(request):
     if request.method == 'POST':
-        form  = ForgotForm(request.POST)
+        form = ForgotForm(request.POST)
         if form.is_valid():
             user_email = request.POST['email'].lower().replace(' ', '')
             u = User.objects.get(email=user_email)
             if u is not None:
                 new_pass = str(uuid4()).split('-')[4]
                 forgot = ForgotEmail(new_pass)
-                #Send the Forgot Email . . .
+                # Send the Forgot Email . . .
                 to_email = u.email
                 e_mail = forgot.email()
                 sendEmail(e_mail, forgot.subject, [to_email])
@@ -104,7 +105,6 @@ def forgot(request):
     return render(request, 'forgot.html', {})
 
 
-
 class RecipeLoginView(LoginView):
     template_name = "registration/login.html"
 
@@ -119,6 +119,16 @@ class RecipeLoginView(LoginView):
             return reverse_lazy("home")
         else:
             return self.request.session['previous_page']
+
+
+class DetailAccountView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = "../templates/detailAccount.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Your Account Information"
+        return context
 
 
 class FavouritesPageView(RecentPageView):
@@ -136,12 +146,9 @@ class FavouritesPageView(RecentPageView):
 @login_required
 def favourite_add(request, pk):
     cook = Cook.objects.get(title=request.user)
-    favourites=cook.favourites.all()
+    favourites = cook.favourites.all()
     if favourites.filter(pk=pk).exists():
         cook.favourites.remove(pk)
     else:
         cook.favourites.add(pk)
-    return HttpResponseRedirect(reverse('home'))
-
-
-
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', "/"))
