@@ -2,7 +2,6 @@
 {% load static %}
 {% load filter_first %}
 
-{% block title %}Categories{% endblock title %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'recent.css' %}">
@@ -10,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-{% block head %}<h2>Categories:</h2>{% endblock head %}
+{% block head %}<h2>{{ title }}:</h2>{% endblock head %}
 <ul>
     {%  for letter in alphabet %}
 

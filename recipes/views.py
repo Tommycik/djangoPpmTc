@@ -18,6 +18,10 @@ class RecentPageView(ListView):
     template_name = "../templates/recent.html"
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "New Recipes"
+        return context
 
 class RecipesCategoryPageView(ListView):
     model = Category
@@ -47,17 +51,16 @@ class CategoriesPageView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['alphabet'] = map(chr, range(97, 123))
+        context['title'] = "Categories"
         return context
 
 
-class IngredientsPageView(ListView):
+class IngredientsPageView(CategoriesPageView):
     model = Ingredient
-    template_name = "../templates/ingredients.html"
-    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['alphabet'] = map(chr, range(97, 123))
+        context['title'] = "Ingredients"
         return context
 
 
@@ -215,18 +218,14 @@ class DeletePageView(DeleteView):
         return reverse('recipe_yours')
 
 
-class AuthorPageView(ListView):
-    model = Recipe
-    template_name = "../templates/authorRecipes.html"
-    paginate_by = 10
-
+class AuthorPageView(RecentPageView):
     def get_queryset(self):
         queryset = Recipe.objects.all().filter(author=User.objects.get(username=self.kwargs['name']).pk)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['author'] = self.kwargs['name']
+        context['title'] = self.kwargs['name'] + " recipes"
         return context
 
 

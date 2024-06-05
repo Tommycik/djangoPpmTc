@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Recent{% endblock title %}
+{% block title %}{{ title }}{% endblock title %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'recent.css' %}">
@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-{% block head %}<h2>New Recipes:</h2>{% endblock head %}
+{% block head %}<h2>{{ title }}</h2>{% endblock head %}
 <ul>
     {% for item in object_list %}
     <li>
