@@ -15,7 +15,7 @@ from django.views.generic import ListView, DetailView, FormView, CreateView, Upd
 
 class RecentPageView(ListView):
     model = Recipe
-    template_name = "../templates/recent.html"
+    template_name = "../templates/list.html"
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -23,24 +23,29 @@ class RecentPageView(ListView):
         context['title'] = "New Recipes"
         return context
 
-class RecipesCategoryPageView(ListView):
-    model = Category
-    template_name = "../templates/category.html"
-    paginate_by = 10
+
+class RecipesCategoryPageView(RecentPageView):
 
     def get_queryset(self):
         queryset = Recipe.objects.all().filter(categories=self.kwargs['pk'])
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Recipes In The" + Category.objects.get(pk=self.kwargs['pk']).title + "Category"
+        return context
 
-class RecipesIngredientPageView(ListView):
-    model = Ingredient
-    template_name = "../templates/ingredient.html"
-    paginate_by = 10
+
+class RecipesIngredientPageView(RecentPageView):
 
     def get_queryset(self):
         queryset = Recipe.objects.all().filter(ingredients=self.kwargs['pk'])
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Recipes That Use" + Category.objects.get(pk=self.kwargs['pk']).title
+        return context
 
 
 class CategoriesPageView(ListView):

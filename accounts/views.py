@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
-from recipes.views import YoursPageView
+from recipes.views import YoursPageView, RecentPageView
 from .forms import UserRegisterForm, ForgotForm
 from .functions import ForgotEmail, sendEmail
 from .models import Cook
@@ -121,12 +121,16 @@ class RecipeLoginView(LoginView):
             return self.request.session['previous_page']
 
 
-class FavouritesPageView(YoursPageView):
-    template_name = "../templates/favourites.html"
+class FavouritesPageView(RecentPageView):
 
     def get_queryset(self):
         queryset = Cook.objects.get(title=self.request.user).favourites.all()
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Your Favourite Recipes "
+        return context
 
 
 @login_required
