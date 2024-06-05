@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
 
-from recipes.views import YoursPageView, RecentPageView
+from recipes.views import YourPageView, RecentPageView
 from .forms import UserRegisterForm, ForgotForm
 from .functions import ForgotEmail, sendEmail
 from .models import Cook
@@ -98,7 +98,7 @@ def forgot(request):
             context = {'form': form}
             return render(request, 'forgot.html', context)
     if request.method == 'GET':
-        form  = ForgotForm()
+        form = ForgotForm()
         context = {'form': form}
         return render(request, 'forgot.html', context)
     return render(request, 'forgot.html', {})

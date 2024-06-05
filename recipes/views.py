@@ -230,12 +230,11 @@ class AuthorPageView(RecentPageView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = self.kwargs['name'] + " recipes"
+        context['title'] = self.kwargs['name'] + " Recipes"
         return context
 
 
-class YoursPageView(LoginRequiredMixin, AuthorPageView):
-    template_name = "../templates/userRecipes.html"
+class YourPageView(LoginRequiredMixin, AuthorPageView):
 
     def get_queryset(self):
         queryset = Recipe.objects.all().filter(author=self.request.user)
@@ -243,4 +242,5 @@ class YoursPageView(LoginRequiredMixin, AuthorPageView):
 
     def get_context_data(self, **kwargs):
         context = (super(AuthorPageView, self).get_context_data(**kwargs))
+        context['title'] = " Your Recipes"
         return context
