@@ -215,7 +215,7 @@ def update_view(request, pk):
     return render(request, "../templates/modify.html", context)
 
 
-class DeletePageView(DeleteView):
+class DeletePageView(LoginRequiredMixin, DeleteView):
     model = Recipe
     template_name = "../templates/delete.html"
 

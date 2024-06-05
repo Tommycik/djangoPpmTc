@@ -21,11 +21,6 @@ from django.contrib.auth.views import LoginView
 
 
 # Create your views here.
-class RecipeSignUpView(CreateView):
-    form_class = UserCreationForm
-    template_name = "registration/signup.html"
-
-
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -62,9 +57,13 @@ def Login(request):
         if user is not None:
             form = login(request, user)
             messages.success(request, f' welcome {username} !!')
+            if not request.session.__contains__("previous_page"):
+                return redirect("/")
             control = request.session['previous_page']
-            check = request.build_absolute_uri(reverse_lazy("signup"))
-            if control == check:
+            check1 = request.build_absolute_uri(reverse_lazy("signup"))
+            check2 = request.build_absolute_uri(reverse_lazy("login"))
+            check3 = request.build_absolute_uri(reverse_lazy("password_reset_complete"))
+            if control == check1 or control == check2 or control == check3 :
                 return redirect("/")
             else:
                 return redirect(control)
@@ -105,22 +104,6 @@ def forgot(request):
     return render(request, 'forgot.html', {})
 
 
-class RecipeLoginView(LoginView):
-    template_name = "registration/login.html"
-
-    def get(self, request, *args, **kwargs):
-        request.session['previous_page'] = request.META.get('HTTP_REFERER', self.success_url)
-        return super().get(request, *args, **kwargs)
-
-    def get_success_url(self):
-        control = self.request.session['previous_page']
-        check = self.request.build_absolute_uri(reverse_lazy("signup"))
-        if control == check:
-            return reverse_lazy("home")
-        else:
-            return self.request.session['previous_page']
-
-
 class DetailAccountView(LoginRequiredMixin, DetailView):
     model = User
     template_name = "../templates/detailAccount.html"
@@ -129,6 +112,30 @@ class DetailAccountView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Your Account Information"
         return context
+
+
+@login_required()
+def delete_user(request):
+    context = {}
+
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    if request.method == 'POST':
+        user = request.user
+        d = {'username': user.username}
+        email = user.email
+        user.delete()
+        htmly = get_template('registration/deleteSuccess.html')
+        subject, from_email, to = 'goodbye', 'tcRicette@outlook.it', email
+        html_content = htmly.render(d)
+        msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+        return redirect("home")
+    else:
+        context['object'] = 'Your account'
+    return render(request, '../templates/delete.html', context=context)
 
 
 class FavouritesPageView(RecentPageView):
