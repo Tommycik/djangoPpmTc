@@ -45,6 +45,7 @@ def register(request):
 
 
 def Login(request):
+    msg = ""
     if request.method == 'GET':
         request.session['previous_page'] = request.META.get('HTTP_REFERER', "/")
     if request.method == 'POST':
@@ -53,6 +54,7 @@ def Login(request):
 
         username = request.POST['username']
         password = request.POST['password']
+
         user = authenticate(request, username=username, password=password)
         if user is not None:
             form = login(request, user)
@@ -60,17 +62,21 @@ def Login(request):
             if not request.session.__contains__("previous_page"):
                 return redirect("/")
             control = request.session['previous_page']
-            check1 = request.build_absolute_uri(reverse_lazy("signup"))
-            check2 = request.build_absolute_uri(reverse_lazy("login"))
-            check3 = request.build_absolute_uri(reverse_lazy("password_reset_complete"))
-            if control == check1 or control == check2 or control == check3 :
+            check = [request.build_absolute_uri(reverse_lazy("signup")),
+                     request.build_absolute_uri(reverse_lazy("login")),
+                     request.build_absolute_uri(reverse_lazy("password_reset_complete")),
+                     request.build_absolute_uri(reverse_lazy("password_reset")),
+                     request.build_absolute_uri(reverse_lazy("password_reset_done"))
+                     ]
+            if control in check:
                 return redirect("/")
             else:
                 return redirect(control)
         else:
             messages.info(request, f'account done not exit plz sign in')
+            msg = "Username or password are incorrect"
     form = AuthenticationForm()
-    return render(request, 'registration/login.html', {'form': form, 'title': 'Log In'})
+    return render(request, 'registration/login.html', {'form': form, 'title': 'Log In', 'msg': msg})
 
 
 def forgot(request):
