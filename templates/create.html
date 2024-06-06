@@ -15,10 +15,13 @@
         {% csrf_token %}
 
         <!-- Using the formset -->
-        {{ formset.as_p }}
+        {{ formset1.as_p }}
+        {{ formset2.as_p }}
+        {{ formset3.as_p }}
         <a href={% url 'ingredient_new' %}?next={{ request.path|urlencode }}>New Ingredient</a>
         <a href={% url 'category_new' %}?next={{ request.path|urlencode }} >New Category</a>
         {{ form.as_p }}
+        {{ formset4.as_p }}
 
         <input type="submit" value="Submit">
     </form>

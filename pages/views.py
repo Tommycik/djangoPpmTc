@@ -10,6 +10,12 @@ from recipes.models import Recipe, Category, Ingredient
 class HomePageView(TemplateView):
     template_name = "../templates/home.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Home Page'
+        return context
+
+
 
 def search_page_view(request):
     if request.method == "POST":

@@ -39,12 +39,11 @@ class Recipe(models.Model):
     description = models.TextField(blank=True, max_length=400)
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
     time = models.IntegerField(default=0)
-    body = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE)
-    image = models.ImageField(null=True, upload_to = "recipes/")
+    image = models.ImageField(null=True, upload_to="recipes/")
     categories = models.ManyToManyField(Category)
 
     class Meta:
@@ -62,6 +61,11 @@ class Recipe(models.Model):
 
     def recipe_modify(self):
         return reverse("recipe_modify", kwargs={"pk": self.pk})
+
+
+class RecipeStep(models.Model):
+    description = models.TextField()
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
 
 class RecipeIngredient(models.Model):
