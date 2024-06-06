@@ -14,20 +14,16 @@ class RecipeForm(forms.ModelForm):
 class RecipeIngredientForm(forms.ModelForm):
     ingredient = forms.ModelChoiceField(
         queryset=Ingredient.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'})
+
     )
 
     class Meta:
         Model = RecipeIngredient
-        fields = ['ingredient', 'quantity', 'unit']
-        widgets = {
-            'quantity': forms.NumberInput(
-                attrs={
-                    'class': 'form-control',
-                }
-            ),
+        fields = ['quantity', 'unit']
 
-        }
+    def __init__(self, *args, **kwargs):
+        super(RecipeIngredientForm, self).__init__(*args, **kwargs)
+        self.empty_permitted = False
 
 
 class NewIngredientForm(forms.ModelForm):
@@ -55,7 +51,7 @@ class StepForm(forms.ModelForm):
 RecipeIngredientFormset = inlineformset_factory(Recipe,
                                                 Recipe.ingredients.through,
                                                 form=RecipeIngredientForm,
-                                                extra=1,
+                                                extra=2,
                                                 can_delete=False
                                                 )
 
@@ -67,14 +63,13 @@ NewIngredientFormset = inlineformset_factory(Recipe,
                                              )
 
 NewCategoryFormset = formset_factory(
-                                     form=CategoryForm,
-                                     extra=1,
-                                     can_delete=False
-                                     )
-
+    form=CategoryForm,
+    extra=1,
+    can_delete=False
+)
 
 NewStepFormset = formset_factory(
-                                     form=StepForm,
-                                     extra=1,
-                                     can_delete=False
-                                     )
+    form=StepForm,
+    extra=1,
+    can_delete=False
+)

@@ -97,9 +97,10 @@ def create_recipe_view(request):
             formset4 = NewStepFormset(request.POST)
             recipe.author = request.user
             recipe.save()
-            for form2 in formset1:
-                if form2.is_valid():
-                    child = form2.save(commit=True)
+            for form3 in formset1:
+                if form3.is_valid():
+                    child = form3.save(commit=False)
+                    child.save()
                     recipe.ingredients.add(child)
                     recipe.save()
 
