@@ -39,6 +39,16 @@
                 </ul>
 
         </div>
+        <div class="list">
+                <ul>
+                    {% for step in steps %}
+                        <li>
+                            <p>{{ step.description }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+        </div>
         <a href="/recipes/{{ object.author}}/authorRecipes/">{{ object.author}}</a>
         <p class="date">{{ object.date}}</p>
         {% if user.is_authenticated and object.author == user %}

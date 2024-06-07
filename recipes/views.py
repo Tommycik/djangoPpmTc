@@ -78,7 +78,7 @@ class DetailPageView(DetailView):
         context = super().get_context_data(**kwargs)
         context['ingredients'] = RecipeIngredient.objects.filter(recipe=self.object.pk)
         context['categories'] = Category.objects.filter(pk__in=self.object.categories.all())
-        context['ingredients'] = RecipeIngredient.objects.filter(recipe=self.object.pk)
+        context['steps'] = RecipeStep.objects.filter(recipe=self.object)
         return context
 
 
