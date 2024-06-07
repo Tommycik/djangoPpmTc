@@ -16,17 +16,28 @@
         </div>
         <p>{{ object.description }}</p>
         <div class="preparation">
-            <div class="ingredients">
+            <div class="list">
                 <ul>
                     {% for ingredient in ingredients %}
                         <li>
-                            <p>{{ingredient.title}}</p>
+                            <a href="{{ ingredient.ingredient.get_absolute_url }}">{{ ingredient.ingredient }}</a>
+                            <p>{{ingredient.quantity}}</p>
+                            <p>{{ingredient.unit}}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <p class="time">{{ object.time}}min</p>
+        </div>
+        <div class="list">
+                <ul>
+                    {% for category in categories %}
+                        <li>
+                            <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
                         </li>
                     {% endfor %}
                 </ul>
 
-            </div>
-            <p class="time">{{ object.time}}min</p>
         </div>
         <a href="/recipes/{{ object.author}}/authorRecipes/">{{ object.author}}</a>
         <p class="date">{{ object.date}}</p>

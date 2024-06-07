@@ -11,19 +11,15 @@ class RecipeForm(forms.ModelForm):
         fields = ['categories', 'title', 'description', 'time', 'image']
 
 
-class RecipeIngredientForm(forms.ModelForm):
+class RecipeIngredientForm(forms.Form):
     ingredient = forms.ModelChoiceField(
         queryset=Ingredient.objects.all(),
 
     )
-
-    class Meta:
-        Model = RecipeIngredient
-        fields = ['quantity', 'unit']
-
-    def __init__(self, *args, **kwargs):
-        super(RecipeIngredientForm, self).__init__(*args, **kwargs)
-        self.empty_permitted = False
+    quantity = forms.DecimalField()
+    unit = forms.ChoiceField(
+        choices=[('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')],
+    )
 
 
 class NewIngredientForm(forms.ModelForm):
@@ -48,12 +44,10 @@ class StepForm(forms.ModelForm):
         fields = ['description']
 
 
-RecipeIngredientFormset = inlineformset_factory(Recipe,
-                                                Recipe.ingredients.through,
-                                                form=RecipeIngredientForm,
-                                                extra=2,
-                                                can_delete=False
-                                                )
+RecipeIngredientFormset = formset_factory(form=RecipeIngredientForm,
+                                          extra=1,
+                                          can_delete=False
+                                          )
 
 NewIngredientFormset = inlineformset_factory(Recipe,
                                              Recipe.ingredients.through,

@@ -32,7 +32,7 @@ class RecipesCategoryPageView(RecentPageView):
         return queryset
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(RecentPageView, self).get_context_data(**kwargs)
         context['title'] = "Recipes In The" + Category.objects.get(pk=self.kwargs['pk']).title + "Category"
         return context
 
@@ -44,8 +44,8 @@ class RecipesIngredientPageView(RecentPageView):
         return queryset
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = "Recipes That Use" + Category.objects.get(pk=self.kwargs['pk']).title
+        context = super(RecentPageView, self).get_context_data(**kwargs)
+        context['title'] = "Recipes That Use" + Ingredient.objects.get(pk=self.kwargs['pk']).title
         return context
 
 
@@ -65,7 +65,7 @@ class IngredientsPageView(CategoriesPageView):
     model = Ingredient
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(CategoriesPageView, self).get_context_data(**kwargs)
         context['title'] = "Ingredients"
         return context
 
@@ -76,7 +76,9 @@ class DetailPageView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['ingredients'] = self.object.ingredients.all()
+        context['ingredients'] = RecipeIngredient.objects.filter(recipe=self.object.pk)
+        context['categories'] = Category.objects.filter(pk__in=self.object.categories.all())
+        context['ingredients'] = RecipeIngredient.objects.filter(recipe=self.object.pk)
         return context
 
 
@@ -91,18 +93,21 @@ def create_recipe_view(request):
         if form.is_valid():
 
             recipe = form.save(commit=False)
-            formset1 = RecipeIngredientFormset(request.POST, instance=recipe)
+            formset1 = RecipeIngredientFormset(request.POST)
             formset2 = NewIngredientFormset(request.POST, instance=recipe)
             formset3 = NewCategoryFormset(request.POST)
             formset4 = NewStepFormset(request.POST)
             recipe.author = request.user
             recipe.save()
-            for form3 in formset1:
-                if form3.is_valid():
-                    child = form3.save(commit=False)
-                    child.save()
-                    recipe.ingredients.add(child)
-                    recipe.save()
+            for form2 in formset1:
+                if form2.is_valid():
+                    if form2.cleaned_data != {}:
+                        ingredient = RecipeIngredient.objects.create(recipe=recipe,
+                                                                     ingredient=form2.cleaned_data['ingredient'], quantity=form2.cleaned_data['quantity'], unit=form2.cleaned_data['unit'])
+
+                        ingredient.save()
+                        recipe.ingredients.add(form2.cleaned_data['ingredient'])
+                        recipe.save()
 
             for form2 in formset2:
                 if form2.is_valid():
@@ -133,7 +138,7 @@ def create_recipe_view(request):
     else:
         form = RecipeForm()
         recipe = Recipe()
-        formset1 = RecipeIngredientFormset(instance=recipe)
+        formset1 = RecipeIngredientFormset()
         formset2 = NewIngredientFormset(instance=recipe)
         formset3 = NewCategoryFormset()
         formset4 = NewStepFormset()
@@ -244,7 +249,7 @@ def update_view(request, pk):
     else:
 
         form = RecipeForm(instance=recipe)
-        formset = RecipeIngredientFormset(instance=recipe)
+        formset = RecipeIngredientFormset()
 
         context = {
             'form': form,
