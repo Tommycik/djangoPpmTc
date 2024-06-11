@@ -6,6 +6,8 @@ from recipes.models import Category, Recipe, Ingredient, RecipeIngredient, Recip
 
 
 class RecipeForm(forms.ModelForm):
+    # my_field = forms.MultipleChoiceField(choices=Category.objects.all(), widget=forms.CheckboxSelectMultiple())
+
     class Meta:
         model = Recipe
         fields = ['categories', 'title', 'description', 'time', 'image']

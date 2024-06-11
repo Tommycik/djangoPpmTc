@@ -99,6 +99,7 @@ def create_recipe_view(request):
             formset4 = NewStepFormset(request.POST)
             recipe.author = request.user
             recipe.save()
+            form.save_m2m()
             for form2 in formset1:
                 if form2.is_valid():
                     if form2.cleaned_data != {}:
