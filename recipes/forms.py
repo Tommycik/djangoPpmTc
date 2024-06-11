@@ -6,11 +6,13 @@ from recipes.models import Category, Recipe, Ingredient, RecipeIngredient, Recip
 
 
 class RecipeForm(forms.ModelForm):
-    # my_field = forms.MultipleChoiceField(choices=Category.objects.all(), widget=forms.CheckboxSelectMultiple())
 
     class Meta:
         model = Recipe
         fields = ['categories', 'title', 'description', 'time', 'image']
+        widgets = {
+           # "categories": forms.CheckboxSelectMultiple(),
+        }
 
 
 class RecipeIngredientForm(forms.Form):
@@ -47,7 +49,6 @@ class StepForm(forms.ModelForm):
 
 
 RecipeIngredientFormset = formset_factory(form=RecipeIngredientForm,
-                                          extra=1,
                                           can_delete=False
                                           )
 
