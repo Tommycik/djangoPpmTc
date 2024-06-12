@@ -39,7 +39,7 @@ function cloneMore(element='ingredient') {
         i.setAttribute("id",oldId)
       })
     // update the delete button index value
-    newElement.querySelector("button").setAttribute("onClick",`deleteForm(${items})`)
+    newElement.querySelector("button").setAttribute("onClick",`deleteForm(${items},'${element}')`)
     // update the span index value
     let spanValue=newElement.querySelector("span").innerHTML.replace(1,`${items+1}`)
     newElement.querySelector("span").innerHTML=spanValue
@@ -48,6 +48,7 @@ function cloneMore(element='ingredient') {
     $( newElement ).insertAfter( $(document.getElementsByClassName(element)[`${items-1}`]) );
 }
 function deleteForm(formNum,element='ingredient') {
+    document.getElementById('enterMsg').innerHTML = `#${element}${formNum}`
     // Get the current total of forms
     var totalForms = Number($("input[id='id_form-TOTAL_FORMS']").attr('value'))
     let number
