@@ -22,12 +22,6 @@
 
         <!-- Security token -->
         {% csrf_token %}
-
-
-<textarea id="enterMsg"></textarea>
-
-
-
         <!-- Using the formset -->
         {{ formset1.management_form }}
         {% for formSub in formset1 %}
@@ -50,7 +44,27 @@
                     id="add" onclick="cloneMore('ingredient')">Add Items +
             </button>
         </div>
-    {{ formset2.as_p }}
+    {{ formset2.management_form }}
+        {% for formSub in formset2 %}
+            <div class="form-row New ingredient" id="New ingredient0" style="margin-top:35px">
+                <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
+                        height: 5%;margin-top: 1.4%;font-weight: bold;">ingredient 1:</span>
+                {{ formSub.as_p }}
+                {% with index=forloop.counter0 %}
+                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
+                        <button type="button" class="btn btn-danger"
+                                id="del-form-{{ index }}" onclick="deleteForm({{ index }},'New ingredient')">Delete
+                        </button>
+                    </div>
+                {% endwith %}
+            </div>
+        {% endfor %}
+        <div class="form-row" style="margin-top:60px;margin-left:40%  ">
+            <button style="font-family:EmberBold,serif;margin-left:15%; font-weight: bold;" type="button"
+                    class="btn btn-success"
+                    id="add" onclick="cloneMore('New ingredient')">Add Items +
+            </button>
+        </div>
     {{ formset3.management_form }}
         {% for formSub in formset3 %}
             <div class="form-row category" id="category0" style="margin-top:35px">
@@ -76,7 +90,28 @@
         <a href={% url 'ingredient_new' %}?next={{ request.path|urlencode }}>New Ingredient</a>
         <a href={% url 'category_new' %}?next={{ request.path|urlencode }} >New Category</a>
         {{ form.as_p }}
-        {{ formset4.as_p }}
+
+        {{ formset4.management_form }}
+        {% for formSub in formset4 %}
+            <div class="form-row steps" id="steps0" style="margin-top:35px">
+            <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
+                        height: 5%;margin-top: 1.4%;font-weight: bold;">category 1:</span>
+                {{ formSub.as_p }}
+                {% with index=forloop.counter0 %}
+                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
+                        <button type="button" class="btn btn-danger"
+                                id="del-form-{{ index }}" onclick="deleteForm({{ index }},'steps')">Delete
+                        </button>
+                    </div>
+                {% endwith %}
+            </div>
+        {% endfor %}
+        <div class="form-row" style="margin-top:60px;margin-left:40%  ">
+            <button style="font-family:EmberBold,serif;margin-left:15%; font-weight: bold;" type="button"
+                    class="btn btn-success"
+                    id="add" onclick="cloneMore('steps')">Add Items +
+            </button>
+        </div>
 
         <input type="submit" value="Submit">
     </form>

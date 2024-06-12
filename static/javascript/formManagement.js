@@ -1,9 +1,11 @@
 function white() {
     document.getElementsByClassName("container")[0].style.backgroundColor="black"
 }
-var categories=0
-var ingredients=0
-var newIngredients=0
+
+let categories = 0;
+let ingredients=0
+let newIngredients=0
+let steps=0
 function cloneMore(element='ingredient') {
     let newElement;
 
@@ -14,18 +16,24 @@ function cloneMore(element='ingredient') {
     Number($("input[id='id_form-TOTAL_FORMS']").attr('value',count+""))
     let items=ingredients
     if(element==='ingredient'){
-        ingredients=ingredients+1
+        ingredients++
         items=ingredients
-    }else{
-        categories=categories+1
+    }else if(element==='newIngredient'){
+        newIngredients++
+        items=newIngredients
+    }else if(element==='category'){
+        categories++
         items=categories
+    }else if(element==='steps'){
+        steps++
+        items=steps
     }
 
 
 
     // Updating the input fields are really important and especially the name attributes
     // loop over each input in the new cloning element
-    newElement.querySelectorAll("input").forEach(
+    /*newElement.querySelectorAll("input").forEach(
       function (i, item) {
         //Clear the input’s value
         i.value="";
@@ -37,7 +45,7 @@ function cloneMore(element='ingredient') {
         oldId=oldId.replace(0, total) ;
         i.setAttribute("name",oldName)
         i.setAttribute("id",oldId)
-      })
+      })*/
     // update the delete button index value
     newElement.querySelector("button").setAttribute("onClick",`deleteForm(${items},'${element}')`)
     // update the span index value
@@ -48,39 +56,46 @@ function cloneMore(element='ingredient') {
     $( newElement ).insertAfter( $(document.getElementsByClassName(element)[`${items-1}`]) );
 }
 function deleteForm(formNum,element='ingredient') {
-    document.getElementById('enterMsg').innerHTML = `#${element}${formNum}`
     // Get the current total of forms
     var totalForms = Number($("input[id='id_form-TOTAL_FORMS']").attr('value'))
     let number
     // Decrement the totalForms variable by one and update the
     if(element==='ingredient'){
         number=ingredients
-
-    }else{
+    }else if(element==='newIngredient'){
+        number=newIngredients
+    }else if(element==='category'){
         number=categories
+    }else if(element==='steps'){
+        number=steps
     }
     if (number <=0){return}
     totalForms -- ;
+    number--
     $("input[id='id_form-TOTAL_FORMS']").attr('value', totalForms);
     if(element==='ingredient'){
         ingredients--
-
-    }else{
+    }else if(element==='newIngredient'){
+        newIngredients--
+    }else if(element==='category'){
         categories--
+    }else if(element==='steps'){
+        steps--
     }
-    document.getElementById('enterMsg').innerHTML = `#${element}${formNum}`
     // Prevent deleting all forms, keep one form
     const collection = document.querySelectorAll(`#${element}${formNum}`)
-
-
-    document.getElementById('enterMsg').innerHTML = `#${element}${formNum}`
-
 
     for (let i = 0; i < collection.length; i++) {
        collection[i].remove();
     }
+    let forms= document.querySelectorAll(`[id^=${element}]`)
+    for (k = 0; k <= number; k++){
+        forms[k].querySelector("span").innerHTML=`${element}${k+1}`+" :";
+        forms[k].querySelector("button").setAttribute("onClick",`deleteForm(${k},'${element}')`)
+        forms[k].setAttribute('id',element+`${k}`)
+    }
     // get all form rows/items by Id
-    var forms = $('div[id^=element]')
+   /* var forms = $('div[id^=element]')
     for (k = 0; k <= number - 1; k++) {
     let newc=forms[k].querySelector("span").innerHTML=element +`${k+1}`+" :";
     forms[k].querySelector("button").setAttribute("onClick",`deleteForm(${k})`)
@@ -92,4 +107,5 @@ function deleteForm(formNum,element='ingredient') {
     let numberPart=oldId.match(/\d+/g);
     item.setAttribute("name",(oldName.replace(/\d/g, k+"")));
     })
-}}
+}*/
+}
