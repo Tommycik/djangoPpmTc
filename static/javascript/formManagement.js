@@ -41,8 +41,8 @@ function cloneMore(element='ingredient') {
         let oldId = i.getAttribute("id")
         //I’d like to replace the numeric value only with the total value
         //Update the “id and name” attributes of each element
-        oldName=oldName.replace(0, items) ;
-        oldId=oldId.replace(0, items) ;
+        oldName=oldName.replace(0, total) ;
+        oldId=oldId.replace(0, total) ;
         i.setAttribute("name",oldName)
         i.setAttribute("id",oldId)
       })
