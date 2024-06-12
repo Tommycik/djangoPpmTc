@@ -18,13 +18,13 @@ function cloneMore(element='ingredient') {
     if(element==='ingredient'){
         ingredients++
         items=ingredients
-    }else if(element==='newIngredient'){
+    }else if(element==='newingredient'){
         newIngredients++
         items=newIngredients
     }else if(element==='category'){
         categories++
         items=categories
-    }else if(element==='steps'){
+    }else if(element==='step'){
         steps++
         items=steps
     }
@@ -33,7 +33,7 @@ function cloneMore(element='ingredient') {
 
     // Updating the input fields are really important and especially the name attributes
     // loop over each input in the new cloning element
-    /*newElement.querySelectorAll("input").forEach(
+    newElement.querySelectorAll("input").forEach(
       function (i, item) {
         //Clear the input’s value
         i.value="";
@@ -41,11 +41,11 @@ function cloneMore(element='ingredient') {
         let oldId = i.getAttribute("id")
         //I’d like to replace the numeric value only with the total value
         //Update the “id and name” attributes of each element
-        oldName=oldName.replace(0, total) ;
-        oldId=oldId.replace(0, total) ;
+        oldName=oldName.replace(0, items) ;
+        oldId=oldId.replace(0, items) ;
         i.setAttribute("name",oldName)
         i.setAttribute("id",oldId)
-      })*/
+      })
     // update the delete button index value
     newElement.querySelector("button").setAttribute("onClick",`deleteForm(${items},'${element}')`)
     // update the span index value
@@ -62,11 +62,11 @@ function deleteForm(formNum,element='ingredient') {
     // Decrement the totalForms variable by one and update the
     if(element==='ingredient'){
         number=ingredients
-    }else if(element==='newIngredient'){
+    }else if(element==='newingredient'){
         number=newIngredients
     }else if(element==='category'){
         number=categories
-    }else if(element==='steps'){
+    }else if(element==='step'){
         number=steps
     }
     if (number <=0){return}
@@ -75,11 +75,11 @@ function deleteForm(formNum,element='ingredient') {
     $("input[id='id_form-TOTAL_FORMS']").attr('value', totalForms);
     if(element==='ingredient'){
         ingredients--
-    }else if(element==='newIngredient'){
+    }else if(element==='newingredient'){
         newIngredients--
     }else if(element==='category'){
         categories--
-    }else if(element==='steps'){
+    }else if(element==='step'){
         steps--
     }
     // Prevent deleting all forms, keep one form

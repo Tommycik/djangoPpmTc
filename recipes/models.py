@@ -44,7 +44,7 @@ class Recipe(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE)
     image = models.ImageField(null=True, upload_to="recipes/")
-    categories = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category, blank=True)
 
     class Meta:
         db_table = "Recipes"
