@@ -25,10 +25,13 @@
         <!-- Using the formset -->
         {{ formset1.management_form }}
         {% for formSub in formset1 %}
+            {% for hidden in formSub.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
             <div class="form-row ingredient" id="ingredient0" style="margin-top:35px">
                 <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">ingredient 1:</span>
-                {{ formSub.as_p }}
+                {{ formSub.as_p}}
                 {% with index=forloop.counter0 %}
                     <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
                         <button type="button" class="btn btn-danger"
@@ -46,10 +49,13 @@
         </div>
     {{ formset2.management_form }}
         {% for formSub in formset2 %}
+            {% for hidden in formSub.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
             <div class="form-row newingredient" id="newingredient0" style="margin-top:35px">
                 <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">newingredient 1:</span>
-                {{ formSub.as_p }}
+                {{ formSub }}
                 {% with index=forloop.counter0 %}
                     <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
                         <button type="button" class="btn btn-danger"
@@ -67,10 +73,13 @@
         </div>
     {{ formset3.management_form }}
         {% for formSub in formset3 %}
+            {% for hidden in formSub.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
             <div class="form-row category" id="category0" style="margin-top:35px">
             <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">category 1:</span>
-                {{ formSub.as_p }}
+                {{ formSub}}
                 {% with index=forloop.counter0 %}
                     <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
                         <button type="button" class="btn btn-danger"
@@ -93,10 +102,13 @@
 
         {{ formset4.management_form }}
         {% for formSub in formset4 %}
+            {% for hidden in formSub.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
             <div class="form-row step" id="step0" style="margin-top:35px">
             <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">step 1:</span>
-                {{ formSub.as_p }}
+                {{ formSub }}
                 {% with index=forloop.counter0 %}
                     <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
                         <button type="button" class="btn btn-danger"

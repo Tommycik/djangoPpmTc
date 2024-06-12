@@ -21,6 +21,10 @@ function cloneMore(element='ingredient') {
     }else if(element==='newingredient'){
         newIngredients++
         items=newIngredients
+        total=Number($("input[id='id_recipeingredient_set-TOTAL_FORMS']").attr('value'))
+        Number($("input[id='id_recipeingredient_set-TOTAL_FORMS']").attr('value',count+""))
+        count--
+        Number($("input[id='id_form-TOTAL_FORMS']").attr('value',count+""))
     }else if(element==='category'){
         categories++
         items=categories
@@ -33,7 +37,7 @@ function cloneMore(element='ingredient') {
 
     // Updating the input fields are really important and especially the name attributes
     // loop over each input in the new cloning element
-    newElement.querySelectorAll("input").forEach(
+    newElement.querySelectorAll("input,select,textarea").forEach(
       function (i, item) {
         //Clear the input’s value
         i.value="";
@@ -46,6 +50,7 @@ function cloneMore(element='ingredient') {
         i.setAttribute("name",oldName)
         i.setAttribute("id",oldId)
       })
+
     // update the delete button index value
     newElement.querySelector("button").setAttribute("onClick",`deleteForm(${items},'${element}')`)
     // update the span index value
