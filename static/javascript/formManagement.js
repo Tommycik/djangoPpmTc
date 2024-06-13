@@ -14,10 +14,10 @@ function setter(){
 
     for (let i = 0; i < ingredient.length; i++) {
 
-        ingredient[i].querySelectorAll("input,select,textarea").forEach(
+        /*ingredient[i].querySelectorAll("input,select,textarea").forEach(
             function (i, item) {
                 //Clear the input’s value
-                i.value="";
+                //i.value="";
                 let oldName = i.getAttribute("name")
                 let oldId = i.getAttribute("id")
                 //I’d like to replace the numeric value only with the total value
@@ -27,7 +27,7 @@ function setter(){
                 i.setAttribute("name",oldName)
                 i.setAttribute("id",oldId)
             }
-        )
+        )*/
 
         // update the delete button index value
         ingredient[i].querySelector("button").setAttribute("onClick",`deleteForm(${ingredients},'ingredient')`)
@@ -44,10 +44,10 @@ function setter(){
 
     for (let i = 0; i < step.length; i++) {
 
-        step[i].querySelectorAll("input,select,textarea").forEach(
+        /*step[i].querySelectorAll("input,select,textarea").forEach(
         function (i, item) {
             //Clear the input’s value
-            i.value="";
+           // i.value="";
             let oldName = i.getAttribute("name")
             let oldId = i.getAttribute("id")
             //I’d like to replace the numeric value only with the total value
@@ -57,7 +57,7 @@ function setter(){
             i.setAttribute("name",oldName)
             i.setAttribute("id",oldId)
             }
-        )
+        )*/
 
         // update the delete button index value
         step[i].querySelector("button").setAttribute("onClick",`deleteForm(${steps},'step')`)
