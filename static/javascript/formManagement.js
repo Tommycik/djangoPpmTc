@@ -2,6 +2,64 @@ function white() {
     document.getElementsByClassName("container")[0].style.backgroundColor="black"
 }
 
+function setter(){
+    let total=Number($("input[id='id_form-TOTAL_FORMS']").attr('value'))
+
+    let ingredient=document.querySelectorAll(`[id^='ingredient']`)
+
+    for (let i = 0; i < ingredient.length; i++) {
+        ingredient[i].querySelectorAll("input,select,textarea").forEach(
+            function (i, item) {
+                //Clear the input’s value
+                i.value="";
+                let oldName = i.getAttribute("name")
+                let oldId = i.getAttribute("id")
+                //I’d like to replace the numeric value only with the total value
+                //Update the “id and name” attributes of each element
+                oldName=oldName.replace(0, total) ;
+                oldId=oldId.replace(0, total) ;
+                i.setAttribute("name",oldName)
+                i.setAttribute("id",oldId)
+            })
+
+            // update the delete button index value
+            ingredient[i].querySelector("button").setAttribute("onClick",`deleteForm(${items},'${element}')`)
+            // update the span index value
+            let spanValue=ingredient[i].querySelector("span").innerHTML.replace(1,`${items+1}`)
+            ingredient[i].querySelector("span").innerHTML=spanValue
+            ingredient[i].id=element+`${total}`
+    }
+
+    let step=document.querySelectorAll(`[id^='step']`)
+
+    for (let i = 0; i < step.length; i++) {
+       step[i].querySelectorAll("input,select,textarea").forEach(
+      function (i, item) {
+        //Clear the input’s value
+        i.value="";
+        let oldName = i.getAttribute("name")
+        let oldId = i.getAttribute("id")
+        //I’d like to replace the numeric value only with the total value
+        //Update the “id and name” attributes of each element
+        oldName=oldName.replace(0, total) ;
+        oldId=oldId.replace(0, total) ;
+        i.setAttribute("name",oldName)
+        i.setAttribute("id",oldId)
+      })
+
+    // update the delete button index value
+    step[i].querySelector("button").setAttribute("onClick",`deleteForm(${items},'${element}')`)
+    // update the span index value
+    let spanValue=step[i].querySelector("span").innerHTML.replace(1,`${items+1}`)
+    step[i].querySelector("span").innerHTML=spanValue
+    step[i].id=element+`${total}`
+    }
+    let count=total+step.length+ingredient.length
+    ingredients+=ingredient.length
+    steps+=step.length
+    Number($("input[id='id_form-TOTAL_FORMS']").attr('value',count+""))
+}
+window.onload=setter()
 let categories = 0;
 let ingredients=0
 let newIngredients=0
