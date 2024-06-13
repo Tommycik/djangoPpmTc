@@ -15,7 +15,7 @@ class RecipeForm(forms.ModelForm):
         }
 
 
-class RecipeIngredientForm(forms.Form):
+class RecipeIngredientForm(forms.ModelForm):
     ingredient = forms.ModelChoiceField(
         queryset=Ingredient.objects.all(),
 
@@ -25,6 +25,10 @@ class RecipeIngredientForm(forms.Form):
         choices=[('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')],
     )
 
+    class Meta:
+        model = RecipeIngredient
+        fields = ['ingredient', 'quantity', 'unit']
+
 
 class NewIngredientForm(forms.ModelForm):
     ingredient = forms.CharField(label='ingredient name', widget=forms.TextInput(), help_text="ingredient name")
@@ -32,7 +36,7 @@ class NewIngredientForm(forms.ModelForm):
                                                                                                       "description")
 
     class Meta:
-        Model = RecipeIngredient
+        model = RecipeIngredient
         fields = ['quantity', 'unit']
 
 

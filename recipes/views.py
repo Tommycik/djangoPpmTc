@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import RecipeForm, RecipeIngredientForm, RecipeIngredientFormset, NewCategoryFormset, NewIngredientFormset, \
-    NewStepFormset
+    NewStepFormset, StepForm
 from .models import Recipe, Ingredient, Category, RecipeIngredient, RecipeStep
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView  # new
 
@@ -235,26 +235,44 @@ def update_view(request, pk):
 
     # fetch the object related to passed id
     recipe = get_object_or_404(Recipe, id=pk)
-    ingredients = inlineformset_factory(Recipe, RecipeIngredient, min_num=1, exclude=("recipe",))
+    ingredients = RecipeIngredient.objects.filter(recipe=pk)
+    steps = RecipeStep.objects.filter(recipe=pk)
+    #categorie e nuovi ingredienti
     if request.method == 'POST':
         # pass the object as instance in form
         form = RecipeForm(request.POST or None, instance=recipe)
-        formset = ingredients(request.POST, request.FILES, instance=recipe)
+        ingredients_form = [RecipeIngredientForm(request.POST, prefix=str(x), instance=ingredients[x]) for x in
+                  range(0, ingredients.count())]
+        steps_form = [StepForm(request.POST, prefix=str(x), instance=steps[x]) for x in
+                            range(0, steps.count())]
+
         # save the data from the form and
         # redirect to detail_view
-        if form.is_valid() and formset.is_valid():
-            form.save()
-            formset.save()
+        if form.is_valid() and all([cf.is_valid() for cf in ingredients_form]) and all([cf.is_valid() for cf in steps_form]):
+            form.save(commit=False)
+            for cf in ingredients_form:
+                element = cf.save(commit=False)
+                element.recipe = recipe
+                element.save()
+
+            for cf in steps_form:
+                element = cf.save(commit=False)
+                element.recipe = recipe
+                element.save()
             return HttpResponseRedirect(recipe.get_absolute_url())
 
     else:
 
         form = RecipeForm(instance=recipe)
-        formset = RecipeIngredientFormset()
+        ingredients_form = [RecipeIngredientForm(prefix=str(x), instance=ingredients[x]) for x in
+                  range(0, ingredients.count())]
+        steps_form = [StepForm(prefix=str(x), instance=steps[x]) for x in
+                      range(0, steps.count())]
 
         context = {
             'form': form,
-            'formset': formset
+            'formset1': ingredients_form,
+            'formset4': steps_form
         }
 
     return render(request, "../templates/modify.html", context)
