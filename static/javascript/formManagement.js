@@ -71,9 +71,7 @@ function setter(){
     }
 }
 
-window.onload = (event) => {
-  setter();
-};
+
 
 function cloneMore(element='ingredient') {
     let newElement;
@@ -151,6 +149,10 @@ function deleteForm(formNum,element='ingredient') {
     if(element==='ingredient'){
         ingredients--
     }else if(element==='newingredient'){
+        Number($("input[id='id_form-TOTAL_FORMS']").attr('value',`${totalForms+1}`+""))
+        totalForms=Number($("input[id='id_recipeingredient_set-TOTAL_FORMS']").attr('value'))
+        totalForms--;
+        Number($("input[id='id_recipeingredient_set-TOTAL_FORMS']").attr('value',totalForms+""))
         newIngredients--
     }else if(element==='category'){
         categories--
