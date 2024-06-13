@@ -91,9 +91,10 @@ function cloneMore(element='ingredient') {
         newIngredients++
         items=newIngredients
         total=Number($("input[id='id_recipeingredient_set-TOTAL_FORMS']").attr('value'))
-        Number($("input[id='id_recipeingredient_set-TOTAL_FORMS']").attr('value',count+""))
         count--
         Number($("input[id='id_form-TOTAL_FORMS']").attr('value',count+""))
+        count=total+1
+        Number($("input[id='id_recipeingredient_set-TOTAL_FORMS']").attr('value',count+""))
     }else if(element==='category'){
         categories++
         items=categories
