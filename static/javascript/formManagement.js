@@ -7,10 +7,10 @@ let ingredients=0
 let newIngredients=0
 let steps=0
 function setter(){
-    let total=Number($("input[id='id_form-TOTAL_FORMS']").attr('value'))
+  //  let total=Number($("input[id='id_form-TOTAL_FORMS']").attr('value'))
 
     let ingredient=document.querySelectorAll(`[id^='ingredient']`)
-    let count
+    //let count
 
     for (let i = 0; i < ingredient.length; i++) {
 
@@ -34,10 +34,10 @@ function setter(){
         // update the span index value
         let spanValue=ingredient[i].querySelector("span").innerHTML.replace(1,`${ingredients+1}`)
         ingredient[i].querySelector("span").innerHTML=spanValue
-        ingredient[i].id='ingredient'+`${total}`
+        ingredient[i].id='ingredient'+`${ingredients}`
         ingredients++
-        count++
-        Number($("input[id='id_form-TOTAL_FORMS']").attr('value',count+""))
+        //count++
+        //Number($("input[id='id_form-TOTAL_FORMS']").attr('value',count+""))
     }
 
     let step=document.querySelectorAll(`[id^='step']`)
@@ -64,10 +64,10 @@ function setter(){
         // update the span index value
         let spanValue=step[i].querySelector("span").innerHTML.replace(1,`${steps+1}`)
         step[i].querySelector("span").innerHTML=spanValue
-        step[i].id="step"+`${total}`
+        step[i].id="step"+`${steps}`
         steps++
-        count++
-        Number($("input[id='id_form-TOTAL_FORMS']").attr('value',count+""))
+        //count++
+       // Number($("input[id='id_form-TOTAL_FORMS']").attr('value',count+""))
     }
 }
 
