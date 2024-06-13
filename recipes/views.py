@@ -250,7 +250,7 @@ def update_view(request, pk):
         # redirect to detail_view
         if form.is_valid() and all([cf.is_valid() for cf in ingredients_form]) and all([cf.is_valid() for cf in steps_form]):
             modified = form.save(commit=False)
-            formset2 = NewIngredientFormset(request.POST, instance=recipe)
+            formset2 = NewIngredientFormset(request.POST, instance=modified)
             formset3 = NewCategoryFormset(request.POST)
             for cf in ingredients_form:
                 element = cf.save(commit=False)
@@ -287,7 +287,8 @@ def update_view(request, pk):
     else:
 
         form = RecipeForm(instance=recipe)
-        formset2 = NewIngredientFormset(instance=recipe)
+        rec = Recipe()
+        formset2 = NewIngredientFormset(instance=rec)
         formset3 = NewCategoryFormset()
         ingredients_form = [RecipeIngredientForm(prefix=str(x), instance=ingredients[x]) for x in
                   range(0, ingredients.count())]
