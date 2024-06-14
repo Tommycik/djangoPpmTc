@@ -15,56 +15,46 @@ function setter() {
 
     for (let i = 0; i < ingredient.length; i++) {
 
-        /*ingredient[i].querySelectorAll("input,select,textarea").forEach(
-            function (i, item) {
+        ingredient[i].querySelectorAll("input,select,textarea").forEach(
+            function (e, item) {
                 //Clear the input’s value
                 //i.value="";
-                let oldName = i.getAttribute("name")
-                let oldId = i.getAttribute("id")
+                let oldName = e.getAttribute("name")
+                let oldId = e.getAttribute("id")
                 //I’d like to replace the numeric value only with the total value
                 //Update the “id and name” attributes of each element
-                oldName=oldName.replace(0, total) ;
-                oldId=oldId.replace(0, total) ;
-                i.setAttribute("name",oldName)
-                i.setAttribute("id",oldId)
+                oldName=oldName.replace(i, i+"0") ;
+                oldId=oldId.replace(i, i+"0") ;
+                e.setAttribute("name",oldName)
+                e.setAttribute("id",oldId)
             }
-        )*/
+        )
 
-        // update the delete button index value
-        // update the span index value
+
         let spanValue = ingredient[i].querySelector("span").innerHTML.replace(1, `${i + 1}`)
         ingredient[i].querySelector("span").innerHTML = spanValue
         ingredient[i].id = 'ing' + `${i}`
-        //count++
-        //Number($("input[id='id_form-TOTAL_FORMS']").attr('value',count+""))
     }
 
     let step = document.querySelectorAll(`[id^='stp']`)
 
     for (let i = 0; i < step.length; i++) {
 
-        /*step[i].querySelectorAll("input,select,textarea").forEach(
-        function (i, item) {
-            //Clear the input’s value
-           // i.value="";
-            let oldName = i.getAttribute("name")
-            let oldId = i.getAttribute("id")
-            //I’d like to replace the numeric value only with the total value
-            //Update the “id and name” attributes of each element
-            oldName=oldName.replace(0, total) ;
-            oldId=oldId.replace(0, total) ;
-            i.setAttribute("name",oldName)
-            i.setAttribute("id",oldId)
+        step[i].querySelectorAll("input,select,textarea").forEach(
+            function (e, item) {
+                let oldName = e.getAttribute("name")
+                let oldId = e.getAttribute("id")
+                //I’d like to replace the numeric value only with the total value
+                //Update the “id and name” attributes of each element
+                oldName=oldName.replace(i, i+"1") ;
+                oldId=oldId.replace(i, i+"1") ;
+                e.setAttribute("name",oldName)
+                e.setAttribute("id",oldId)
             }
-        )*/
-
-        // update the delete button index value
-        // update the span index value
+        )
         let spanValue = step[i].querySelector("span").innerHTML.replace(1, `${i + 1}`)
         step[i].querySelector("span").innerHTML = spanValue
         step[i].id = "stp" + `${i}`
-        //count++
-        // Number($("input[id='id_form-TOTAL_FORMS']").attr('value',count+""))
     }
 }
 

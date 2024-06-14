@@ -19,7 +19,6 @@
         <!-- Security token -->
         {% csrf_token %}
         <!-- Using the formset -->
-        { ingredients.management_form }}
         {% for formSub in ingredients %}
             <div class="form-row ing" id="ing0" style="margin-top:35px">
                 <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
@@ -105,7 +104,6 @@
         <a href={% url 'ingredient_new' %}?next={{ request.path|urlencode }}>New Ingredient</a>
         <a href={% url 'category_new' %}?next={{ request.path|urlencode }} >New Category</a>
         {{ form.as_p }}
-        { steps.management_form }}
         {% for formSub in steps %}
             <div class="form-row st" id="stp0" style="margin-top:35px">
                 <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
