@@ -250,8 +250,10 @@ def update_view(request, pk):
         # redirect to detail_view
         if form.is_valid() and all([cf.is_valid() for cf in ingredients_form]) and all([cf.is_valid() for cf in steps_form]):
             modified = form.save(commit=False)
+            formset1 = RecipeIngredientFormset(request.POST)
             formset2 = NewIngredientFormset(request.POST, instance=modified)
             formset3 = NewCategoryFormset(request.POST)
+            formset4 = NewStepFormset(request.POST)
             for cf in ingredients_form:
                 element = cf.save(commit=False)
                 element.recipe = recipe
@@ -261,6 +263,16 @@ def update_view(request, pk):
                 element = cf.save(commit=False)
                 element.recipe = recipe
                 element.save()
+
+            for form2 in formset1:
+                if form2.is_valid():
+                    if form2.cleaned_data != {}:
+                        ingredient = RecipeIngredient.objects.create(recipe=modified,
+                                                                     ingredient=form2.cleaned_data['ingredient'], quantity=form2.cleaned_data['quantity'], unit=form2.cleaned_data['unit'])
+
+                        ingredient.save()
+                        modified.ingredients.add(form2.cleaned_data['ingredient'])
+                        modified.save()
 
             for form2 in formset2:
                 if form2.is_valid():
@@ -281,6 +293,13 @@ def update_view(request, pk):
                         child = form2.save(commit=True)
                         modified.categories.add(child)
                         modified.save()
+
+            for form2 in formset4:
+                if form2.is_valid():
+                    if form2.cleaned_data != {}:
+                        step = RecipeStep.objects.create(description=form2.cleaned_data['description'], recipe=modified)
+                        step.save()
+
             modified.save()
             return HttpResponseRedirect(recipe.get_absolute_url())
 
@@ -288,8 +307,10 @@ def update_view(request, pk):
 
         form = RecipeForm(instance=recipe)
         rec = Recipe()
+        formset1 = RecipeIngredientFormset()
         formset2 = NewIngredientFormset(instance=rec)
         formset3 = NewCategoryFormset()
+        formset4 = NewStepFormset()
         ingredients_form = [RecipeIngredientForm(prefix=str(x), instance=ingredients[x]) for x in
                   range(0, ingredients.count())]
         steps_form = [StepForm(prefix=str(x), instance=steps[x]) for x in
@@ -297,10 +318,12 @@ def update_view(request, pk):
 
         context = {
             'form': form,
-            'formset1': ingredients_form,
+            'ingredients': ingredients_form,
+            'steps': steps_form,
+            'formset1': formset1,
             'formset2': formset2,
             'formset3': formset3,
-            'formset4': steps_form
+            'formset4': formset4
         }
 
     return render(request, "../templates/modify.html", context)
