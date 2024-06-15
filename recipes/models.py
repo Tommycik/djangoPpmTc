@@ -1,4 +1,6 @@
+from _decimal import Decimal
 from django.conf import settings
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 
@@ -71,7 +73,7 @@ class RecipeStep(models.Model):
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, blank=True, null=True, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, blank=True, null=True, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=20, decimal_places=2)
+    quantity = models.DecimalField(max_digits=20,  validators=[MinValueValidator(Decimal('0.01'))], decimal_places=2)
     unit = models.CharField(
         choices=[('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')], default='g',
         max_length=2)

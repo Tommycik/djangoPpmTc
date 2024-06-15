@@ -28,6 +28,12 @@ class RecipeIngredientForm(forms.ModelForm):
         model = RecipeIngredient
         fields = ['ingredient', 'quantity', 'unit']
 
+    def clean(self):
+        quantity = self.cleaned_data.get('quantity')
+
+        if quantity < 0:
+            raise forms.ValidationError("The quantity cannot be negative")
+
 
 class RecipeIngredientListForm(RecipeIngredientForm):
     delete = forms.BooleanField(required=False, help_text='delete ingredient from the recipe?')
