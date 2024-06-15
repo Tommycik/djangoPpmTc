@@ -6,12 +6,11 @@ from recipes.models import Category, Recipe, Ingredient, RecipeIngredient, Recip
 
 
 class RecipeForm(forms.ModelForm):
-
     class Meta:
         model = Recipe
         fields = ['categories', 'title', 'description', 'time', 'image']
         widgets = {
-           # "categories": forms.CheckboxSelectMultiple(),
+            # "categories": forms.CheckboxSelectMultiple(),
         }
 
 
@@ -28,6 +27,10 @@ class RecipeIngredientForm(forms.ModelForm):
     class Meta:
         model = RecipeIngredient
         fields = ['ingredient', 'quantity', 'unit']
+
+
+class RecipeIngredientListForm(RecipeIngredientForm):
+    delete = forms.BooleanField(required=False, help_text='delete ingredient from the recipe?')
 
 
 class NewIngredientForm(forms.ModelForm):
@@ -50,6 +53,10 @@ class StepForm(forms.ModelForm):
     class Meta:
         model = RecipeStep
         fields = ['description']
+
+
+class RecipeStepListForm(StepForm):
+    delete = forms.BooleanField(required=False, help_text='delete step from the recipe?')
 
 
 RecipeIngredientFormset = formset_factory(form=RecipeIngredientForm,

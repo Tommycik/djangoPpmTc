@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import RecipeForm, RecipeIngredientForm, RecipeIngredientFormset, NewCategoryFormset, NewIngredientFormset, \
-    NewStepFormset, StepForm
+    NewStepFormset, StepForm, RecipeIngredientListForm, RecipeStepListForm
 from .models import Recipe, Ingredient, Category, RecipeIngredient, RecipeStep
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView  # new
 
@@ -104,7 +104,9 @@ def create_recipe_view(request):
                 if form2.is_valid():
                     if form2.cleaned_data != {}:
                         ingredient = RecipeIngredient.objects.create(recipe=recipe,
-                                                                     ingredient=form2.cleaned_data['ingredient'], quantity=form2.cleaned_data['quantity'], unit=form2.cleaned_data['unit'])
+                                                                     ingredient=form2.cleaned_data['ingredient'],
+                                                                     quantity=form2.cleaned_data['quantity'],
+                                                                     unit=form2.cleaned_data['unit'])
 
                         ingredient.save()
                         recipe.ingredients.add(form2.cleaned_data['ingredient'])
@@ -237,18 +239,18 @@ def update_view(request, pk):
     recipe = get_object_or_404(Recipe, id=pk)
     ingredients = RecipeIngredient.objects.filter(recipe=pk)
     steps = RecipeStep.objects.filter(recipe=pk)
-    #categorie e nuovi ingredienti
     if request.method == 'POST':
         # pass the object as instance in form
         form = RecipeForm(request.POST or None, instance=recipe)
-        ingredients_form = [RecipeIngredientForm(request.POST, prefix=str(x), instance=ingredients[x]) for x in
-                  range(0, ingredients.count())]
-        steps_form = [StepForm(request.POST, prefix=str(x), instance=steps[x]) for x in
-                            range(0, steps.count())]
+        ingredients_form = [RecipeIngredientListForm(request.POST, prefix=str(x), instance=ingredients[x]) for x in
+                            range(0, ingredients.count())]
+        steps_form = [RecipeStepListForm(request.POST, prefix=str(x), instance=steps[x]) for x in
+                      range(0, steps.count())]
 
         # save the data from the form and
         # redirect to detail_view
-        if form.is_valid() and all([cf.is_valid() for cf in ingredients_form]) and all([cf.is_valid() for cf in steps_form]):
+        if form.is_valid() and all([cf.is_valid() for cf in ingredients_form]) and all(
+                [cf.is_valid() for cf in steps_form]):
             modified = form.save(commit=False)
             formset1 = RecipeIngredientFormset(request.POST)
             formset2 = NewIngredientFormset(request.POST, instance=modified)
@@ -256,19 +258,26 @@ def update_view(request, pk):
             formset4 = NewStepFormset(request.POST)
             for cf in ingredients_form:
                 element = cf.save(commit=False)
-                element.recipe = recipe
-                element.save()
+                if cf.cleaned_data["delete"]:
+                    element.delete()
+                else:
+                    element = cf.save()
 
             for cf in steps_form:
                 element = cf.save(commit=False)
-                element.recipe = recipe
-                element.save()
+                if cf.cleaned_data["delete"]:
+                    element.delete()
+                else:
+                    element.save()
+
 
             for form2 in formset1:
                 if form2.is_valid():
                     if form2.cleaned_data != {}:
                         ingredient = RecipeIngredient.objects.create(recipe=modified,
-                                                                     ingredient=form2.cleaned_data['ingredient'], quantity=form2.cleaned_data['quantity'], unit=form2.cleaned_data['unit'])
+                                                                     ingredient=form2.cleaned_data['ingredient'],
+                                                                     quantity=form2.cleaned_data['quantity'],
+                                                                     unit=form2.cleaned_data['unit'])
 
                         ingredient.save()
                         modified.ingredients.add(form2.cleaned_data['ingredient'])
@@ -311,9 +320,9 @@ def update_view(request, pk):
         formset2 = NewIngredientFormset(instance=rec)
         formset3 = NewCategoryFormset()
         formset4 = NewStepFormset()
-        ingredients_form = [RecipeIngredientForm(prefix=str(x), instance=ingredients[x]) for x in
-                  range(0, ingredients.count())]
-        steps_form = [StepForm(prefix=str(x), instance=steps[x]) for x in
+        ingredients_form = [RecipeIngredientListForm(prefix=str(x), instance=ingredients[x]) for x in
+                            range(0, ingredients.count())]
+        steps_form = [RecipeStepListForm(prefix=str(x), instance=steps[x]) for x in
                       range(0, steps.count())]
 
         context = {

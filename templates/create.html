@@ -23,6 +23,7 @@
         <!-- Security token -->
         {% csrf_token %}
         <!-- Using the formset -->
+        {% block ingredients %}{% endblock ingredients %}
         {{ formset1.management_form }}
         {% for formSub in formset1 %}
             {% for hidden in formSub.hidden_fields %}
@@ -95,11 +96,8 @@
                     id="add" onclick="cloneMore('category')">Add new categories
             </button>
         </div>
-
-        <a href={% url 'ingredient_new' %}?next={{ request.path|urlencode }}>New Ingredient</a>
-        <a href={% url 'category_new' %}?next={{ request.path|urlencode }} >New Category</a>
         {{ form.as_p }}
-
+        {% block steps %}{% endblock steps %}
         {{ formset4.management_form }}
         {% for formSub in formset4 %}
             {% for hidden in formSub.hidden_fields %}
@@ -127,5 +125,4 @@
 
         <input type="submit" value="Submit">
     </form>
-    <button onclick="white()">f</button>
-{% endblock %}
+{% endblock content%}
