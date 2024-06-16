@@ -100,8 +100,6 @@ def create_recipe_view(request):
                     [cf.is_valid() for cf in formset2]) and all([cf.is_valid() for cf in formset3]) and all(
                 [cf.is_valid() for cf in formset4]):
                 recipe.author = request.user
-                recipe.save()
-                form.save_m2m()
                 for form2 in formset1:
                     if form2.cleaned_data != {}:
                         ingredient = RecipeIngredient.objects.create(recipe=recipe,
@@ -111,7 +109,6 @@ def create_recipe_view(request):
 
                         ingredient.save()
                         recipe.ingredients.add(form2.cleaned_data['ingredient'])
-                        recipe.save()
 
                 for form2 in formset2:
                     if form2.cleaned_data != {}:
@@ -123,22 +120,23 @@ def create_recipe_view(request):
                                                              unit=form2.cleaned_data['unit'])
                         ri.save()
                         recipe.ingredients.add(ingredient)
-                        recipe.save()
 
                 for form2 in formset3:
                     if form2.cleaned_data != {}:
                         child = form2.save(commit=True)
                         recipe.categories.add(child)
-                        recipe.save()
 
                 for form2 in formset4:
                     if form2.cleaned_data != {}:
                         step = RecipeStep.objects.create(description=form2.cleaned_data['description'], recipe=recipe)
                         step.save()
-                return HttpResponseRedirect(recipe.get_absolute_url())
+
+                if recipe.clean():
+                    recipe.save()
+                    form.save_m2m()
+                    return HttpResponseRedirect(recipe.get_absolute_url())
     else:
         form = RecipeForm()
-        recipe = Recipe()
         formset1 = RecipeIngredientFormset()
         formset2 = NewIngredientFormset()
         formset3 = NewCategoryFormset()
