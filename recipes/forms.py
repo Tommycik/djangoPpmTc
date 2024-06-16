@@ -13,6 +13,9 @@ class RecipeForm(forms.ModelForm):
             # "categories": forms.CheckboxSelectMultiple(),
         }
 
+        #def clean(self):
+        #    recipe = self.cleaned_data.get('title')
+
 
 class RecipeIngredientForm(forms.ModelForm):
     ingredient = forms.ModelChoiceField(
@@ -21,18 +24,15 @@ class RecipeIngredientForm(forms.ModelForm):
     )
     quantity = forms.DecimalField()
     unit = forms.ChoiceField(
-        choices=[('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')],
+        choices=[('', '----'),('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')],
     )
 
     class Meta:
         model = RecipeIngredient
         fields = ['ingredient', 'quantity', 'unit']
 
-    def clean(self):
-        quantity = self.cleaned_data.get('quantity')
-
-        if quantity < 0:
-            raise forms.ValidationError("The quantity cannot be negative")
+   # def clean(self):
+        #quantity = self.cleaned_data.get('quantity')
 
 
 class RecipeIngredientListForm(RecipeIngredientForm):
@@ -69,12 +69,10 @@ RecipeIngredientFormset = formset_factory(form=RecipeIngredientForm,
                                           can_delete=False
                                           )
 
-NewIngredientFormset = inlineformset_factory(Recipe,
-                                             Recipe.ingredients.through,
-                                             form=NewIngredientForm,
-                                             extra=1,
-                                             can_delete=False
-                                             )
+NewIngredientFormset = formset_factory(form=NewIngredientForm,
+                                       extra=1,
+                                       can_delete=False
+                                       )
 
 NewCategoryFormset = formset_factory(
     form=CategoryForm,
