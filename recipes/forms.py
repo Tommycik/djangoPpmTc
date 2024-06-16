@@ -13,9 +13,6 @@ class RecipeForm(forms.ModelForm):
             # "categories": forms.CheckboxSelectMultiple(),
         }
 
-        #def clean(self):
-        #    recipe = self.cleaned_data.get('title')
-
 
 class RecipeIngredientForm(forms.ModelForm):
     ingredient = forms.ModelChoiceField(

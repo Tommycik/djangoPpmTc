@@ -273,7 +273,7 @@ def update_view(request, pk):
                         ingredient = Ingredient.objects.create(title=form2.cleaned_data['ingredient'],
                                                                description=form2.cleaned_data['description'])
                         ingredient.save()
-                        ri = RecipeIngredient.objects.create(recipe=recipe, ingredient=ingredient,
+                        ri = RecipeIngredient.objects.create(recipe=modified, ingredient=ingredient,
                                                              quantity=form2.cleaned_data['quantity'],
                                                              unit=form2.cleaned_data['unit'])
                         ri.save()
@@ -296,7 +296,6 @@ def update_view(request, pk):
     else:
 
         form = RecipeForm(instance=recipe)
-        rec = Recipe()
         formset1 = RecipeIngredientFormset()
         formset2 = NewIngredientFormset()
         formset3 = NewCategoryFormset()
