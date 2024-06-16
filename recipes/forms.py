@@ -6,24 +6,34 @@ from recipes.models import Category, Recipe, Ingredient, RecipeIngredient, Recip
 
 
 class RecipeForm(forms.ModelForm):
-
     class Meta:
         model = Recipe
         fields = ['categories', 'title', 'description', 'time', 'image']
         widgets = {
-           # "categories": forms.CheckboxSelectMultiple(),
+            # "categories": forms.CheckboxSelectMultiple(),
         }
 
 
-class RecipeIngredientForm(forms.Form):
+class RecipeIngredientForm(forms.ModelForm):
     ingredient = forms.ModelChoiceField(
         queryset=Ingredient.objects.all(),
 
     )
     quantity = forms.DecimalField()
     unit = forms.ChoiceField(
-        choices=[('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')],
+        choices=[('', '----'),('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')],
     )
+
+    class Meta:
+        model = RecipeIngredient
+        fields = ['ingredient', 'quantity', 'unit']
+
+   # def clean(self):
+        #quantity = self.cleaned_data.get('quantity')
+
+
+class RecipeIngredientListForm(RecipeIngredientForm):
+    delete = forms.BooleanField(required=False, help_text='delete ingredient from the recipe?')
 
 
 class NewIngredientForm(forms.ModelForm):
@@ -32,7 +42,7 @@ class NewIngredientForm(forms.ModelForm):
                                                                                                       "description")
 
     class Meta:
-        Model = RecipeIngredient
+        model = RecipeIngredient
         fields = ['quantity', 'unit']
 
 
@@ -48,16 +58,18 @@ class StepForm(forms.ModelForm):
         fields = ['description']
 
 
+class RecipeStepListForm(StepForm):
+    delete = forms.BooleanField(required=False, help_text='delete step from the recipe?')
+
+
 RecipeIngredientFormset = formset_factory(form=RecipeIngredientForm,
                                           can_delete=False
                                           )
 
-NewIngredientFormset = inlineformset_factory(Recipe,
-                                             Recipe.ingredients.through,
-                                             form=NewIngredientForm,
-                                             extra=1,
-                                             can_delete=False
-                                             )
+NewIngredientFormset = formset_factory(form=NewIngredientForm,
+                                       extra=1,
+                                       can_delete=False
+                                       )
 
 NewCategoryFormset = formset_factory(
     form=CategoryForm,

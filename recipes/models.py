@@ -1,6 +1,13 @@
+from _decimal import Decimal
 from django.conf import settings
+from django.contrib.postgres import serializers
+from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 from django.db import models
+from django.db.models import Q
 from django.urls import reverse
+
+from accounts import forms
 
 
 # Create your models here.
@@ -49,6 +56,26 @@ class Recipe(models.Model):
     class Meta:
         db_table = "Recipes"
         ordering = ['-date']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['title', 'author'], name='unique_migration_host_combination'
+            )
+        ]
+
+    def clean_check(self):
+        errors = []
+        recipe = Recipe.objects.filter(title=self.title, author=self.author)
+        if recipe.exists() and recipe.filter(~Q(id=self.pk)).exists():
+            errors.append(ValidationError('this recipe already exists'))
+        #if RecipeIngredient.objects.filter(recipe=self).count() == 0:
+            #errors.append(ValidationError("the recipe must have at least one ingredient"))
+       # if RecipeStep.objects.filter(recipe=self).count() == 0:
+            #errors.append(ValidationError("the recipe must have at least one step"))
+
+        if errors:
+            raise ValidationError(errors)
+        else:
+            return True
 
     def __str__(self):
         return self.title
@@ -71,7 +98,7 @@ class RecipeStep(models.Model):
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, blank=True, null=True, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, blank=True, null=True, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=20, decimal_places=2)
+    quantity = models.DecimalField(max_digits=20, validators=[MinValueValidator(Decimal('0.01'))], decimal_places=2)
     unit = models.CharField(
-        choices=[('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')], default='g',
+        choices=[('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')],
         max_length=2)

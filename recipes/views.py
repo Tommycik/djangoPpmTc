@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import RecipeForm, RecipeIngredientForm, RecipeIngredientFormset, NewCategoryFormset, NewIngredientFormset, \
-    NewStepFormset
+    NewStepFormset, StepForm, RecipeIngredientListForm, RecipeStepListForm
 from .models import Recipe, Ingredient, Category, RecipeIngredient, RecipeStep
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView  # new
 
@@ -89,29 +89,28 @@ def create_recipe_view(request):
     # <a href={% url 'ingredient_new' %}>New Ingredient</a>
     if request.method == "POST":
         form = RecipeForm(request.POST, request.FILES)
-
+        formset1 = RecipeIngredientFormset(request.POST)
+        formset2 = NewIngredientFormset(request.POST)
+        formset3 = NewCategoryFormset(request.POST)
+        formset4 = NewStepFormset(request.POST)
         if form.is_valid():
 
             recipe = form.save(commit=False)
-            formset1 = RecipeIngredientFormset(request.POST)
-            formset2 = NewIngredientFormset(request.POST, instance=recipe)
-            formset3 = NewCategoryFormset(request.POST)
-            formset4 = NewStepFormset(request.POST)
-            recipe.author = request.user
-            recipe.save()
-            form.save_m2m()
-            for form2 in formset1:
-                if form2.is_valid():
+            if all([cf.is_valid() for cf in formset1]) and all(
+                    [cf.is_valid() for cf in formset2]) and all([cf.is_valid() for cf in formset3]) and all(
+                [cf.is_valid() for cf in formset4]):
+                recipe.author = request.user
+                for form2 in formset1:
                     if form2.cleaned_data != {}:
                         ingredient = RecipeIngredient.objects.create(recipe=recipe,
-                                                                     ingredient=form2.cleaned_data['ingredient'], quantity=form2.cleaned_data['quantity'], unit=form2.cleaned_data['unit'])
+                                                                     ingredient=form2.cleaned_data['ingredient'],
+                                                                     quantity=form2.cleaned_data['quantity'],
+                                                                     unit=form2.cleaned_data['unit'])
 
                         ingredient.save()
                         recipe.ingredients.add(form2.cleaned_data['ingredient'])
-                        recipe.save()
 
-            for form2 in formset2:
-                if form2.is_valid():
+                for form2 in formset2:
                     if form2.cleaned_data != {}:
                         ingredient = Ingredient.objects.create(title=form2.cleaned_data['ingredient'],
                                                                description=form2.cleaned_data['description'])
@@ -121,37 +120,35 @@ def create_recipe_view(request):
                                                              unit=form2.cleaned_data['unit'])
                         ri.save()
                         recipe.ingredients.add(ingredient)
-                        recipe.save()
 
-            for form2 in formset3:
-                if form2.is_valid():
+                for form2 in formset3:
                     if form2.cleaned_data != {}:
                         child = form2.save(commit=True)
                         recipe.categories.add(child)
-                        recipe.save()
 
-            for form2 in formset4:
-                if form2.is_valid():
+                for form2 in formset4:
                     if form2.cleaned_data != {}:
                         step = RecipeStep.objects.create(description=form2.cleaned_data['description'], recipe=recipe)
                         step.save()
-            return HttpResponseRedirect(recipe.get_absolute_url())
+                recipe.save(commit=False)
+                if recipe.clean_check():
+                    recipe.save()
+                    form.save_m2m()
+                    return HttpResponseRedirect(recipe.get_absolute_url())
     else:
         form = RecipeForm()
-        recipe = Recipe()
         formset1 = RecipeIngredientFormset()
-        formset2 = NewIngredientFormset(instance=recipe)
+        formset2 = NewIngredientFormset()
         formset3 = NewCategoryFormset()
         formset4 = NewStepFormset()
 
-        context = {
-            'form': form,
-            'formset1': formset1,
-            'formset2': formset2,
-            'formset3': formset3,
-            'formset4': formset4
-
-        }
+    context = {
+        'form': form,
+        'formset1': formset1,
+        'formset2': formset2,
+        'formset3': formset3,
+        'formset4': formset4
+    }
     return render(request, '../templates/create.html', context)
 
 
@@ -214,19 +211,6 @@ class CreateIngredientView(CreateCategoryView):
 
 #    return HttpResponseRedirect(instance.get_absolute_url()+"recipe/")
 
-
-class ModifyPageView(LoginRequiredMixin, UpdateView):
-    model = Recipe
-    fields = ['title', 'description', 'ingredients', 'time', 'body', 'image', 'categories']
-    template_name = "../templates/modify.html"
-
-    def form_valid(self, form):
-        instance = form.save()
-        instance.save()
-
-        return HttpResponseRedirect(instance.get_absolute_url() + "recipe/")
-
-
 @login_required
 def update_view(request, pk):
     # dictionary for initial data with
@@ -235,27 +219,98 @@ def update_view(request, pk):
 
     # fetch the object related to passed id
     recipe = get_object_or_404(Recipe, id=pk)
-    ingredients = inlineformset_factory(Recipe, RecipeIngredient, min_num=1, exclude=("recipe",))
+    ingredients = RecipeIngredient.objects.filter(recipe=pk)
+    steps = RecipeStep.objects.filter(recipe=pk)
     if request.method == 'POST':
         # pass the object as instance in form
         form = RecipeForm(request.POST or None, instance=recipe)
-        formset = ingredients(request.POST, request.FILES, instance=recipe)
+        formset1 = RecipeIngredientFormset(request.POST)
+        formset2 = NewIngredientFormset(request.POST)
+        formset3 = NewCategoryFormset(request.POST)
+        formset4 = NewStepFormset(request.POST)
+        ingredients_form = [RecipeIngredientListForm(request.POST, prefix=str(x), instance=ingredients[x]) for x in
+                            range(0, ingredients.count())]
+        steps_form = [RecipeStepListForm(request.POST, prefix=str(x), instance=steps[x]) for x in
+                      range(0, steps.count())]
+
         # save the data from the form and
         # redirect to detail_view
-        if form.is_valid() and formset.is_valid():
-            form.save()
-            formset.save()
-            return HttpResponseRedirect(recipe.get_absolute_url())
+        if form.is_valid() and all([cf.is_valid() for cf in ingredients_form]) and all(
+                [cf.is_valid() for cf in steps_form]):
+            modified = form.save(commit=False)
+            if all([cf.is_valid() for cf in formset1]) and all(
+                [cf.is_valid() for cf in formset2]) and all([cf.is_valid() for cf in formset3]) and all(
+                [cf.is_valid() for cf in formset4]):
+                for cf in ingredients_form:
+                    element = cf.save(commit=False)
+                    if cf.cleaned_data["delete"]:
+                        element.delete()
+                    else:
+                        element = cf.save()
+
+                for cf in steps_form:
+                    element = cf.save(commit=False)
+                    if cf.cleaned_data["delete"]:
+                        element.delete()
+                    else:
+                        element.save()
+
+
+                for form2 in formset1:
+                    if form2.cleaned_data != {}:
+                        ingredient = RecipeIngredient.objects.create(recipe=modified,
+                                                                     ingredient=form2.cleaned_data['ingredient'],
+                                                                     quantity=form2.cleaned_data['quantity'],
+                                                                     unit=form2.cleaned_data['unit'])
+
+                        ingredient.save()
+                        modified.ingredients.add(form2.cleaned_data['ingredient'])
+
+                for form2 in formset2:
+                    if form2.cleaned_data != {}:
+                        ingredient = Ingredient.objects.create(title=form2.cleaned_data['ingredient'],
+                                                               description=form2.cleaned_data['description'])
+                        ingredient.save()
+                        ri = RecipeIngredient.objects.create(recipe=modified, ingredient=ingredient,
+                                                             quantity=form2.cleaned_data['quantity'],
+                                                             unit=form2.cleaned_data['unit'])
+                        ri.save()
+                        modified.ingredients.add(ingredient)
+
+                for form2 in formset3:
+                    if form2.cleaned_data != {}:
+                        child = form2.save(commit=True)
+                        modified.categories.add(child)
+
+                for form2 in formset4:
+                    if form2.cleaned_data != {}:
+                        step = RecipeStep.objects.create(description=form2.cleaned_data['description'], recipe=modified)
+                        step.save()
+                if modified.clean_check():
+                    modified.save()
+                    return HttpResponseRedirect(recipe.get_absolute_url())
 
     else:
 
         form = RecipeForm(instance=recipe)
-        formset = RecipeIngredientFormset()
+        formset1 = RecipeIngredientFormset()
+        formset2 = NewIngredientFormset()
+        formset3 = NewCategoryFormset()
+        formset4 = NewStepFormset()
+        ingredients_form = [RecipeIngredientListForm(prefix=str(x), instance=ingredients[x]) for x in
+                            range(0, ingredients.count())]
+        steps_form = [RecipeStepListForm(prefix=str(x), instance=steps[x]) for x in
+                      range(0, steps.count())]
 
-        context = {
-            'form': form,
-            'formset': formset
-        }
+    context = {
+        'form': form,
+        'ingredients': ingredients_form,
+        'steps': steps_form,
+        'formset1': formset1,
+        'formset2': formset2,
+        'formset3': formset3,
+        'formset4': formset4
+    }
 
     return render(request, "../templates/modify.html", context)
 
