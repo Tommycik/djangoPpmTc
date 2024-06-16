@@ -132,10 +132,17 @@ def create_recipe_view(request):
                         step = RecipeStep.objects.create(description=form2.cleaned_data['description'], recipe=recipe)
                         step.save()
                 recipe.save(commit=False)
-                if recipe.clean_check():
+                if recipe.clean_ck(RecipeIngredient) and recipe.clean_ck(RecipeStep) and recipe.clean_rc():
                     recipe.save()
                     form.save_m2m()
                     return HttpResponseRedirect(recipe.get_absolute_url())
+                else:
+                    if not recipe.clean_ck(RecipeIngredient):
+                        messages.error(request, 'the recipe must have at least one ingredient.', extra_tags='ingredients')
+                    if not recipe.clean_ck(RecipeStep):
+                        messages.error(request, 'the recipe must have at least one step.', extra_tags='steps')
+                    if not recipe.clean_rc():
+                        messages.error(request, 'this recipe already exists.', extra_tags='recipe')
     else:
         form = RecipeForm()
         formset1 = RecipeIngredientFormset()

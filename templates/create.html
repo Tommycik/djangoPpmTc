@@ -101,6 +101,11 @@
                     id="add" onclick="cloneMore('category')">Add new categories
             </button>
         </div>
+        {% for message in messages %}
+            {% if "recipe" in message.tags %}
+                <p> {{ message }} </p>   {# show signup error message #}
+            {% endif %}
+        {% endfor %}
         {{ form.as_p }}
         {% for message in messages %}
             {% if "steps" in message.tags %}
