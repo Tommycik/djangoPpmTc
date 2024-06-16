@@ -130,8 +130,8 @@ def create_recipe_view(request):
                     if form2.cleaned_data != {}:
                         step = RecipeStep.objects.create(description=form2.cleaned_data['description'], recipe=recipe)
                         step.save()
-
-                if recipe.clean():
+                recipe.save(commit=False)
+                if recipe.clean_check():
                     recipe.save()
                     form.save_m2m()
                     return HttpResponseRedirect(recipe.get_absolute_url())
@@ -286,8 +286,7 @@ def update_view(request, pk):
                     if form2.cleaned_data != {}:
                         step = RecipeStep.objects.create(description=form2.cleaned_data['description'], recipe=modified)
                         step.save()
-
-                if modified.clean():
+                if modified.clean_check():
                     modified.save()
                     return HttpResponseRedirect(recipe.get_absolute_url())
 
