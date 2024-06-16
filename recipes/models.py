@@ -65,7 +65,7 @@ class Recipe(models.Model):
         super().clean()
         errors = {}
         if Recipe.objects.filter(title=self.title, author=self.author).exists():
-            errors['title'] = ("the recipe already exists")
+            errors['title'] = ("this recipe already exists")
         if errors:
             raise ValidationError(errors)
         else:
