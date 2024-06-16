@@ -73,6 +73,12 @@ class Recipe(models.Model):
         else:
             return True
 
+    def clean_ck(self, model):
+        if model.objects.filter(recipe=self).exists():
+            return True
+        else:
+            return False
+
     def __str__(self):
         return self.title
 

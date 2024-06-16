@@ -23,6 +23,11 @@
         <!-- Security token -->
         {% csrf_token %}
         <!-- Using the formset -->
+        {% for message in messages %}
+            {% if "ingredients" in message.tags %}
+                <p> {{ message }} </p>   {# show signup error message #}
+            {% endif %}
+        {% endfor %}
         {% block ingredients %}{% endblock ingredients %}
         {{ formset1.management_form }}
         {% for formSub in formset1 %}
@@ -32,7 +37,7 @@
             <div class="form-row ingredient" id="ingredient0" style="margin-top:35px">
                 <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">ingredient 1:</span>
-                {{ formSub.as_p}}
+                {{ formSub.as_p }}
                 {% with index=forloop.counter0 %}
                     <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
                         <button type="button" class="btn btn-danger"
@@ -48,7 +53,7 @@
                     id="add" onclick="cloneMore('ingredient')">Add ingredients
             </button>
         </div>
-    {{ formset2.management_form }}
+        {{ formset2.management_form }}
         {% for formSub in formset2 %}
             {% for hidden in formSub.hidden_fields %}
                 {{ hidden }}
@@ -72,7 +77,7 @@
                     id="add" onclick="cloneMore('newingredient')">Add new ingredients
             </button>
         </div>
-    {{ formset3.management_form }}
+        {{ formset3.management_form }}
         {% for formSub in formset3 %}
             {% for hidden in formSub.hidden_fields %}
                 {{ hidden }}
@@ -80,7 +85,7 @@
             <div class="form-row category" id="category0" style="margin-top:35px">
             <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">category 1:</span>
-                {{ formSub}}
+                {{ formSub }}
                 {% with index=forloop.counter0 %}
                     <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
                         <button type="button" class="btn btn-danger"
@@ -97,6 +102,11 @@
             </button>
         </div>
         {{ form.as_p }}
+        {% for message in messages %}
+            {% if "steps" in message.tags %}
+                <p> {{ message }} </p>   {# show signup error message #}
+            {% endif %}
+        {% endfor %}
         {% block steps %}{% endblock steps %}
         {{ formset4.management_form }}
         {% for formSub in formset4 %}
@@ -125,4 +135,4 @@
 
         <input type="submit" value="Submit">
     </form>
-{% endblock content%}
+{% endblock content %}

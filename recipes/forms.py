@@ -8,10 +8,14 @@ from recipes.models import Category, Recipe, Ingredient, RecipeIngredient, Recip
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['categories', 'title', 'description', 'time', 'image']
+        fields = ['categories', 'title', 'description','author', 'time', 'image']
         widgets = {
             # "categories": forms.CheckboxSelectMultiple(),
         }
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['author'] = user
 
 
 class RecipeIngredientForm(forms.ModelForm):

@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -96,10 +97,10 @@ def create_recipe_view(request):
         if form.is_valid():
 
             recipe = form.save(commit=False)
+            recipe.author = request.user
             if all([cf.is_valid() for cf in formset1]) and all(
                     [cf.is_valid() for cf in formset2]) and all([cf.is_valid() for cf in formset3]) and all(
                 [cf.is_valid() for cf in formset4]):
-                recipe.author = request.user
                 for form2 in formset1:
                     if form2.cleaned_data != {}:
                         ingredient = RecipeIngredient.objects.create(recipe=recipe,
@@ -286,9 +287,14 @@ def update_view(request, pk):
                     if form2.cleaned_data != {}:
                         step = RecipeStep.objects.create(description=form2.cleaned_data['description'], recipe=modified)
                         step.save()
-                if modified.clean():
+                if modified.clean_ck(RecipeIngredient) and modified.clean_ck(RecipeStep):
                     modified.save()
                     return HttpResponseRedirect(recipe.get_absolute_url())
+                else:
+                    if not modified.clean_ck(RecipeIngredient):
+                        messages.error(request, 'the recipe must have at least one ingredient.', extra_tags='ingredients')
+                    if not modified.clean_ck(RecipeStep):
+                        messages.error(request, 'the recipe must have at least one step.', extra_tags='steps')
 
     else:
 
