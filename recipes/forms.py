@@ -28,8 +28,6 @@ class RecipeIngredientForm(forms.ModelForm):
         model = RecipeIngredient
         fields = ['ingredient', 'quantity', 'unit']
 
-   # def clean(self):
-        #quantity = self.cleaned_data.get('quantity')
 
 
 class RecipeIngredientListForm(RecipeIngredientForm):
