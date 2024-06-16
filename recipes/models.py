@@ -4,6 +4,7 @@ from django.contrib.postgres import serializers
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.db.models import Q
 from django.urls import reverse
 
 from accounts import forms
@@ -64,8 +65,15 @@ class Recipe(models.Model):
     def clean(self):
         super().clean()
         errors = {}
-        if Recipe.objects.filter(title=self.title, author=self.author).exists():
-            errors['title'] = ("this recipe already exists")
+        errors['title'] = []
+        recipe=Recipe.objects.filter(title=self.title, author=self.author)
+        if recipe.exists() and recipe.count() > 1 and recipe.objects.filter(~Q(id=self.pk)).exists():
+            errors['title'].append("this recipe already exists")
+        if RecipeIngredient.objects.filter(recipe=self).count() == 0:
+            errors['title'].append("the recipe must have at least one ingredient")
+        if RecipeStep.objects.filter(recipe=self).count() == 0:
+            errors['title'].append("the recipe must have at least one step")
+
         if errors:
             raise ValidationError(errors)
         else:
