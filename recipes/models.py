@@ -62,8 +62,8 @@ class Recipe(models.Model):
             )
         ]
 
-    def clean_rc(self):
-        recipe = Recipe.objects.filter(title=self.title, author=self.author)
+    def clean_rc(self,user):
+        recipe = Recipe.objects.filter(title=self.title, author=user)
         if recipe.exists() and recipe.filter(~Q(id=self.pk)).exists():
             return False
         else:

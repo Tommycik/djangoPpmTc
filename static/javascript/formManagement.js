@@ -1,8 +1,8 @@
 
-let categories = 0;
+/*let categories = 0;
 let ingredients = 0
 let newIngredients = 0
-let steps = 0
+let steps = 0*/
 
 function setter(id,number) {
     //  let total=Number($("input[id='id_form-TOTAL_FORMS']").attr('value'))
@@ -37,10 +37,10 @@ function cloneMore(element = 'ingredient') {
 
     newElement = document.getElementsByClassName(element)[0].cloneNode(true);
     // update the management form
-    var total = Number($("input[id='id_form-TOTAL_FORMS']").attr('value'))
+    var total = Number(document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value)
     let count = total + 1
-    Number($("input[id='id_form-TOTAL_FORMS']").attr('value', count + ""))
-    let items = ingredients
+    document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value= count
+   /* let items = ingredients
     if (element === 'ingredient') {
         ingredients++
         items = ingredients
@@ -60,7 +60,7 @@ function cloneMore(element = 'ingredient') {
         items = steps
     }
 
-
+*/
     // Updating the input fields are really important and especially the name attributes
     // loop over each input in the new cloning element
     newElement.querySelectorAll("input,select,textarea").forEach(
@@ -78,21 +78,21 @@ function cloneMore(element = 'ingredient') {
         })
 
     // update the delete button index value
-    newElement.querySelector("button").setAttribute("onClick", `deleteForm(${items},'${element}')`)
+    newElement.querySelector("button").setAttribute("onClick", `deleteForm(${count-1},'${element}')`)
     // update the span index value
-    let spanValue = newElement.querySelector("span").innerHTML.replace(1, `${items + 1}`)
+    let spanValue = newElement.querySelector("span").innerHTML.replace(1, `${count}`)
     newElement.querySelector("span").innerHTML = spanValue
-    newElement.id = element + `${total}`
+    newElement.id = element + `${count-1}`
     // insert the newElement at the end
-    $(newElement).insertAfter($(document.getElementsByClassName(element)[`${items - 1}`]));
+    $(newElement).insertAfter($(document.getElementsByClassName(element)[`${count-2}`]));
 }
 
 function deleteForm(formNum, element = 'ingredient') {
     // Get the current total of forms
-    var totalForms = Number($("input[id='id_form-TOTAL_FORMS']").attr('value'))
-    let number
+    var totalForms = Number(document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value)
+    //let number
     // Decrement the totalForms variable by one and update the
-    if (element === 'ingredient') {
+    /*if (element === 'ingredient') {
         number = ingredients
     } else if (element === 'newingredient') {
         number = newIngredients
@@ -100,14 +100,13 @@ function deleteForm(formNum, element = 'ingredient') {
         number = categories
     } else if (element === 'step') {
         number = steps
-    }
-    if (number <= 0) {
+    }*/
+    if (totalForms <= 1) {
         return
     }
     totalForms--;
-    number--
-    $("input[id='id_form-TOTAL_FORMS']").attr('value', totalForms);
-    if (element === 'ingredient') {
+    document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value= totalForms
+  /*  if (element === 'ingredient') {
         ingredients--
     } else if (element === 'newingredient') {
         Number($("input[id='id_form-TOTAL_FORMS']").attr('value', `${totalForms + 1}` + ""))
@@ -119,7 +118,7 @@ function deleteForm(formNum, element = 'ingredient') {
         categories--
     } else if (element === 'step') {
         steps--
-    }
+    }*/
     // Prevent deleting all forms, keep one form
     const collection = document.querySelectorAll(`#${element}${formNum}`)
 
@@ -128,7 +127,7 @@ function deleteForm(formNum, element = 'ingredient') {
     }
     let forms = document.querySelectorAll(`[id^=${element}]`)
 
-    for (k = 0; k <= number; k++) {
+    for (k = 0; k < totalForms; k++) {
         forms[k].querySelector("span").innerHTML = `${element}${k + 1}` + " :";
         forms[k].querySelector("button").setAttribute("onClick", `deleteForm(${k},'${element}')`)
 
