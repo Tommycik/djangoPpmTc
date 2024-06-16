@@ -62,16 +62,12 @@ class Recipe(models.Model):
             )
         ]
 
-    def clean_check(self):
+    def clean(self):
+        super().clean()
         errors = []
         recipe = Recipe.objects.filter(title=self.title, author=self.author)
         if recipe.exists() and recipe.filter(~Q(id=self.pk)).exists():
-            errors.append(ValidationError('this recipe already exists'))
-        #if RecipeIngredient.objects.filter(recipe=self).count() == 0:
-            #errors.append(ValidationError("the recipe must have at least one ingredient"))
-       # if RecipeStep.objects.filter(recipe=self).count() == 0:
-            #errors.append(ValidationError("the recipe must have at least one step"))
-
+            errors.append(ValidationError("this recipe already exists"))
         if errors:
             raise ValidationError(errors)
         else:

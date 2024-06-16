@@ -286,7 +286,7 @@ def update_view(request, pk):
                     if form2.cleaned_data != {}:
                         step = RecipeStep.objects.create(description=form2.cleaned_data['description'], recipe=modified)
                         step.save()
-                if modified.clean_check():
+                if modified.clean():
                     modified.save()
                     return HttpResponseRedirect(recipe.get_absolute_url())
 
