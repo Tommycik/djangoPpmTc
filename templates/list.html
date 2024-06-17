@@ -13,7 +13,7 @@
     {% for item in object_list %}
     <li>
         <div class="imageWrapper">
-            <a href="{{ item.get_absolute_url }}"><img src="{{ item.image}}" alt="recipe photo"></a>
+            <a href="{{ item.get_absolute_url }}"><img src="{{ item.image.url}}" alt="recipe photo"></a>
         </div>
         <div class="recipeText">
             <a href="{{ item.get_absolute_url }}">

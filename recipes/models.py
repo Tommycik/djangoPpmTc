@@ -50,7 +50,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE)
-    image = models.ImageField(null=True, upload_to='recipes/')
+    image = models.ImageField(null=True, upload_to='images/')
     categories = models.ManyToManyField(Category, blank=True)
 
     class Meta:
