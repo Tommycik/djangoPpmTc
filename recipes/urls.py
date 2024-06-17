@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("best/", views.BestPageView.as_view(), name="recipe_best"),
     path("yours/", views.YourPageView.as_view(), name="recipe_yours"),
     path("<str:name>/authorRecipes/", views.AuthorPageView.as_view(), name="recipe_author"),
     path("<int:pk>/delete/", views.delete_view, name="recipe_delete"),

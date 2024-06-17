@@ -335,22 +335,6 @@ def delete_view(request, pk):
 
     return render(request, "../templates/delete.html", context)
 
-class DeletePageView(LoginRequiredMixin, DeleteView):
-    model = Recipe
-    template_name = "../templates/delete.html"
-
-    def get(self, request, *args, **kwargs):
-        request.session['next_page'] = request.META.get('HTTP_REFERER')
-        return super().get(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        if request.POST.get('confirm'):
-            request.session['next_page'] =reverse('recipe_yours')
-        return super().post(request, *args, **kwargs)
-
-    def get_success_url(self):
-        return self.request.session['next_page']
-
 
 class AuthorPageView(RecentPageView):
     def get_queryset(self):
@@ -360,6 +344,17 @@ class AuthorPageView(RecentPageView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.kwargs['name'] + " Recipes"
+        return context
+
+
+class BestPageView(RecentPageView):
+    def get_queryset(self):
+        queryset = Recipe.objects.all().order_by('-favourites')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Best Recipes"
         return context
 
 
