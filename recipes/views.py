@@ -257,8 +257,8 @@ def update_view(request, pk):
                     [cf.is_valid() for cf in formset2]) and all([cf.is_valid() for cf in formset3]) and all(
                     [cf.is_valid() for cf in formset4]):
                     if any([cf.cleaned_data != {} for cf in formset1]) or any(
-                            [cf.cleaned_data != {} for cf in formset2]):
-                        if any([cf.cleaned_data != {} for cf in formset4]):
+                            [cf.cleaned_data != {} for cf in formset2]) or any([cf.cleaned_data != {} and not cf.cleaned_data["delete"] for cf in ingredients_form]):
+                        if any([cf.cleaned_data != {} for cf in formset4]) or any([cf.cleaned_data != {} and not cf.cleaned_data["delete"] for cf in steps_form]):
                             recipe.save()
                             for cf in ingredients_form:
                                 element = cf.save(commit=False)
@@ -310,10 +310,10 @@ def update_view(request, pk):
                             return HttpResponseRedirect(recipe.get_absolute_url())
             if all([cf.is_valid() for cf in formset1]) and all([cf.is_valid() for cf in formset2]):
                 if all([cf.cleaned_data == {} for cf in formset1]) and all(
-                        [cf.cleaned_data == {} for cf in formset2]):
+                        [cf.cleaned_data == {} for cf in formset2]) and all([cf.cleaned_data == {} or cf.cleaned_data["delete"] for cf in ingredients_form]):
                     messages.error(request, 'the recipe must have at least one ingredient.', extra_tags='ingredients')
             if all([cf.is_valid() for cf in formset4]):
-                if all([cf.cleaned_data == {} for cf in formset4]):
+                if all([cf.cleaned_data == {} for cf in formset4]) and all([cf.cleaned_data == {} or cf.cleaned_data["delete"] for cf in steps_form]):
                     messages.error(request, 'the recipe must have at least one step.', extra_tags='steps')
             if not recipe.clean_rc(request.user):
                 messages.error(request, 'this recipe already exists.', extra_tags='recipe')
