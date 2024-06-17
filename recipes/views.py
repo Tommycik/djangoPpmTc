@@ -2,14 +2,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from .forms import RecipeForm, RecipeIngredientForm, RecipeIngredientFormset, NewCategoryFormset, NewIngredientFormset, \
-    NewStepFormset, StepForm, RecipeIngredientListForm, RecipeStepListForm
+from .forms import RecipeForm, RecipeIngredientFormset, NewCategoryFormset, NewIngredientFormset, \
+    NewStepFormset, RecipeIngredientListForm, RecipeStepListForm
 from .models import Recipe, Ingredient, Category, RecipeIngredient, RecipeStep
-from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView  # new
+from django.views.generic import ListView, DetailView, CreateView
 
 
 # Create your views here.

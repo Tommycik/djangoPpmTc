@@ -1,7 +1,5 @@
 from django import forms
-from django.contrib.admin.views import autocomplete
-from django.forms import ChoiceField, inlineformset_factory, formset_factory
-
+from django.forms import formset_factory
 from recipes.models import Category, Recipe, Ingredient, RecipeIngredient, RecipeStep
 
 
@@ -27,7 +25,6 @@ class RecipeIngredientForm(forms.ModelForm):
     class Meta:
         model = RecipeIngredient
         fields = ['ingredient', 'quantity', 'unit']
-
 
 
 class RecipeIngredientListForm(RecipeIngredientForm):

@@ -9,16 +9,15 @@ from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import get_template
-
 from recipes.models import Recipe
-from recipes.views import YourPageView, RecentPageView
+from recipes.views import RecentPageView
 from .forms import UserRegisterForm, ForgotForm
 from .functions import ForgotEmail, sendEmail
 from .models import Cook
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, DetailView
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import AuthenticationForm
+from django.urls import reverse_lazy
+from django.views.generic import DetailView
+
 
 
 # Create your views here.
@@ -29,7 +28,6 @@ def register(request):
             form.save()
             username = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
-            ######################### mail system ####################################
             htmly = get_template('registration/signupSuccess.html')
             d = {'username': username}
             subject, from_email, to = 'welcome', 'tcRicette@outlook.it', email
@@ -37,7 +35,6 @@ def register(request):
             msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
-            ##################################################################
             messages.success(request, f'Your account has been created ! You are now able to log in')
             return redirect('login')
     else:
@@ -50,8 +47,6 @@ def Login(request):
     if request.method == 'GET':
         request.session['previous_page'] = request.META.get('HTTP_REFERER', "/")
     if request.method == 'POST':
-
-        # AuthenticationForm_can_also_be_used__
 
         username = request.POST['username']
         password = request.POST['password']
