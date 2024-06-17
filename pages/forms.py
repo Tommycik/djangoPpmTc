@@ -12,6 +12,5 @@ class SearchForm(forms.Form):
     )
 
     filter_field = ChoiceField(choices=FILTER_CHOICES)
-    search = forms.CharField(label="Search", max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Type your '
+    search = forms.CharField(label="Search", max_length=110, widget=forms.TextInput(attrs={'placeholder': 'Type your '
                                                                                                           'search'}))
-    # required=False

@@ -12,8 +12,8 @@ from accounts import forms
 
 # Create your models here.
 class Category(models.Model):
-    title = models.CharField(max_length=255, primary_key=True)
-    description = models.TextField()
+    title = models.CharField(max_length=50, primary_key=True)
+    description = models.TextField(max_length=280)
 
     class Meta:
         db_table = "Categories"
@@ -27,8 +27,8 @@ class Category(models.Model):
 
 
 class Ingredient(models.Model):
-    title = models.CharField(max_length=255, primary_key=True)
-    description = models.TextField(blank=True)
+    title = models.CharField(max_length=50, primary_key=True)
+    description = models.TextField(max_length=280, blank=True)
 
     class Meta:
         db_table = "Ingredients"
@@ -42,10 +42,10 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-    title = models.CharField(max_length=150)
-    description = models.TextField(blank=True, max_length=400)
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True, max_length=280)
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
-    time = models.IntegerField(default=0)
+    time = models.IntegerField(default=0, validators=[MinValueValidator(int('0'))])
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -83,7 +83,7 @@ class Recipe(models.Model):
 
 
 class RecipeStep(models.Model):
-    description = models.TextField()
+    description = models.TextField(max_length=280)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
 
