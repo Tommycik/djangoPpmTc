@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-&p)gzhc84tttqqth0v5kk5=rkr22xlx_=lr8q+q3m*ib4eom^p
 DEBUG = False
 
 ALLOWED_HOSTS = ['djangopppmtc-production.up.railway.app']
-CSRF_TRUSTED_ORIGINS = ['https:djangopppmtc-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://djangopppmtc-production.up.railway.app']
 # Application definition
 
 INSTALLED_APPS = [
@@ -123,10 +123,7 @@ USE_TZ = True
 # STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static/css",
-    BASE_DIR / "static/javascript",
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 # Default primary key field type
