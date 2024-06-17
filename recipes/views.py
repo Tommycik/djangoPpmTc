@@ -58,6 +58,7 @@ class CategoriesPageView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['alphabet'] = map(chr, range(97, 123))
+        context['numbers'] = range(0, 10)
         context['title'] = "Categories"
         return context
 
