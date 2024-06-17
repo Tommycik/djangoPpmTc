@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-&p)gzhc84tttqqth0v5kk5=rkr22xlx_=lr8q+q3m*ib4eom^p
 DEBUG = False
 
 ALLOWED_HOSTS = ['djangopppmtc-production.up.railway.app']
+CSRF_COOKIE_SECURE = True
 CSRF_TRUSTED_ORIGINS = ['https://djangopppmtc-production.up.railway.app']
 # Application definition
 
