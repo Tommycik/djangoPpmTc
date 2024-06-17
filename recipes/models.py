@@ -52,6 +52,7 @@ class Recipe(models.Model):
         on_delete=models.CASCADE)
     image = models.ImageField(null=True, upload_to='images/')
     categories = models.ManyToManyField(Category, blank=True)
+    favourites = models.IntegerField(default=0)
 
     class Meta:
         db_table = "Recipes"

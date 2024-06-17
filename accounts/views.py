@@ -7,9 +7,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import get_template
 
+from recipes.models import Recipe
 from recipes.views import YourPageView, RecentPageView
 from .forms import UserRegisterForm, ForgotForm
 from .functions import ForgotEmail, sendEmail
@@ -159,9 +160,16 @@ class FavouritesPageView(RecentPageView):
 @login_required
 def favourite_add(request, pk):
     cook = Cook.objects.get(title=request.user)
+    obj = get_object_or_404(Recipe, pk=pk)
+    fav_num = obj.favourites
     favourites = cook.favourites.all()
     if favourites.filter(pk=pk).exists():
+        fav_num -= 1
         cook.favourites.remove(pk)
     else:
         cook.favourites.add(pk)
+        fav_num += 1
+    obj.favourites=fav_num
+    obj.save()
+
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', "/"))
