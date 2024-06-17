@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path("yours/", views.YourPageView.as_view(), name="recipe_yours"),
     path("<str:name>/authorRecipes/", views.AuthorPageView.as_view(), name="recipe_author"),
-    path("<int:pk>/delete/", views.DeletePageView.as_view(), name="recipe_delete"),
+    path("<int:pk>/delete/", views.delete_view, name="recipe_delete"),
     path("<int:pk>/modify/", views.update_view, name="recipe_modify"),
     path("create/ingredient", views.CreateIngredientView.as_view(), name="ingredient_new"),
     path("create/category", views.CreateCategoryView.as_view(), name="category_new"),

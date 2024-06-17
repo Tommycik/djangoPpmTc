@@ -14,7 +14,7 @@
     {% csrf_token %}
 
     <p>Are you sure you want to delete {{ object }}?</p>
-
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
     <input type="submit" name="confirm" value="Confirm">
     <input type="submit" name="keep" value="Keep the recipe">
 </form>

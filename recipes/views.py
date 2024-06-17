@@ -66,7 +66,7 @@ class IngredientsPageView(CategoriesPageView):
     model = Ingredient
 
     def get_context_data(self, **kwargs):
-        context = super(CategoriesPageView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['title'] = "Ingredients"
         return context
 
@@ -319,6 +319,21 @@ def update_view(request, pk):
     return render(request, "../templates/modify.html", context)
 
 
+@login_required
+def delete_view(request, pk):
+    context = {}
+    next_page = ""
+    # fetch the object related to passed id
+    recipe = get_object_or_404(Recipe, id=pk)
+    if request.method == 'POST':
+        if request.POST.get('confirm'):
+            recipe.delete()
+            return HttpResponseRedirect(reverse('recipe_yours'))
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
+
+    return render(request, "../templates/delete.html", context)
+
 class DeletePageView(LoginRequiredMixin, DeleteView):
     model = Recipe
     template_name = "../templates/delete.html"
@@ -329,7 +344,7 @@ class DeletePageView(LoginRequiredMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         if request.POST.get('confirm'):
-            request.session['next_page'] = reverse('recipe_yours')
+            request.session['next_page'] =reverse('recipe_yours')
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self):

@@ -54,7 +54,7 @@
         {% if user.is_authenticated and object.author == user %}
             <a class="choice" href="/accounts/favourites/{{ object.pk }}" >favourite</a>
             <a class="choice" href="/recipes/{{ object.pk }}/modify/">modify recipe</a>
-            <a class="choice" href="/recipes/{{ object.pk }}/delete/">Delete recipe</a>
+            <a class="choice" href="/recipes/{{ object.pk }}/delete/?next={{ request.path|urlencode}}">Delete recipe</a>
         {% elif user.is_authenticated%}
              <a class="choice" href="/accounts/favourites/{{ object.pk }}" >favourite</a>
         {% endif %}

@@ -18,6 +18,7 @@
                 <h3>{{letter}}:</h3>
                 <div class="element">
                     <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                    <p>{{ item.description }}</p>
                 </div>
             </li>
         {% endfor %}
