@@ -27,6 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = ['djangoppmtc-production.up.railway.app', 'localhost', '127.0.0']
+CSRF_TRUSTED_ORIGINS = ['https://djangoppmtc-production.up.railway.app',]
 
 # Application definition
 
