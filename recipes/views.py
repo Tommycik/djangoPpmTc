@@ -213,7 +213,7 @@ def update_view(request, pk):
     steps = RecipeStep.objects.filter(recipe=pk)
     if request.method == 'POST':
         # pass the object as instance in form
-        form = RecipeForm(request.POST or None, instance=recipe)
+        form = RecipeForm(request.POST or None, request.FILES, instance=recipe)
         formset1 = RecipeIngredientFormset(request.POST, prefix='ingredient')
         formset2 = NewIngredientFormset(request.POST, prefix='newingredient')
         formset3 = NewCategoryFormset(request.POST, prefix='category')
