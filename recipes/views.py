@@ -106,6 +106,7 @@ def create_recipe_view(request):
                     if any([cf.cleaned_data != {} for cf in formset1]) or any([cf.cleaned_data != {} for cf in formset2]):
                         if any([cf.cleaned_data != {} for cf in formset4]):
                             recipe.save()
+                            form.save_m2m()
                             for form2 in formset1:
                                 if form2.cleaned_data != {}:
                                     ingredient = RecipeIngredient(recipe=recipe,
@@ -138,7 +139,6 @@ def create_recipe_view(request):
                                     step.save()
 
                             recipe.save()
-                            form.save_m2m()
                             return HttpResponseRedirect(recipe.get_absolute_url())
             if all([cf.is_valid() for cf in formset1]) and all([cf.is_valid() for cf in formset2]) :
                 if all([cf.cleaned_data == {} for cf in formset1]) and all(
@@ -235,7 +235,8 @@ def update_view(request, pk):
                     if any([cf.cleaned_data != {} for cf in formset1]) or any(
                             [cf.cleaned_data != {} for cf in formset2]) or any([cf.cleaned_data != {} and not cf.cleaned_data["delete"] for cf in ingredients_form]):
                         if any([cf.cleaned_data != {} for cf in formset4]) or any([cf.cleaned_data != {} and not cf.cleaned_data["delete"] for cf in steps_form]):
-                            recipe.save()
+                            modified.save()
+                            form.save_m2m()
                             for cf in ingredients_form:
                                 element = cf.save(commit=False)
                                 if cf.cleaned_data["delete"]:
@@ -281,8 +282,8 @@ def update_view(request, pk):
                                 if form2.cleaned_data != {}:
                                     step = RecipeStep.objects.create(description=form2.cleaned_data['description'], recipe=modified)
                                     step.save()
-                            recipe.save()
-                            form.save_m2m()
+
+                            modified.save()
                             return HttpResponseRedirect(recipe.get_absolute_url())
             if all([cf.is_valid() for cf in formset1]) and all([cf.is_valid() for cf in formset2]):
                 if all([cf.cleaned_data == {} for cf in formset1]) and all(
