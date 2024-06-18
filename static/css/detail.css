@@ -27,6 +27,10 @@ p{
     margin: 0;
     height: fit-content;
 }
+.categories{
+    width: auto;
+    justify-content: space-between;
+}
 li{
     margin: 10px 0;
 }
