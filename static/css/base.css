@@ -142,6 +142,7 @@ header{
 }
 .sub p{
     margin: auto 0;
+    font-size: 20px;
 }
 .subLog{
     width: fit-content;

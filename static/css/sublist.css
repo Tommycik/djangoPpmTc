@@ -1,0 +1,28 @@
+.element{
+    width: 100%;
+    gap:5px;
+    margin: 15px 0;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: green solid 1px;
+    height: fit-content;
+}
+h3{
+    font-size: 40px;
+}
+.element *{
+    margin:0 15px;
+}
+.element p{
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+.element a{
+    font-size: 35px;
+}
+li{
+        border: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+}
