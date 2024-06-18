@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&p)gzhc84tttqqth0v5kk5=rkr22xlx_=lr8q+q3m*ib4eom^p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = ['*']
 
@@ -60,10 +60,10 @@ ROOT_URLCONF = 'djangoProject.urls'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'tcRicette@outlook.it'
-EMAIL_HOST_PASSWORD = 'Ricette1!'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', "")
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', "")
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'tcRicette@outlook.it'
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', "")
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -127,15 +127,16 @@ USE_TZ = True
 # STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/css'),
+                    os.path.join(BASE_DIR, 'static/javascript')]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/DjangoPpmTc/media/'
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dz9gbl0lo',
-    'API_KEY': '884849326476434',
-    'API_SECRET': 'd4IkB7FhRXvWzREzUoNNvW9Cbc0',
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', ""),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', ""),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
