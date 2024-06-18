@@ -7,6 +7,11 @@ class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
         fields = ['categories', 'title', 'description', 'time', 'image']
+        help_texts = {
+            'title': 'You can use max 100 characters',
+            'description': 'You can use max 280 characters',
+            'time': 'time in minutes',
+        }
 
 
 class RecipeIngredientForm(forms.ModelForm):
@@ -29,9 +34,11 @@ class RecipeIngredientListForm(RecipeIngredientForm):
 
 
 class NewIngredientForm(forms.ModelForm):
-    ingredient = forms.CharField(label='ingredient name', widget=forms.TextInput(), help_text="ingredient name")
-    description = forms.CharField(label='ingredient description', widget=forms.TextInput(), help_text="ingredient"
-                                                                                                      "description")
+    ingredient = forms.CharField(label='ingredient name', widget=forms.TextInput(),help_text='You can use max 50 '
+                                                                                             'characters')
+    description = forms.CharField(label='ingredient description', widget=forms.TextInput(), help_text='You can use '
+                                                                                                      'max 280 '
+                                                                                                      'characters')
 
     class Meta:
         model = RecipeIngredient
@@ -42,12 +49,19 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = '__all__'
+        help_texts = {
+            'title': 'You can use max 50 characters',
+            'description': 'You can use max 280 characters',
+        }
 
 
 class StepForm(forms.ModelForm):
     class Meta:
         model = RecipeStep
         fields = ['description']
+        help_texts = {
+            'description': 'You can use max 300 characters',
+        }
 
 
 class RecipeStepListForm(StepForm):

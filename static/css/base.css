@@ -18,7 +18,16 @@ img{
     width: 100%;
     height: 100%;
 }
-
+button{
+    background-color: white;
+    border: none;
+    font-size: 30px;
+    text-align: center;
+    height: fit-content;
+}
+button:hover{
+    cursor: pointer;
+}
 a{
     text-decoration: none;
     color: black;
@@ -65,6 +74,7 @@ header{
     align-content: center;
     background-color: white;
     position: sticky;
+    margin-bottom: 30px;
     top:0;
 }
 
@@ -80,15 +90,18 @@ header{
 }
 .userAction{
     width: auto;
+    height: fit-content;
     flex-wrap: nowrap;
     justify-content: center;
     align-content: center;
 }
 
 .userInteraction{
-    width: auto;
+    flex-wrap: wrap;
     align-content: center;
-    flex-direction: column;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 20px;
 }
 
 .userAction button{
@@ -98,6 +111,10 @@ header{
     border:none;
     min-height: 10px;
 }
+.menuButton{
+    height: fit-content;
+    margin: auto 0;
+ }
 
 .dropdown{
     display: none;
@@ -122,13 +139,15 @@ header{
     column-gap:20px;
     justify-content: center;
     row-gap: 5px;
-    margin-bottom: 20px;
+}
+.sub p{
+    margin: auto 0;
 }
 .subLog{
     width: fit-content;
     height: fit-content;
-    padding:10px;
     border:green solid 1px;
+    padding:10px;
     border-radius: 10px;
 }
 
@@ -144,10 +163,41 @@ header{
 .main{
     width:auto ;
 }
-@media only screen and (min-width: 1000px){
-    /*
-    header{
-        flex-direction: row;
-        justify-content: space-between;
-    }*/
+.menu{
+    display: none;
+    position: fixed;
+    right: 0;
+    margin-top:40px ;
+    justify-content: flex-end;
+    border:green solid 1px;
+    background-color: green;
+
+}
+.menuChoices{
+    flex-direction: column;
+    align-items: center;
+    gap:5px;
+    height:fit-content;
+    width: fit-content;
+}
+
+ .menuChoice{
+    color:white;
+    text-align: center;
+    width: fit-content;
+    padding:5px 20px;
+}
+
+ .menuChoice:hover{
+    color:black;
+    background-color: green;
+}
+
+@media only screen and (max-width: 450px){
+
+    .userInteraction{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }

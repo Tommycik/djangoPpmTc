@@ -40,7 +40,7 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.TextField(max_length=100)
     description = models.TextField(blank=True, max_length=280)
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
     time = models.IntegerField(default=0, validators=[MinValueValidator(int('0'))])
@@ -82,7 +82,7 @@ class Recipe(models.Model):
 
 
 class RecipeStep(models.Model):
-    description = models.TextField(max_length=280)
+    description = models.TextField(max_length=300)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
 
