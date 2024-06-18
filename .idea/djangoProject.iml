@@ -23,6 +23,7 @@
   </component>
   <component name="PackageRequirementsSettings">
     <option name="requirementsPath" value="C:\Users\tommy\PycharmProjects\djangoProject\requirements.txt" />
+    <option name="versionSpecifier" value="Strong equality (==x.y.z)" />
     <option name="removeUnused" value="true" />
   </component>
   <component name="TemplatesService">

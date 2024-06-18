@@ -12,7 +12,15 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from django.core.mail import send_mail
-
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+cloudinary.config(
+  	cloud_name = "dz9gbl0lo",
+  	api_key = "884849326476434",
+  	api_secret = "d4IkB7FhRXvWzREzUoNNvW9Cbc0",
+    secure=True
+)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +47,8 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'recipes.apps.RecipeConfig',
     'accounts.apps.AccountConfig',
+    #'cloudinary.config',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -125,8 +135,9 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.RawMediaCloudinaryStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = '/djangoPppmTc/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
