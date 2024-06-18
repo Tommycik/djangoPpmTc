@@ -21,15 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = os.environ.get('SECRET_KEY', "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DEBUG']
+DEBUG = os.environ.get('DEBUG', True)
 
 ALLOWED_HOSTS = ['djangoppmtc-production.up.railway.app', 'localhost', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://djangoppmtc-production.up.railway.app']
-CSRF_COOKIE_SECURE = os.environ['COOKIE_SECURE']
-SESSION_COOKIE_SECURE = os.environ['COOKIE_SECURE']
+CSRF_COOKIE_SECURE = os.environ.get('COOKIE_SECURE', False)
+SESSION_COOKIE_SECURE = os.environ.get('COOKIE_SECURE', False)
 # Application definition
 
 INSTALLED_APPS = [
@@ -62,10 +62,10 @@ ROOT_URLCONF = 'djangoProject.urls'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', "")
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', "")
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = os.environ['EMAIL_HOST_USER']
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', "")
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -137,8 +137,8 @@ MEDIA_URL = '/DjangoPpmTc/media/'
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dz9gbl0lo',
-    'API_KEY': os.environ['CLOUDINARY_API_KEY'],
-    'API_SECRET': os.environ['CLOUDINARY_API_SECRET'],
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', ""),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', ""),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

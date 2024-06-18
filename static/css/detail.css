@@ -16,7 +16,7 @@ p{
 }
 
 .preparation{
-    flex-direction: row;
+    flex-direction: column;
     gap:10px;
     height: fit-content;
     align-items: center;
@@ -38,4 +38,8 @@ p{
 
 .ingredients ul p{
     width: 100%;
+}
+.subLog{
+    margin: 2px 0;
+    text-align: center;
 }
