@@ -96,7 +96,7 @@ DATABASES = {
     'default': {
     }
 }
-if DEBUG:
+if env("DEBUG", default=True) == "True":
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
