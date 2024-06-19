@@ -4,7 +4,6 @@
 }
 
 body{
-    padding: 10px;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -74,8 +73,10 @@ header{
     align-content: center;
     background-color: white;
     position: sticky;
+    z-index: 100;
     margin-bottom: 30px;
     top:0;
+    padding: 0 10px;
 }
 
 .homeLogo{
@@ -163,6 +164,7 @@ header{
 
 .main{
     width:auto ;
+    padding: 10px;
 }
 .menu{
     display: none;
