@@ -11,10 +11,11 @@
 {% block content %}
 {% block head %}<h2>Search Results:</h2>{% endblock head %}
 <ul>
-
+        <a class="subLog" href="{% url 'search' %}">Search something else</a>
         {% if mode == "recipe" or mode == "all" %}
             {% if results.0 %}
                 <h2>Recipes:</h2>
+                <h3 style="text-align: left">{{ results.0|length }} recipes have been found</h3>
                 {% for item in results.0 %}
                     <li>
                         <div class="imageWrapper">
@@ -41,12 +42,13 @@
                     </li>
                 {% endfor %}
             {% else %}
-                No recipe match your search
+                <h3>No recipe match your search</h3>
             {% endif %}
         {% endif %}
         {% if  mode == "category" or mode == "all" %}
              {% if results.1 %}
                  <h2>Categories:</h2>
+                 <h3 style="text-align: left">{{ results.1|length }} categories have been found</h3>
                 {% for item in results.1 %}
                     <li>
                         <a href="{{ item.get_absolute_url }}">
@@ -55,12 +57,13 @@
                     </li>
                 {% endfor %}
             {% else %}
-                No category match your search
+                <h3>No category match your search</h3>
             {% endif %}
         {% endif %}
         {% if  mode == "ingredient" or mode == "all" %}
              {% if results.2 %}
                  <h2>Ingredients:</h2>
+                 <h3 style="text-align: left">{{ results.2|length }} ingredients have been found</h3>
                 {% for item in results.2 %}
                     <li>
                         <a href="{{ item.get_absolute_url }}">
@@ -69,12 +72,13 @@
                     </li>
                 {% endfor %}
             {% else %}
-                No ingredient match your search
+                <h3>No ingredient match your search</h3>
             {% endif %}
         {% endif %}
         {% if mode == "cook" or mode == "all" %}
             {% if results.3 %}
                 <h2>Cooks:</h2>
+                <h3 style="text-align: left">{{ results.3|length }} cooks have been found</h3>
                 {% for item in results.3 %}
                     <li>
                         <a href="{{ item.get_absolute_url }}">
@@ -83,7 +87,7 @@
                     </li>
                 {% endfor %}
             {% else %}
-                No cook match your search
+                <h3>No cook match your search</h3>
             {% endif %}
 
         {% endif %}
