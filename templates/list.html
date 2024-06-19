@@ -16,32 +16,33 @@
     {% endif %}
     <ul>
         {% for item in object_list %}
-        <li>
-            <div class="imageWrapper">
-                <a href="{{ item.get_absolute_url }}"><img src="{{ item.image.url}}" alt="recipe photo"></a>
-            </div>
-            <div class="recipeText">
-                <a href="{{ item.get_absolute_url }}">
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.description }}</p>
-                </a>
-            </div>
-            <div class="recipeInfo">
-                <p>Cook:</p>
-                <a href="/recipes/{{item.author}}/authorRecipes/">{{ item.author}}</a>
-                <p>Created:</p>
-                <p class="date">{{ item.date}}</p>
-                <p>Time to cook:</p>
-                <p class="time">{{ item.time}}min</p>
-                {% if user.is_authenticated and item.author == user %}
-                    <a class="subLog" href="/accounts/favourites/{{ item.pk }}" >favourite</a>
-                    <a class="subLog" href="/recipes/{{ item.pk }}/modify/">modify recipe</a>
-                    <a class="subLog" href="/recipes/{{ item.pk }}/delete/?next={{ request.path|urlencode}}">Delete recipe</a>
-                {% elif user.is_authenticated%}
-                     <a class="choice" href="/accounts/favourites/{{ item.pk }}" >favourite</a>
-                {% endif %}
-            </div>
-        </li>
+            <li class="recipe">
+                <div class="imageWrapper">
+                    <a href="{{ item.get_absolute_url }}"><img src="{{ item.image.url }}" alt="recipe photo"></a>
+                </div>
+                <div class="recipeText">
+                    <a href="{{ item.get_absolute_url }}">
+                        <h3>{{ item.title }}</h3>
+                        <p>{{ item.description }}</p>
+                    </a>
+                </div>
+                <div class="recipeInfo">
+                    <p>Cook:</p>
+                    <a href="/recipes/{{ item.author }}/authorRecipes/">{{ item.author }}</a>
+                    <p>Created:</p>
+                    <p class="date">{{ item.date }}</p>
+                    <p>Time to prepare:</p>
+                    <p class="time">{{ item.time }}min</p>
+                    {% if user.is_authenticated and item.author == user %}
+                        <a class="subLog" href="/accounts/favourites/{{ item.pk }}">Favourite</a>
+                        <a class="subLog" href="/recipes/{{ item.pk }}/modify/">Modify recipe</a>
+                        <a class="subLog" href="/recipes/{{ item.pk }}/delete/?next={{ request.path|urlencode }}">Delete
+                            recipe</a>
+                    {% elif user.is_authenticated %}
+                        <a class="choice" href="/accounts/favourites/{{ item.pk }}">favourite</a>
+                    {% endif %}
+                </div>
+            </li>
         {% endfor %}
     </ul>
 {% endblock content %}

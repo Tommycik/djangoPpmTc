@@ -1,0 +1,16 @@
+.account h3{
+    font-size: 40px;
+}
+.account h4{
+    font-size: 25px;
+}
+.account{
+    flex-direction: column;
+    gap: 30px;
+}
+.choices{
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}

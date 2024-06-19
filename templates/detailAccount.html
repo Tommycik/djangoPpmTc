@@ -4,24 +4,25 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'detail.css' %}">
+    <link rel="stylesheet" href="{% static 'account.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
 {% endblock %}
 
 
 {% block content %}
-    <h2>{{object.username}}</h2>
     <div class="account">
         <h3>Username:</h3>
-        <p>{{ object.username }}</p>
+        <h4>{{ object.username }}</h4>
         <h3>Email:</h3>
-        <p>{{ object.email }}</p>
+        <h4>{{ object.email }}</h4>
     </div>
     <div class="choices">
         {% if user.is_authenticated %}
-            <a class="choice" href="{% url 'recipe_yours' %}">See your recipes</a>
-            <a class="choice" href="{% url 'recipe_favourites' %}">See your favorites</a>
-            <a class="choice" href="{% url 'recipe_new' %}">New recipe</a>
-            <a class="choice" href="{% url 'user_delete' %}">Delete your account</a>
+            <a class="subLog" href="{% url 'recipe_yours' %}">See your recipes</a>
+            <a class="subLog" href="{% url 'recipe_favourites' %}">See your favorites</a>
+            <a class="subLog" href="{% url 'recipe_new' %}">New recipe</a>
+            <a class="subLog" href="{% url 'user_delete' %}">Delete your account</a>
+            <a class="subLog" href="{% url 'password_reset' %}">Forgot your password?</a>
         {% endif %}
     </div>
 {% endblock content %}

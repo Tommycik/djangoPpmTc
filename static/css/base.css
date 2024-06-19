@@ -168,6 +168,7 @@ header{
     display: none;
     position: fixed;
     right: 0;
+    z-index: 10000;
     margin-top:40px ;
     justify-content: flex-end;
     border:green solid 1px;

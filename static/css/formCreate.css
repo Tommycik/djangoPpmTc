@@ -1,0 +1,21 @@
+.ingredient, .newingredient, .category, .step{
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:10px;
+    justify-content: center;
+    align-items: flex-end;
+}
+p{
+    margin: 0;
+}
+.ingredient + div, .newingredient + div, .category + div, .step + div{
+    margin:40px 0;
+}
+.ingredient div, .newingredient div, .category div, .step div{
+    margin:10px 0;
+}
+
+button:hover{
+    background-color: green;
+    color: white;
+}

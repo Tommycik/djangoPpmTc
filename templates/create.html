@@ -9,7 +9,8 @@
     </script>
 {% endblock script %}
 {% block css %}
-    <link rel="stylesheet" href="{% static 'detail.css' %}">
+    <link rel="stylesheet" href="{% static 'form.css' %}">
+    <link rel="stylesheet" href="{% static 'formCreate.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
 {% endblock css %}
 
@@ -34,12 +35,12 @@
             {% for hidden in formSub.hidden_fields %}
                 {{ hidden }}
             {% endfor %}
-            <div class="form-row ingredient" id="ingredient0" style="margin-top:35px">
+            <div class="form-row ingredient" id="ingredient0">
                 <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">ingredient 1:</span>
                 {{ formSub.as_p }}
                 {% with index=forloop.counter0 %}
-                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
+                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;">
                         <button type="button" class="btn btn-danger"
                                 id="del-form-{{ index }}" onclick="deleteForm({{ index }},'ingredient')">Delete
                         </button>
@@ -47,8 +48,8 @@
                 {% endwith %}
             </div>
         {% endfor %}
-        <div class="form-row" style="margin-top:60px;margin-left:40%  ">
-            <button style="font-family:EmberBold,serif;margin-left:15%; font-weight: bold;" type="button"
+        <div class="form-row">
+            <button style="font-family:EmberBold,serif; font-weight: bold;" type="button"
                     class="btn btn-success"
                     id="add" onclick="cloneMore('ingredient')">Add ingredients
             </button>
@@ -58,12 +59,12 @@
             {% for hidden in formSub.hidden_fields %}
                 {{ hidden }}
             {% endfor %}
-            <div class="form-row newingredient" id="newingredient0" style="margin-top:35px">
+            <div class="form-row newingredient" id="newingredient0">
                 <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">newingredient 1:</span>
-                {{ formSub }}
+                {{ formSub.as_p }}
                 {% with index=forloop.counter0 %}
-                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
+                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;">
                         <button type="button" class="btn btn-danger"
                                 id="del-form-{{ index }}" onclick="deleteForm({{ index }},'newingredient')">Delete
                         </button>
@@ -71,8 +72,8 @@
                 {% endwith %}
             </div>
         {% endfor %}
-        <div class="form-row" style="margin-top:60px;margin-left:40%  ">
-            <button style="font-family:EmberBold,serif;margin-left:15%; font-weight: bold;" type="button"
+        <div class="form-row">
+            <button style="font-family:EmberBold,serif; font-weight: bold;" type="button"
                     class="btn btn-success"
                     id="add" onclick="cloneMore('newingredient')">Add new ingredients
             </button>
@@ -82,12 +83,12 @@
             {% for hidden in formSub.hidden_fields %}
                 {{ hidden }}
             {% endfor %}
-            <div class="form-row category" id="category0" style="margin-top:35px">
+            <div class="form-row category" id="category0">
             <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">category 1:</span>
-                {{ formSub }}
+                {{ formSub.as_p }}
                 {% with index=forloop.counter0 %}
-                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
+                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;">
                         <button type="button" class="btn btn-danger"
                                 id="del-form-{{ index }}" onclick="deleteForm({{ index }},'category')">Delete
                         </button>
@@ -95,8 +96,8 @@
                 {% endwith %}
             </div>
         {% endfor %}
-        <div class="form-row" style="margin-top:60px;margin-left:40%  ">
-            <button style="font-family:EmberBold,serif;margin-left:15%; font-weight: bold;" type="button"
+        <div class="form-row">
+            <button style="font-family:EmberBold,serif;font-weight: bold;" type="button"
                     class="btn btn-success"
                     id="add" onclick="cloneMore('category')">Add new categories
             </button>
@@ -118,12 +119,12 @@
             {% for hidden in formSub.hidden_fields %}
                 {{ hidden }}
             {% endfor %}
-            <div class="form-row step" id="step0" style="margin-top:35px">
+            <div class="form-row step" id="step0">
             <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">step 1:</span>
-                {{ formSub }}
+                {{ formSub.as_p }}
                 {% with index=forloop.counter0 %}
-                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;margin-top:2%">
+                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;">
                         <button type="button" class="btn btn-danger"
                                 id="del-form-{{ index }}" onclick="deleteForm({{ index }},'step')">Delete
                         </button>
@@ -131,8 +132,8 @@
                 {% endwith %}
             </div>
         {% endfor %}
-        <div class="form-row" style="margin-top:60px;margin-left:40%  ">
-            <button style="font-family:EmberBold,serif;margin-left:15%; font-weight: bold;" type="button"
+        <div class="form-row">
+            <button style="font-family:EmberBold,serif; font-weight: bold;" type="button"
                     class="btn btn-success"
                     id="add" onclick="cloneMore('step')">Add recipe steps
             </button>

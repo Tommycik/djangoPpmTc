@@ -35,7 +35,7 @@ form div{
   border: none;
   font-size: 20px;
   margin-right: 0;
-  z-index: 10000;
+  z-index: 100;
   font-weight: bolder;
   padding: 8px 10px;
   border-radius: 5px;

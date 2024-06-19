@@ -27,9 +27,9 @@
                     {% endfor %}
                 </ul>
             </div>
-            <h4>Time to cook:</h4>
-            <p class="time">{{ object.time}}min</p>
         </div>
+        <h4>Time to prepare:</h4>
+        <p class="time">{{ object.time}}min</p>
         <h4>Categories:</h4>
         <div class="categories">
             <div class="list">
@@ -42,8 +42,8 @@
                 </ul>
             </div>
             {% if user.is_authenticated and object.author == user %}
-            <a class="subLog" href="/accounts/favourites/{{ object.pk }}" >favourite</a>
-            <a class="subLog" href="/recipes/{{ object.pk }}/modify/">modify recipe</a>
+            <a class="subLog" href="/accounts/favourites/{{ object.pk }}" >Favourite</a>
+            <a class="subLog" href="/recipes/{{ object.pk }}/modify/">Modify recipe</a>
             <a class="subLog" href="/recipes/{{ object.pk }}/delete/?next={{ request.path|urlencode}}">Delete recipe</a>
         {% elif user.is_authenticated%}
              <a class="subLog" href="/accounts/favourites/{{ object.pk }}" >favourite</a>

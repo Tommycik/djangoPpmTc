@@ -3,12 +3,12 @@
 {% block title %}{{ title}}{% endblock title %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'detail.css' %}">
+    <link rel="stylesheet" href="{% static 'form.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
 {% endblock %}
 
 {% block content %}
-  {% block head %}<h2>{{ title}}</h2>{% endblock %}
+    {% block head %}<h2 style="text-align: center">{{ title}}</h2>{% endblock %}
     <form method="POST" enctype="multipart/form-data">
 
         <!-- Security token -->

@@ -1,0 +1,44 @@
+form{
+  display: flex;
+  padding: 5px;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+form button,form select, form textarea,form input{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:black ;
+  font-size: 20px;
+  margin-right: 0;
+  font-weight: normal;
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: green solid 1px;
+}
+form button{
+  background-color: white;
+}
+form .subLog{
+  background-color: white;
+  color: black;
+  font-size: 20px;
+}
+.search label{
+  width: 100%;
+  min-width: fit-content;
+  display: flex;
+}
+
+.search :focus {
+  outline: white;
+}
+
+::placeholder {
+  color: #7d7d7d ;
+  background-color: inherit;
+  opacity: 1;
+}
