@@ -18,7 +18,7 @@
 
 
 {% block content %}
-    {% block head %}<h2>New Recipe</h2>{% endblock %}
+    {% block head %}<h2 style="text-align: center">New Recipe</h2>{% endblock %}
     <form method="POST" enctype="multipart/form-data">
 
         <!-- Security token -->
@@ -83,7 +83,7 @@
             {% for hidden in formSub.hidden_fields %}
                 {{ hidden }}
             {% endfor %}
-            <div class="form-row category" id="category0">
+            <div class="form-row category" style="flex-direction: column; align-items: center" id="category0">
             <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">category 1:</span>
                 {{ formSub.as_p }}
