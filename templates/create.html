@@ -107,7 +107,9 @@
                 <p> {{ message }} </p>   {# show signup error message #}
             {% endif %}
         {% endfor %}
-        {{ form.as_p }}
+        <div class="form">
+            {{ form.as_p }}
+        </div>
         {% for message in messages %}
             {% if "steps" in message.tags %}
                 <p> {{ message }} </p>   {# show signup error message #}
@@ -119,7 +121,7 @@
             {% for hidden in formSub.hidden_fields %}
                 {{ hidden }}
             {% endfor %}
-            <div class="form-row step" id="step0">
+            <div class="form-row step" style="flex-direction: column; align-items: center" id="step0">
             <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">step 1:</span>
                 {{ formSub.as_p }}
