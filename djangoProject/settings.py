@@ -14,6 +14,7 @@ from pathlib import Path
 from django.core.mail import send_mail
 import cloudinary
 import cloudinary_storage
+import psycopg2
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -89,10 +90,10 @@ WSGI_APPLICATION = 'djangoProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ.get('DB_NAME'),
         'USER': 'postgres',
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'PASSWORD': 'TcPpm',
         'HOST': os.environ.get('POSTGRES_HOST'),
         'PORT': os.environ.get('POSTGRES_PORT'),
     }
