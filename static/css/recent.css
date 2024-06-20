@@ -37,6 +37,7 @@ li .imageWrapper{
 
 .recipeText, .recipeInfo{
     flex-direction: column;
+    align-items: center;
     height: fit-content;
     padding:0 10px;
 }

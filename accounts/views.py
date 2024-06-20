@@ -29,7 +29,7 @@ def register(request):
             email = form.cleaned_data.get('email')
             htmly = get_template('registration/signupSuccess.html')
             d = {'username': username}
-            subject, from_email, to = 'welcome', 'tcRicette@outlook.it', email
+            subject, from_email, to = 'Welcome', 'tcRicette@outlook.it', email
             html_content = htmly.render(d)
             msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
@@ -72,37 +72,6 @@ def Login(request):
             msg = "Username or password are incorrect"
     form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form, 'title': 'Log In', 'msg': msg})
-
-##not used
-def forgot(request):
-    if request.method == 'POST':
-        form = ForgotForm(request.POST)
-        if form.is_valid():
-            user_email = request.POST['email'].lower().replace(' ', '')
-            u = User.objects.get(email=user_email)
-            if u is not None:
-                new_pass = str(uuid4()).split('-')[4]
-                forgot = ForgotEmail(new_pass)
-                # Send the Forgot Email . . .
-                to_email = u.email
-                e_mail = forgot.email()
-                sendEmail(e_mail, forgot.subject, [to_email])
-                u.set_password(new_pass)
-                u.save()
-                messages.success(request, 'Your password has been reset, check your email for more details')
-                return redirect('login')
-            else:
-                messages.error(request, 'We could not find a user with matching email')
-                return redirect('home_page')
-        else:
-            messages.error(request, 'Error Processing Your Request')
-            context = {'form': form}
-            return render(request, 'forgot.html', context)
-    if request.method == 'GET':
-        form = ForgotForm()
-        context = {'form': form}
-        return render(request, 'forgot.html', context)
-    return render(request, 'forgot.html', {})
 
 
 class DetailAccountView(LoginRequiredMixin, DetailView):

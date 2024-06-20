@@ -20,6 +20,7 @@ h2{
     text-align: center;
     height: fit-content;
     padding:10px;
+    font-size: 20px;
 }
 
 .choice:hover{

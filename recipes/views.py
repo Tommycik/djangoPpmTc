@@ -36,7 +36,7 @@ class RecipesCategoryPageView(RecentPageView):
 
     def get_context_data(self, **kwargs):
         context = super(RecentPageView, self).get_context_data(**kwargs)
-        context['title'] = "Recipes In The '" + Category.objects.get(pk=self.kwargs['pk']).title + "' Category"
+        context['title'] = "Recipes in the '" + Category.objects.get(pk=self.kwargs['pk']).title + "' category"
         return context
 
 
@@ -48,7 +48,7 @@ class RecipesIngredientPageView(RecentPageView):
 
     def get_context_data(self, **kwargs):
         context = super(RecentPageView, self).get_context_data(**kwargs)
-        context['title'] = "Recipes That Use '" + Ingredient.objects.get(pk=self.kwargs['pk']).title + ''
+        context['title'] = "Recipes that use '" + Ingredient.objects.get(pk=self.kwargs['pk']).title + ''
         return context
 
 
@@ -375,7 +375,7 @@ class AuthorPageView(RecentPageView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = self.kwargs['name'] + " Recipes"
+        context['title'] = "Recipes created by '" + self.kwargs['name'] + "'"
         return context
 
 

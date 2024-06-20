@@ -87,9 +87,11 @@
                 <h3 style="text-align: left; font-size: 1.17em;">{{ results.3|length }} cooks have been found</h3>
                 {% for item in results.3 %}
                     <li class="sublist">
-                        <a href="{{ item.get_absolute_url }}">
-                            <h3>{{ item.title }}</h3>
-                        </a>
+                        <div class="element">
+                            <a href="/recipes/{{ item.pk }}/authorRecipes/">
+                                <h3>{{ item.title }}</h3>
+                            </a>
+                        </div>
                     </li>
                 {% endfor %}
             {% else %}
