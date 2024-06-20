@@ -1,13 +1,18 @@
 {% extends "base.html" %}
-
-{% block title %}{{title}}{% endblock %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'form.css' %}">
+    <link rel="stylesheet" href="{% static 'formCreate.css' %}">
+    <link rel="stylesheet" href="{% static 'signUp.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+{% endblock css %}
 
 {% block content %}
-  <h2>{{ title}}</h2>
+  <h2 style="text-align: center">{{ title}}</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Sign Up</button>
   </form>
-     <p><a href="{% url 'login' %}">Already have an account?</a></p>
+     <a style="text-align:center; margin: 20px 0;font-size: 25px" href="{% url 'login' %}">Already have an account?</a>
 {% endblock %}
