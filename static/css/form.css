@@ -18,6 +18,7 @@ form button,form select, form textarea,form input{
   padding: 8px 10px;
   border-radius: 5px;
   border: green solid 1px;
+  background-color: white;
 }
 form button{
   background-color: white;

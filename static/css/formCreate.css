@@ -9,7 +9,7 @@
 p{
     margin: 0;
 }
-button{
+form button{
    margin:60px 0 0 0;
 }
 .ingredient button, .newingredient button, .category button, .step button{
@@ -19,7 +19,7 @@ button{
     margin:0 0;
 }
 
-button:hover{
+form button:hover{
     background-color: green;
     color: white;
 }
