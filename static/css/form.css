@@ -43,10 +43,10 @@ form .subLog{
   background-color: inherit;
   opacity: 1;
 }
-#create{
+form .create{
   margin-top: 50px;
   font-size: 35px;
 }
-#create:hover{
+form .create:hover{
   cursor: pointer;
 }

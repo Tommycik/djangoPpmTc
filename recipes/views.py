@@ -352,6 +352,8 @@ def delete_view(request, pk):
     next_page = ""
     # fetch the object related to passed id
     recipe = get_object_or_404(Recipe, id=pk)
+    context['title'] = "Delete recipe"
+    context['name'] = recipe.title
     if request.method == 'POST':
         if request.POST.get('confirm'):
             recipe.delete()
