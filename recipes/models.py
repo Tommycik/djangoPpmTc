@@ -1,11 +1,10 @@
 from _decimal import Decimal
+
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Q
 from django.urls import reverse
-
-from accounts import forms
 
 
 # Create your models here.
@@ -61,7 +60,7 @@ class Recipe(models.Model):
             )
         ]
 
-    def clean_rc(self,user):
+    def clean_rc(self, user):
         recipe = Recipe.objects.filter(title=self.title, author=user)
         if recipe.exists() and recipe.filter(~Q(id=self.pk)).exists():
             return False

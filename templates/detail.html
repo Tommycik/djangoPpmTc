@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{{object.title }}{% endblock title %}
+{% block title %}{{ object.title }}{% endblock title %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'detail.css' %}">
@@ -11,16 +11,17 @@
 {% block content %}
     <div class="recipe">
         <div class="imageWrapper">
-            <span><img src="{{ object.image.url}}" alt="recipe photo"></span>
+            <span><img src="{{ object.image.url }}" alt="recipe photo"></span>
         </div>
-        <h2>{{object.title}}</h2>
+        <h2>{{ object.title }}</h2>
         <p>{{ object.description }}</p>
         {% if user.is_authenticated and object.author == user %}
-            <a class="subLog" href="/accounts/favourites/{{ object.pk }}" >Favourite</a>
+            <a class="subLog" href="/accounts/favourites/{{ object.pk }}">Favourite</a>
             <a class="subLog" href="/recipes/{{ object.pk }}/modify/">Modify recipe</a>
-            <a class="subLog" href="/recipes/{{ object.pk }}/delete/?next={{ request.path|urlencode}}">Delete recipe</a>
-        {% elif user.is_authenticated%}
-             <a class="subLog" href="/accounts/favourites/{{ object.pk }}" >Favourite</a>
+            <a class="subLog" href="/recipes/{{ object.pk }}/delete/?next={{ request.path|urlencode }}">Delete
+                recipe</a>
+        {% elif user.is_authenticated %}
+            <a class="subLog" href="/accounts/favourites/{{ object.pk }}">Favourite</a>
         {% endif %}
         <div class="preparation">
             <h4>Ingredients:</h4>
@@ -29,14 +30,14 @@
                     {% for ingredient in ingredients %}
                         <li>
                             <a href="{{ ingredient.ingredient.get_absolute_url }}">{{ ingredient.ingredient }}</a>
-                            <p>{{ingredient.quantity}}{{ingredient.unit}}</p>
+                            <p>{{ ingredient.quantity }}{{ ingredient.unit }}</p>
                         </li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
         <h4>Time to prepare:</h4>
-        <p class="time">{{ object.time}}min</p>
+        <p class="time">{{ object.time }}min</p>
         <h4>Categories:</h4>
         <div class="categories">
             <div class="list">
@@ -51,18 +52,18 @@
         </div>
         <h4>Steps:</h4>
         <div class="list">
-                <ul>
-                    {% for step in steps %}
-                        <li>
-                            <p>{{ step.description }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
+            <ul>
+                {% for step in steps %}
+                    <li>
+                        <p>{{ step.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
 
         </div>
         <h4>Cook:</h4>
-        <a href="/recipes/{{ object.author}}/authorRecipes/">{{ object.author}}</a>
+        <a href="/recipes/{{ object.author }}/authorRecipes/">{{ object.author }}</a>
         <h4>Created:</h4>
-        <p class="date">{{ object.date}}</p>
+        <p class="date">{{ object.date }}</p>
     </div>
 {% endblock content %}

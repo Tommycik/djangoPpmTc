@@ -12,12 +12,12 @@
     <h1>Search what you want:</h1>
     <div class="search">
 
-        <form  method="post">
+        <form method="post">
             {% csrf_token %}
             {{ form.search }}
             <div>
-                {{ form.filter_field}}
-                <button type="submit"  value="Submit">Search</button>
+                {{ form.filter_field }}
+                <button type="submit" value="Submit">Search</button>
             </div>
         </form>
 

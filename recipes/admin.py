@@ -1,7 +1,8 @@
 from django.contrib import admin
+
 from .models import Category, RecipeIngredient, RecipeStep
-from .models import Recipe
 from .models import Ingredient
+from .models import Recipe
 
 
 # Register your models here.

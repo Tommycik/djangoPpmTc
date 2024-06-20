@@ -10,34 +10,34 @@
 {% endblock %}
 
 {% block content %}
-{% block head %}<h2>{{ title }}:</h2>{% endblock head %}
-<ul>
-    {%  for letter in alphabet %}
-        <h3>{{letter}}:</h3>
+    {% block head %}<h2>{{ title }}:</h2>{% endblock head %}
+    <ul>
+        {% for letter in alphabet %}
+            <h3>{{ letter }}:</h3>
 
 
-        <li class="sublist">
-            {%for item in object_list|filter_first:letter  %}
-                <div class="element">
-                    <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
-                    <p>{{ item.description }}</p>
-                </div>
-            {% endfor %}
-        </li>
+            <li class="sublist">
+                {% for item in object_list|filter_first:letter %}
+                    <div class="element">
+                        <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                        <p>{{ item.description }}</p>
+                    </div>
+                {% endfor %}
+            </li>
 
 
-    {% endfor %}
-    {%  for number in numbers %}
-        <h3>{{number}}:</h3>
-        <li class="sublist">
-            {%for item in object_list|filter_first:number  %}
-                <div class="element">
-                    <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
-                    <p>{{ item.description }}</p>
-                </div>
-            {% endfor %}
-        </li>
-    {% endfor %}
+        {% endfor %}
+        {% for number in numbers %}
+            <h3>{{ number }}:</h3>
+            <li class="sublist">
+                {% for item in object_list|filter_first:number %}
+                    <div class="element">
+                        <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                        <p>{{ item.description }}</p>
+                    </div>
+                {% endfor %}
+            </li>
+        {% endfor %}
 
-</ul>
+    </ul>
 {% endblock content %}

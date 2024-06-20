@@ -1,22 +1,20 @@
-from uuid import uuid4
-
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import get_template
-from recipes.models import Recipe
-from recipes.views import RecentPageView
-from .forms import UserRegisterForm, ForgotForm
-from .functions import ForgotEmail, sendEmail
-from .models import Cook
-from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
 from django.views.generic import DetailView
+
+from recipes.models import Recipe
+from recipes.views import RecentPageView
+from .forms import UserRegisterForm
+from .models import Cook
 
 
 # Create your views here.
@@ -133,7 +131,7 @@ def favourite_add(request, pk):
     else:
         cook.favourites.add(pk)
         fav_num += 1
-    obj.favourites=fav_num
+    obj.favourites = fav_num
     obj.save()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', "/"))

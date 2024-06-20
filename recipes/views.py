@@ -1,17 +1,16 @@
-from django import forms
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.contrib import messages
 from django.forms import Textarea, TextInput
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import RecipeForm, RecipeIngredientFormset, NewCategoryFormset, NewIngredientFormset, \
     NewStepFormset, RecipeIngredientListForm, RecipeStepListForm
 from .models import Recipe, Ingredient, Category, RecipeIngredient, RecipeStep
-from django.views.generic import ListView, DetailView, CreateView
 
 
 # Create your views here.

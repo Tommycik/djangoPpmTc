@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+
 from accounts.models import Cook
 from pages.forms import SearchForm
 from recipes.models import Recipe, Category, Ingredient

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{{title }}{% endblock title %}
+{% block title %}{{ title }}{% endblock title %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'base.css' %}">
@@ -9,7 +9,7 @@
 
 {% block content %}
     {% block head %}<h2>{{ title }}</h2>{% endblock head %}
-    {%  if object_list %}
+    {% if object_list %}
         <h1>{{ object_list|length }} recipes have been found</h1>
     {% else %}
         <h1>No recipes have been found</h1>

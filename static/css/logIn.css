@@ -1,20 +1,24 @@
-table{
+table {
     border-spacing: 0 15px
 }
-#log:hover{
+
+#log:hover {
     cursor: pointer;
     background-color: green;
     color: white;
 }
-#log{
-    font-size:25px;
+
+#log {
+    font-size: 25px;
 }
-tr{
+
+tr {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-bottom: 20px;
 }
-td{
+
+td {
     font-size: 20px;
 }

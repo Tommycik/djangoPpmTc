@@ -32,6 +32,7 @@ class ForgotEmail:
         msg.attach_alternative(html_content, 'text/html')
         msg.send()
 
+
 def sendEmail(email, subject, to_email):
     from_email = settings.EMAIL_HOST_USER
     text_content = """
@@ -40,9 +41,9 @@ def sendEmail(email, subject, to_email):
     {}
     regards,
     Careers Portal Support
-    """. format(email['shortDescription'], email['subtitle'], email['message'])
+    """.format(email['shortDescription'], email['subtitle'], email['message'])
     html_c = get_template('basic-email.html')
-    d = { 'email': email }
+    d = {'email': email}
     html_content = html_c.render(d)
     msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
     msg.attach_alternative(html_content, 'text/html')

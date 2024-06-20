@@ -1,61 +1,71 @@
-h2{
+h2 {
     text-align: center;
 }
-h4{
-    margin:10px;
+
+h4 {
+    margin: 10px;
     font-size: 25px;
 }
-p{
-    margin:30px 0;
+
+p {
+    margin: 30px 0;
 }
-.recipe{
+
+.recipe {
     width: auto;
     flex-direction: column;
     align-items: flex-start;
 }
-ul{
-    margin:0;
-}
-.imageWrapper{
-    width: 100% ;
+
+ul {
+    margin: 0;
 }
 
-.preparation{
+.imageWrapper {
+    width: 100%;
+}
+
+.preparation {
     flex-direction: column;
-    gap:10px;
+    gap: 10px;
     height: fit-content;
     align-items: center;
 }
 
-.preparation p{
+.preparation p {
     margin: 0;
     height: fit-content;
 }
-.categories{
+
+.categories {
     width: auto;
     justify-content: space-between;
 }
-li{
+
+li {
     display: flex;
     width: fit-content;
     margin: 10px 0;
 }
-li a, li p{
+
+li a, li p {
     font-size: 20px;
     margin-right: 10px;
 }
-.ingredients ul{
-    margin:0;
-    padding:0 10px;
+
+.ingredients ul {
+    margin: 0;
+    padding: 0 10px;
     display: flex;
     flex-direction: column;
-    gap:10px;
+    gap: 10px;
 }
 
-.ingredients ul p{
+.ingredients ul p {
     width: 100%;
 }
-.subLog{
+
+.subLog {
     margin: 2px 0;
     text-align: center;
 }
