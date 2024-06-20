@@ -92,17 +92,20 @@ def delete_user(request):
         return redirect("login")
 
     if request.method == 'POST':
-        user = request.user
-        d = {'username': user.username}
-        email = user.email
-        user.delete()
-        htmly = get_template('registration/deleteSuccess.html')
-        subject, from_email, to = 'Goodbye', 'tcRicette@outlook.it', email
-        html_content = htmly.render(d)
-        msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
-        return redirect("home")
+        if request.POST.get('confirm'):
+            user = request.user
+            d = {'username': user.username}
+            email = user.email
+            user.delete()
+            htmly = get_template('registration/deleteSuccess.html')
+            subject, from_email, to = 'Goodbye', 'tcRicette@outlook.it', email
+            html_content = htmly.render(d)
+            msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+            return redirect("home")
+        next_page = request.POST.get('next', '/')
+        return HttpResponseRedirect(next_page)
     else:
         context['object'] = 'Your account'
         context['title'] = "Delete Account"

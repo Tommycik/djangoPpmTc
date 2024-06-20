@@ -351,7 +351,6 @@ def update_view(request, pk):
 @login_required
 def delete_view(request, pk):
     context = {}
-    next_page = ""
     # fetch the object related to passed id
     recipe = get_object_or_404(Recipe, id=pk)
     if request.user != recipe.author:
@@ -360,8 +359,8 @@ def delete_view(request, pk):
         if request.POST.get('confirm'):
             recipe.delete()
             return HttpResponseRedirect(reverse('recipe_yours'))
-        next = request.POST.get('next', '/')
-        return HttpResponseRedirect(next)
+        next_page = request.POST.get('next', '/')
+        return HttpResponseRedirect(next_page)
 
     context['title'] = "Delete recipe"
     context['object'] = 'This Recipe'

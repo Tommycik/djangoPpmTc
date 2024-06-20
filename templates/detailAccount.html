@@ -21,7 +21,7 @@
             <a class="subLog" href="{% url 'recipe_yours' %}">See your recipes</a>
             <a class="subLog" href="{% url 'recipe_favourites' %}">See your favorites</a>
             <a class="subLog" href="{% url 'recipe_new' %}">New recipe</a>
-            <a class="subLog" href="{% url 'user_delete' %}">Delete your account</a>
+            <a class="subLog" href="{% url 'user_delete' %}?next={{ request.path|urlencode }}">Delete your account</a>
             <a class="subLog" href="{% url 'password_reset' %}">Forgot your password?</a>
         {% endif %}
     </div>
