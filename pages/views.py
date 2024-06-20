@@ -16,7 +16,6 @@ class HomePageView(TemplateView):
         return context
 
 
-
 def search_page_view(request):
     if request.method == "POST":
         # create a form instance and populate it with data from the request:

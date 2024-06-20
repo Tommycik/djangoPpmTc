@@ -19,7 +19,6 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView
 
 
-
 # Create your views here.
 def register(request):
     if request.method == 'POST':
@@ -137,6 +136,7 @@ def delete_user(request):
         return redirect("home")
     else:
         context['object'] = 'Your account'
+        context['title'] = "Delete Account"
     return render(request, '../templates/delete.html', context=context)
 
 

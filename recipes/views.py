@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.forms import Textarea, TextInput
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
 from .forms import RecipeForm, RecipeIngredientFormset, NewCategoryFormset, NewIngredientFormset, \
@@ -48,7 +48,7 @@ class RecipesIngredientPageView(RecentPageView):
 
     def get_context_data(self, **kwargs):
         context = super(RecentPageView, self).get_context_data(**kwargs)
-        context['title'] = "Recipes That Use '" + Ingredient.objects.get(pk=self.kwargs['pk']).title+''
+        context['title'] = "Recipes That Use '" + Ingredient.objects.get(pk=self.kwargs['pk']).title + ''
         return context
 
 
@@ -227,6 +227,8 @@ def update_view(request, pk):
 
     # fetch the object related to passed id
     recipe = get_object_or_404(Recipe, id=pk)
+    if request.user != recipe.author:
+        return redirect('access_denied')
     ingredients = RecipeIngredient.objects.filter(recipe=pk)
     steps = RecipeStep.objects.filter(recipe=pk)
     if request.method == 'POST':
@@ -352,8 +354,8 @@ def delete_view(request, pk):
     next_page = ""
     # fetch the object related to passed id
     recipe = get_object_or_404(Recipe, id=pk)
-    context['title'] = "Delete recipe"
-    context['name'] = recipe.title
+    if request.user != recipe.author:
+        return redirect('access_denied')
     if request.method == 'POST':
         if request.POST.get('confirm'):
             recipe.delete()
@@ -361,6 +363,8 @@ def delete_view(request, pk):
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
 
+    context['title'] = "Delete recipe"
+    context['object'] = 'This Recipe'
     return render(request, "../templates/delete.html", context)
 
 
