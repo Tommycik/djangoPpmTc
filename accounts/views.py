@@ -73,7 +73,7 @@ def Login(request):
     form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form, 'title': 'Log In', 'msg': msg})
 
-
+##not used
 def forgot(request):
     if request.method == 'POST':
         form = ForgotForm(request.POST)
