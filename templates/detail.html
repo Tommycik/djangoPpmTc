@@ -46,7 +46,7 @@
             <a class="subLog" href="/recipes/{{ object.pk }}/modify/">Modify recipe</a>
             <a class="subLog" href="/recipes/{{ object.pk }}/delete/?next={{ request.path|urlencode}}">Delete recipe</a>
         {% elif user.is_authenticated%}
-             <a class="subLog" href="/accounts/favourites/{{ object.pk }}" >favourite</a>
+             <a class="subLog" href="/accounts/favourites/{{ object.pk }}" >Favourite</a>
         {% endif %}
         </div>
         <h4>Steps:</h4>

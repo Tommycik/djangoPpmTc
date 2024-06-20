@@ -38,6 +38,7 @@ a:hover,a:active{
 
 p{
     text-align: center;
+    font-size: 20px;
 }
 
 h2{
@@ -151,6 +152,7 @@ header{
     border:green solid 1px;
     padding:5px;
     border-radius: 10px;
+    font-size: 25px;
 }
 
 .subLog:hover{

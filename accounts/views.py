@@ -128,7 +128,7 @@ def delete_user(request):
         email = user.email
         user.delete()
         htmly = get_template('registration/deleteSuccess.html')
-        subject, from_email, to = 'goodbye', 'tcRicette@outlook.it', email
+        subject, from_email, to = 'Goodbye', 'tcRicette@outlook.it', email
         html_content = htmly.render(d)
         msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
