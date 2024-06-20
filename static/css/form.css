@@ -16,7 +16,7 @@ form button,form select, form textarea,form input{
   margin-right: 0;
   font-weight: normal;
   padding: 8px 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   border: green solid 1px;
   background-color: white;
 }
@@ -42,4 +42,11 @@ form .subLog{
   color: #7d7d7d ;
   background-color: inherit;
   opacity: 1;
+}
+#create{
+  margin-top: 50px;
+  font-size: 35px;
+}
+#create:hover{
+  cursor: pointer;
 }

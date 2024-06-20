@@ -73,7 +73,7 @@ header{
     align-content: center;
     background-color: white;
     position: sticky;
-    z-index: 100;
+    z-index: 150;
     margin-bottom: 30px;
     top:0;
     padding: 0 10px;
@@ -170,7 +170,7 @@ header{
     display: none;
     position: fixed;
     right: 0;
-    z-index: 10000;
+    z-index: 200;
     margin-top:40px ;
     justify-content: flex-end;
     border:green solid 1px;
@@ -180,6 +180,8 @@ header{
 .menuChoices{
     flex-direction: column;
     align-items: center;
+    position: relative;
+    z-index: 200;
     gap:5px;
     height:fit-content;
     width: fit-content;

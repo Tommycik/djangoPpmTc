@@ -1,16 +1,21 @@
 .account h3{
-    font-size: 40px;
+    font-size: 35px;
 }
 .account h4{
     font-size: 25px;
 }
 .account{
     flex-direction: column;
+    align-items: center;
     gap: 30px;
 }
 .choices{
     flex-direction: column;
+    margin-top: 70px;
     gap: 10px;
     justify-content: center;
     align-items: center;
+}
+.subLog{
+    font-size: 25px;
 }

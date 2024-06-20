@@ -1,4 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'form.css' %}">
+    <link rel="stylesheet" href="{% static 'formCreate.css' %}">
+    <link rel="stylesheet" href="{% static 'logIn.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+{% endblock css %}
 
 {% block content %}
 
@@ -15,7 +23,7 @@
     {% endif %}
   {% endif %}
 
-  <form method="post" action="{% url 'login' %}">
+  <form style="margin: 15px 0" method="post" action="{% url 'login' %}">
     {% csrf_token %}
     <table>
         <tr>
@@ -27,15 +35,15 @@
             <td>{{ form.password }}</td>
         </tr>
         <tr>
-            <td>{{msg}}</td>
+            <td style="width: fit-content"><p>{{msg}}</p></td>
         </tr>
     </table>
-    <input type="submit" value="login">
+    <input class="subLog" id="log" type="submit" value="login">
     <input type="hidden" name="next" value="{{ next }}">
   </form>
 
   {# Assumes you set up the password_reset view in your URLconf #}
-    <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-    <p><a href="{% url 'signup' %}">Don't have an account?</a></p>
+    <p style="margin: 15px 0;font-size: 25px"><a href="{% url 'password_reset' %}">Lost password?</a></p>
+    <p style="margin: 15px 0;font-size: 25px"><a href="{% url 'signup' %}">Don't have an account?</a></p>
 
 {% endblock %}

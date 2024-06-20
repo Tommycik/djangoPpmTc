@@ -12,6 +12,10 @@ class RecipeForm(forms.ModelForm):
             'description': 'You can use max 280 characters',
             'time': 'time in minutes',
         }
+        widgets = {
+            'title': forms.Textarea(attrs={'placeholder': 'Enter the name of the recipe'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Enter the description of the recipe'}),
+        }
 
 
 class RecipeIngredientForm(forms.ModelForm):
@@ -21,7 +25,7 @@ class RecipeIngredientForm(forms.ModelForm):
     )
     quantity = forms.DecimalField()
     unit = forms.ChoiceField(
-        choices=[('', '----'),('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')],
+        choices=[('', '----'), ('g', 'Gram(s)'), ('kg', 'Kilogram(s)'), ('l', 'Liter(s)'), ('cl', 'Centiliter(s)')],
     )
 
     class Meta:
@@ -30,15 +34,19 @@ class RecipeIngredientForm(forms.ModelForm):
 
 
 class RecipeIngredientListForm(RecipeIngredientForm):
-    delete = forms.BooleanField(required=False, help_text='delete ingredient from the recipe?')
+    delete = forms.BooleanField(required=False, help_text='Delete this ingredient from the recipe?')
 
 
 class NewIngredientForm(forms.ModelForm):
-    ingredient = forms.CharField(label='ingredient name', widget=forms.TextInput(),help_text='You can use max 50 '
-                                                                                             'characters')
-    description = forms.CharField(label='ingredient description', widget=forms.TextInput(), help_text='You can use '
-                                                                                                      'max 280 '
-                                                                                                      'characters')
+    ingredient = forms.CharField(label='Ingredient', widget=forms.TextInput(attrs={'placeholder': 'Name of the new '
+                                                                                                  'ingredient'}),
+                                 help_text='You can use max 50'
+                                           'characters')
+    description = forms.CharField(label='ingredient description',
+                                  widget=forms.TextInput(attrs={'placeholder': 'Description of the'
+                                                                               ' ingredient'}), help_text='You can use '
+                                                                                                          'max 280 '
+                                                                                                          'characters')
 
     class Meta:
         model = RecipeIngredient
@@ -53,6 +61,10 @@ class CategoryForm(forms.ModelForm):
             'title': 'You can use max 50 characters',
             'description': 'You can use max 280 characters',
         }
+        widgets = {
+            'title': forms.Textarea(attrs={'placeholder': 'Enter the name of the new category'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Enter the description of the new category'}),
+        }
 
 
 class StepForm(forms.ModelForm):
@@ -62,10 +74,13 @@ class StepForm(forms.ModelForm):
         help_texts = {
             'description': 'You can use max 300 characters',
         }
+        widgets = {
+            'description': forms.Textarea(attrs={'placeholder': 'Describe how this step works'}),
+        }
 
 
 class RecipeStepListForm(StepForm):
-    delete = forms.BooleanField(required=False, help_text='delete step from the recipe?')
+    delete = forms.BooleanField(required=False, help_text='Delete this step from the recipe?')
 
 
 RecipeIngredientFormset = formset_factory(form=RecipeIngredientForm,

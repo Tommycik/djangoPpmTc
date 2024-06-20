@@ -19,6 +19,17 @@ form button{
     margin:0 0;
 }
 
+.ing p:last-child, .st p:last-child{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.ing p:last-child input , .st p:last-child input {
+    width: 20px;
+    height: 20px;
+}
+
 form button:hover{
     background-color: green;
     color: white;
@@ -26,7 +37,8 @@ form button:hover{
 .form{
     flex-direction: column;
     align-items: center;
-    gap:10px;
+    gap:40px;
     margin-top: 60px;
     justify-content: center;
 }
+
