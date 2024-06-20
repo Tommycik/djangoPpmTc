@@ -10,39 +10,39 @@
 
 {% block content %}
 
-  {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
-
-  {% if next %}
-    {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
-    {% else %}
-      <p>Please login to see this page.</p>
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
     {% endif %}
-  {% endif %}
 
-  <form style="margin: 15px 0" method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <table>
-        <tr>
-            <td>{{ form.username.label_tag }}</td>
-            <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
-        </tr>
-        <tr>
-            <td style="width: fit-content"><p>{{msg}}</p></td>
-        </tr>
-    </table>
-    <input class="subLog" id="log" type="submit" value="login">
-    <input type="hidden" name="next" value="{{ next }}">
-  </form>
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+                please login with an account that has access.</p>
+        {% else %}
+            <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
 
-  {# Assumes you set up the password_reset view in your URLconf #}
+    <form style="margin: 15px 0" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password.label_tag }}</td>
+                <td>{{ form.password }}</td>
+            </tr>
+            <tr>
+                <td style="width: fit-content"><p>{{ msg }}</p></td>
+            </tr>
+        </table>
+        <input class="subLog" id="log" type="submit" value="login">
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+
+    {# Assumes you set up the password_reset view in your URLconf #}
     <p style="margin: 15px 0;font-size: 25px"><a href="{% url 'password_reset' %}">Lost password?</a></p>
     <p style="margin: 15px 0;font-size: 25px"><a href="{% url 'signup' %}">Don't have an account?</a></p>
 

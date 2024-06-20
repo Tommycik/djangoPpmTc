@@ -1,6 +1,6 @@
-.element{
+.element {
     width: 100%;
-    gap:10px;
+    gap: 10px;
     margin: 15px 0;
     padding: 5px 0;
     justify-content: center;
@@ -10,22 +10,27 @@
     border-radius: 10px;
     height: fit-content;
 }
-h3{
+
+h3 {
     font-size: 40px;
 }
-.element *{
-    margin:0 15px;
+
+.element * {
+    margin: 0 15px;
 }
-.element p{
+
+.element p {
     margin-bottom: 10px;
     font-size: 20px;
 }
-.element a{
+
+.element a {
     font-size: 35px;
 }
-.sublist{
-        border: none;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+
+.sublist {
+    border: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

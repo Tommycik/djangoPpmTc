@@ -1,10 +1,9 @@
-
 /*let categories = 0;
 let ingredients = 0
 let newIngredients = 0
 let steps = 0*/
 
-function setter(id,number) {
+function setter(id, number) {
     let list = document.querySelectorAll(`[id^=id]`)
 
     for (let i = 0; i < list.length; i++) {
@@ -13,10 +12,10 @@ function setter(id,number) {
             function (e, item) {
                 let oldName = e.getAttribute("name")
                 let oldId = e.getAttribute("id")
-                oldName=oldName.replace(i, i+`${number}`) ;
-                oldId=oldId.replace(i, i+`${number}`) ;
-                e.setAttribute("name",oldName)
-                e.setAttribute("id",oldId)
+                oldName = oldName.replace(i, i + `${number}`);
+                oldId = oldId.replace(i, i + `${number}`);
+                e.setAttribute("name", oldName)
+                e.setAttribute("id", oldId)
             }
         )
 
@@ -30,7 +29,7 @@ function cloneMore(element = 'ingredient') {
     newElement = document.getElementsByClassName(element)[0].cloneNode(true);
     var total = Number(document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value)
     let count = total + 1
-    document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value= count
+    document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value = count
     newElement.querySelectorAll("input,select,textarea").forEach(
         function (i, item) {
             //Clear the input’s value
@@ -43,11 +42,11 @@ function cloneMore(element = 'ingredient') {
             i.setAttribute("id", oldId)
         }
     )
-    newElement.querySelector("button").setAttribute("onClick", `deleteForm(${count-1},'${element}')`)
+    newElement.querySelector("button").setAttribute("onClick", `deleteForm(${count - 1},'${element}')`)
     let spanValue = newElement.querySelector("span").innerHTML.replace(1, `${count}`)
     newElement.querySelector("span").innerHTML = spanValue
-    newElement.id = element + `${count-1}`
-    $(newElement).insertAfter($(document.getElementsByClassName(element)[`${count-2}`]));
+    newElement.id = element + `${count - 1}`
+    $(newElement).insertAfter($(document.getElementsByClassName(element)[`${count - 2}`]));
 }
 
 function deleteForm(formNum, element = 'ingredient') {
@@ -56,7 +55,7 @@ function deleteForm(formNum, element = 'ingredient') {
         return
     }
     totalForms--;
-    document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value= totalForms
+    document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value = totalForms
     const collection = document.querySelectorAll(`#${element}${formNum}`)
 
     for (let i = 0; i < collection.length; i++) {

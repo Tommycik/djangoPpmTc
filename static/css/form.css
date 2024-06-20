@@ -1,52 +1,57 @@
-form{
-  display: flex;
-  padding: 5px;
-  width: auto;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+form {
+    display: flex;
+    padding: 5px;
+    width: auto;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
-form button,form select, form textarea,form input{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color:black ;
-  font-size: 20px;
-  margin-right: 0;
-  font-weight: normal;
-  padding: 8px 10px;
-  border-radius: 10px;
-  border: green solid 1px;
-  background-color: white;
+form button, form select, form textarea, form input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 20px;
+    margin-right: 0;
+    font-weight: normal;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: green solid 1px;
+    background-color: white;
 }
-form button{
-  background-color: white;
+
+form button {
+    background-color: white;
 }
-form .subLog{
-  background-color: white;
-  color: black;
-  font-size: 20px;
+
+form .subLog {
+    background-color: white;
+    color: black;
+    font-size: 20px;
 }
-.search label{
-  width: 100%;
-  min-width: fit-content;
-  display: flex;
+
+.search label {
+    width: 100%;
+    min-width: fit-content;
+    display: flex;
 }
 
 .search :focus {
-  outline: white;
+    outline: white;
 }
 
 ::placeholder {
-  color: #7d7d7d ;
-  background-color: inherit;
-  opacity: 1;
+    color: #7d7d7d;
+    background-color: inherit;
+    opacity: 1;
 }
-form .create{
-  margin-top: 50px;
-  font-size: 35px;
+
+form .create {
+    margin-top: 50px;
+    font-size: 35px;
 }
-form .create:hover{
-  cursor: pointer;
+
+form .create:hover {
+    cursor: pointer;
 }

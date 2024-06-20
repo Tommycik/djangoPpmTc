@@ -133,7 +133,7 @@ def favourite_add(request, pk):
     else:
         cook.favourites.add(pk)
         fav_num += 1
-    obj.favourites=fav_num
+    obj.favourites = fav_num
     obj.save()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', "/"))
