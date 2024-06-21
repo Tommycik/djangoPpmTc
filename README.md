@@ -20,10 +20,10 @@ all'interno del quale potranno inserire un numero arbitrario di categorie, proce
 specificare anche la quantità e l'unità di misura. Gli utenti potranno avere delle ricette preferite e cancellare le proprie ricette, queste due funzioni
 insieme a quella di modifica saranno utilizzabili sulle singole ricette attraverso "modify recipe", "delete recipe" e "favourite". Quest'ultimo nella 
 forma "not favourite anymore" servirà per togliere una ricetta dai preferiti. Le ricette possono essere viste dalla più nuova alla più
-vecchia o in base a quanto sono apprezzate, ovvero quanti utenti l'hanno messe nei preferiti. Un'utente se autenticato  può vedere le proprie ricette o 
+vecchia o in base a quanto sono apprezzate, ovvero quanti utenti l'hanno messe nei preferiti. Un utente se autenticato  può vedere le proprie ricette o 
 le sue preferite. Qualsiasi utente invece potrà accedere all'elenco delle categorie o degli ingredienti e cliccando su uno di essi vedrà solo le ricette 
-che contengono tale ingrediente o appartengono a tale categoria.Situazione simile se dovesse cliccare su il nome di un'altro utente, vedrà le ricette 
-create da quell'utente . Queste funzionalità sono  raggiungibili tramite la home o attraverso il menu nelle altre pagine. Un'utente autenticato oltre alle ricette può anche creare ingredienti e categorie singolarmente senza collegarli ad una riceta.
+che contengono tale ingrediente o appartengono a tale categoria. Situazione simile se dovesse cliccare su il nome di un'altro utente, vedrà solo le ricette 
+create da quell'utente . Queste funzionalità sono raggiungibili tramite la home o attraverso il menu nelle altre pagine. Un utente autenticato oltre alle ricette può anche creare singolarmente gli ingredienti e le categorie senza collegarli ad una ricetta.
 Queste funzionalità sono sempre accessibili tramite il menu attraverso "new recipe", "new ingredient" e "new category". Sempre tramite il menu l'utente può accedere alla funzione di ricerca,attraverso "search", nella quale può decidere se fare una ricerca generale o cercare solo un ingrediente, una categoria ,una 
 ricetta o un utente.
 
