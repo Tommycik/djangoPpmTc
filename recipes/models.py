@@ -1,14 +1,12 @@
-from _decimal import Decimal
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Q
 from django.urls import reverse
 
-from accounts import forms
+from _decimal import Decimal
 
 
-# Create your models here.
 class Category(models.Model):
     title = models.CharField(max_length=50, primary_key=True)
     description = models.TextField(max_length=280)

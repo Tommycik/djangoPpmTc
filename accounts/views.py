@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -9,20 +7,20 @@ from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import get_template
-from recipes.models import Recipe
-from recipes.views import RecentPageView
-from .forms import UserRegisterForm, ForgotForm
-from .functions import ForgotEmail, sendEmail
-from .models import Cook
 from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
 from django.views.generic import DetailView
 
+from recipes.models import Recipe
+from recipes.views import RecentPageView
+from .forms import UserRegisterForm
+from .models import Cook
 
-# Create your views here.
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
+
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -36,8 +34,10 @@ def register(request):
             msg.send()
             messages.success(request, f'Your account has been created ! You are now able to log in')
             return redirect('login')
+
     else:
         form = UserRegisterForm()
+
     return render(request, "registration/signup.html", {'form': form, 'title': 'Register Here'})
 
 
@@ -45,15 +45,15 @@ def Login(request):
     msg = ""
     if request.method == 'GET':
         request.session['previous_page'] = request.META.get('HTTP_REFERER', "/")
-    if request.method == 'POST':
 
+    if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-
         user = authenticate(request, username=username, password=password)
         if user is not None:
             form = login(request, user)
             messages.success(request, f' welcome {username} !!')
+
             if not request.session.__contains__("previous_page"):
                 return redirect("/")
             control = request.session['previous_page']
@@ -63,13 +63,16 @@ def Login(request):
                      request.build_absolute_uri(reverse_lazy("password_reset")),
                      request.build_absolute_uri(reverse_lazy("password_reset_done"))
                      ]
+
             if control in check:
                 return redirect("/")
             else:
                 return redirect(control)
+
         else:
             messages.info(request, f'account done not exit plz sign in')
             msg = "Username or password are incorrect"
+
     form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form, 'title': 'Log In', 'msg': msg})
 
@@ -87,11 +90,11 @@ class DetailAccountView(LoginRequiredMixin, DetailView):
 @login_required()
 def delete_user(request):
     context = {}
-
     if not request.user.is_authenticated:
         return redirect("login")
 
     if request.method == 'POST':
+
         if request.POST.get('confirm'):
             user = request.user
             d = {'username': user.username}
@@ -104,11 +107,13 @@ def delete_user(request):
             msg.attach_alternative(html_content, "text/html")
             msg.send()
             return redirect("home")
+
         next_page = request.POST.get('next', '/')
         return HttpResponseRedirect(next_page)
     else:
         context['object'] = 'Your account'
         context['title'] = "Delete Account"
+
     return render(request, '../templates/delete.html', context=context)
 
 
@@ -130,13 +135,14 @@ def favourite_add(request, pk):
     obj = get_object_or_404(Recipe, pk=pk)
     fav_num = obj.favourites
     favourites = cook.favourites.all()
+
     if favourites.filter(pk=pk).exists():
         fav_num -= 1
         cook.favourites.remove(pk)
     else:
         cook.favourites.add(pk)
         fav_num += 1
+
     obj.favourites = fav_num
     obj.save()
-
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', "/"))

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+
 from accounts.models import Cook
 from pages.forms import SearchForm
 from recipes.models import Recipe, Category, Ingredient
@@ -26,6 +27,7 @@ class AccessDenied(TemplateView):
 def search_page_view(request):
     if request.method == "POST":
         form = SearchForm(request.POST)
+
         if form.is_valid():
             search = form.cleaned_data["search"]
             recipes = Recipe.objects.filter(title__icontains=search)
@@ -35,6 +37,8 @@ def search_page_view(request):
             results = [recipes, categories, ingredients, cooks]
             return render(request, "../templates/searchResults.html",
                           {"results": results, "mode": form.cleaned_data["filter_field"]})
+
     else:
         form = SearchForm()
+
     return render(request, "../templates/search.html", {"form": form})

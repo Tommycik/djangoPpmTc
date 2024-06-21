@@ -1,10 +1,9 @@
 from django.contrib import admin
+
 from .models import Category, RecipeIngredient, RecipeStep
 from .models import Recipe
 from .models import Ingredient
 
-
-# Register your models here.
 
 class RecipeIngredientInline(admin.TabularInline):
     model = RecipeIngredient

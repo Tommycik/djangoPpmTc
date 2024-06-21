@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -7,14 +6,11 @@ from django.forms import Textarea, TextInput
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import RecipeForm, RecipeIngredientFormset, NewCategoryFormset, NewIngredientFormset, \
     NewStepFormset, RecipeIngredientListForm, RecipeStepListForm
 from .models import Recipe, Ingredient, Category, RecipeIngredient, RecipeStep
-from django.views.generic import ListView, DetailView, CreateView
-
-
-# Create your views here.
 
 
 class RecentPageView(ListView):
@@ -88,27 +84,28 @@ class DetailPageView(DetailView):
 
 @login_required
 def create_recipe_view(request):
-    context = {}
-    elements = []
-    # <a href={% url 'category_new' %}>New Category</a>
-    # <a href={% url 'ingredient_new' %}>New Ingredient</a>
     if request.method == "POST":
         form = RecipeForm(request.POST, request.FILES)
         formset1 = RecipeIngredientFormset(request.POST, prefix='ingredient')
         formset2 = NewIngredientFormset(request.POST, prefix='newingredient')
         formset3 = NewCategoryFormset(request.POST, prefix='category')
         formset4 = NewStepFormset(request.POST, prefix='step')
-        if form.is_valid():
 
+        if form.is_valid():
             recipe = form.save(commit=False)
             recipe.author = request.user
+
             if recipe.clean_rc(request.user):
+
                 if all([cf.is_valid() for cf in formset1]) and all(
                         [cf.is_valid() for cf in formset2]) and all([cf.is_valid() for cf in formset3]) and all(
-                    [cf.is_valid() for cf in formset4]):
+                        [cf.is_valid() for cf in formset4]):
+
                     if any([cf.cleaned_data != {} for cf in formset1]) or any(
                             [cf.cleaned_data != {} for cf in formset2]):
+
                         if any([cf.cleaned_data != {} for cf in formset4]):
+
                             recipe.save()
                             form.save_m2m()
                             for form2 in formset1:
@@ -145,15 +142,21 @@ def create_recipe_view(request):
 
                             recipe.save()
                             return HttpResponseRedirect(recipe.get_absolute_url())
+
             if all([cf.is_valid() for cf in formset1]) and all([cf.is_valid() for cf in formset2]):
                 if all([cf.cleaned_data == {} for cf in formset1]) and all(
                         [cf.cleaned_data == {} for cf in formset2]):
+
                     messages.error(request, 'the recipe must have at least one ingredient.', extra_tags='ingredients')
+
             if all([cf.is_valid() for cf in formset4]):
                 if all([cf.cleaned_data == {} for cf in formset4]):
+
                     messages.error(request, 'the recipe must have at least one step.', extra_tags='steps')
+
             if not recipe.clean_rc(request.user):
                 messages.error(request, 'this recipe already exists.', extra_tags='recipe')
+
     else:
         form = RecipeForm()
         formset1 = RecipeIngredientFormset(prefix='ingredient')
@@ -221,18 +224,15 @@ class CreateIngredientView(CreateCategoryView):
 
 @login_required
 def update_view(request, pk):
-    # dictionary for initial data with
-    # field names as keys
-    context = {}
-
-    # fetch the object related to passed id
     recipe = get_object_or_404(Recipe, id=pk)
+
     if request.user != recipe.author:
         return redirect('access_denied')
+
     ingredients = RecipeIngredient.objects.filter(recipe=pk)
     steps = RecipeStep.objects.filter(recipe=pk)
+
     if request.method == 'POST':
-        # pass the object as instance in form
         form = RecipeForm(request.POST or None, request.FILES, instance=recipe)
         formset1 = RecipeIngredientFormset(request.POST, prefix='ingredient')
         formset2 = NewIngredientFormset(request.POST, prefix='newingredient')
@@ -244,20 +244,23 @@ def update_view(request, pk):
         steps_form = [RecipeStepListForm(request.POST, prefix=str(x) + "b", instance=steps[x]) for x in
                       range(0, steps.count())]
 
-        # save the data from the form and
-        # redirect to detail_view
         if form.is_valid() and all([cf.is_valid() for cf in ingredients_form]) and all(
                 [cf.is_valid() for cf in steps_form]):
+
             if recipe.clean_rc(request.user):
                 modified = form.save(commit=False)
+
                 if all([cf.is_valid() for cf in formset1]) and all(
                         [cf.is_valid() for cf in formset2]) and all([cf.is_valid() for cf in formset3]) and all(
-                    [cf.is_valid() for cf in formset4]):
+                        [cf.is_valid() for cf in formset4]):
+
                     if any([cf.cleaned_data != {} for cf in formset1]) or any(
                             [cf.cleaned_data != {} for cf in formset2]) or any(
-                        [cf.cleaned_data != {} and not cf.cleaned_data["delete"] for cf in ingredients_form]):
+                            [cf.cleaned_data != {} and not cf.cleaned_data["delete"] for cf in ingredients_form]):
+
                         if any([cf.cleaned_data != {} for cf in formset4]) or any(
                                 [cf.cleaned_data != {} and not cf.cleaned_data["delete"] for cf in steps_form]):
+
                             modified.save()
                             form.save_m2m()
                             for cf in ingredients_form:
@@ -311,20 +314,26 @@ def update_view(request, pk):
 
                             modified.save()
                             return HttpResponseRedirect(recipe.get_absolute_url())
+
             if all([cf.is_valid() for cf in formset1]) and all([cf.is_valid() for cf in formset2]):
+
                 if all([cf.cleaned_data == {} for cf in formset1]) and all(
                         [cf.cleaned_data == {} for cf in formset2]) and all(
-                    [cf.cleaned_data == {} or cf.cleaned_data["delete"] for cf in ingredients_form]):
+                        [cf.cleaned_data == {} or cf.cleaned_data["delete"] for cf in ingredients_form]):
+
                     messages.error(request, 'the recipe must have at least one ingredient.', extra_tags='ingredients')
+
             if all([cf.is_valid() for cf in formset4]):
+
                 if all([cf.cleaned_data == {} for cf in formset4]) and all(
                         [cf.cleaned_data == {} or cf.cleaned_data["delete"] for cf in steps_form]):
+
                     messages.error(request, 'the recipe must have at least one step.', extra_tags='steps')
+
             if not recipe.clean_rc(request.user):
                 messages.error(request, 'this recipe already exists.', extra_tags='recipe')
 
     else:
-
         form = RecipeForm(instance=recipe)
         formset1 = RecipeIngredientFormset(prefix='ingredient')
         formset2 = NewIngredientFormset(prefix='newingredient')
@@ -344,21 +353,23 @@ def update_view(request, pk):
         'formset3': formset3,
         'formset4': formset4
     }
-
     return render(request, "../templates/modify.html", context)
 
 
 @login_required
 def delete_view(request, pk):
     context = {}
-    # fetch the object related to passed id
     recipe = get_object_or_404(Recipe, id=pk)
+
     if request.user != recipe.author:
         return redirect('access_denied')
+
     if request.method == 'POST':
+
         if request.POST.get('confirm'):
             recipe.delete()
             return HttpResponseRedirect(reverse('recipe_yours'))
+
         next_page = request.POST.get('next', '/')
         return HttpResponseRedirect(next_page)
 
@@ -390,7 +401,6 @@ class BestPageView(RecentPageView):
 
 
 class YourPageView(LoginRequiredMixin, AuthorPageView):
-
     def get_queryset(self):
         queryset = Recipe.objects.all().filter(author=self.request.user)
         return queryset

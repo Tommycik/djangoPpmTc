@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import formset_factory
+
 from recipes.models import Category, Recipe, Ingredient, RecipeIngredient, RecipeStep
 
 
@@ -21,7 +22,6 @@ class RecipeForm(forms.ModelForm):
 class RecipeIngredientForm(forms.ModelForm):
     ingredient = forms.ModelChoiceField(
         queryset=Ingredient.objects.all(),
-
     )
     quantity = forms.DecimalField()
     unit = forms.ChoiceField(
@@ -84,6 +84,7 @@ class RecipeStepListForm(StepForm):
 
 
 RecipeIngredientFormset = formset_factory(form=RecipeIngredientForm,
+                                          extra=1,
                                           can_delete=False
                                           )
 
