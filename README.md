@@ -31,7 +31,7 @@ create da quell'utente . Queste funzionalità sono raggiungibili tramite la home
 Un utente autenticato oltre alle ricette può anche creare singolarmente gli ingredienti e le categorie senza collegarli ad 
 una ricetta. Queste funzionalità sono sempre accessibili tramite il menu attraverso "new recipe", "new ingredient" e 
 "new category". Sempre tramite il menu l'utente può accedere alla funzione di ricerca,attraverso "search", nella quale può 
-decidere se fare una ricerca generale o cercare solo un ingrediente, una categoria ,una 
-ricetta o un utente.
+decidere se fare una ricerca generale o cercare solo tra gli ingredienti, le categorie, le 
+ricette o gli utenti.
 
  
