@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'djangoProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASES = {'default': {}}
-if DEBUG:
+if False:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -103,7 +103,7 @@ if DEBUG:
         }
     }
 else:
-    db_from_env = dj_database_url.config(default=env("DATABASE_URL"),conn_max_age=500)
+    db_from_env = dj_database_url.config(default=env("DATABASE_URL"), conn_max_age=500)
     DATABASES['default'].update(db_from_env)
 
 # Password validation
