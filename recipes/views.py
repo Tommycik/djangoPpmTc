@@ -8,6 +8,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView
 
+from accounts.models import Cook
 from .forms import RecipeForm, RecipeIngredientFormset, NewCategoryFormset, NewIngredientFormset, \
     NewStepFormset, RecipeIngredientListForm, RecipeStepListForm
 from .models import Recipe, Ingredient, Category, RecipeIngredient, RecipeStep
@@ -21,6 +22,8 @@ class RecentPageView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "New Recipes"
+        if self.request.user.is_authenticated:
+            context["favourites"] = Recipe.objects.filter(pk__in=Cook.objects.get(title=self.request.user).favourites.all())
         return context
 
 
@@ -33,6 +36,8 @@ class RecipesCategoryPageView(RecentPageView):
     def get_context_data(self, **kwargs):
         context = super(RecentPageView, self).get_context_data(**kwargs)
         context['title'] = "Recipes in the '" + Category.objects.get(pk=self.kwargs['pk']).title + "' category"
+        if self.request.user.is_authenticated:
+            context["favourites"] = Recipe.objects.filter(pk__in=Cook.objects.get(title=self.request.user).favourites.all())
         return context
 
 
@@ -45,6 +50,8 @@ class RecipesIngredientPageView(RecentPageView):
     def get_context_data(self, **kwargs):
         context = super(RecentPageView, self).get_context_data(**kwargs)
         context['title'] = "Recipes that use '" + Ingredient.objects.get(pk=self.kwargs['pk']).title + ''
+        if self.request.user.is_authenticated:
+            context["favourites"] = Recipe.objects.filter(pk__in=Cook.objects.get(title=self.request.user).favourites.all())
         return context
 
 
@@ -79,6 +86,8 @@ class DetailPageView(DetailView):
         context['ingredients'] = RecipeIngredient.objects.filter(recipe=self.object.pk)
         context['categories'] = Category.objects.filter(pk__in=self.object.categories.all())
         context['steps'] = RecipeStep.objects.filter(recipe=self.object)
+        if self.request.user.is_authenticated:
+            context["favourites"] = Recipe.objects.filter(pk__in=Cook.objects.get(title=self.request.user).favourites.all())
         return context
 
 

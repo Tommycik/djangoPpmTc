@@ -31,19 +31,27 @@
                         </div>
                         <div class="recipeInfo">
                             <p>Cook:</p>
-                            <a href="/recipes/{{ item.author }}/authorRecipes/">{{ item.author }}</a>
+                            <a style="font-size: 20px" href="/recipes/{{ item.author }}/authorRecipes/">{{ item.author }}</a>
                             <p>Created:</p>
                             <p class="date">{{ item.date }}</p>
                             <p>Time to prepare:</p>
                             <p class="time">{{ item.time }}min</p>
                             {% if user.is_authenticated and item.author == user %}
-                                <a class="subLog" href="/accounts/favourites/{{ item.pk }}">Favourite</a>
+                                {% if item in favourites %}
+                                    <a class="subLog" style="color:red" href="/accounts/favourites/{{ item.pk }}">Not favourite anymore</a>
+                                {% else %}
+                                    <a class="subLog" href="/accounts/favourites/{{ item.pk }}">Favourite</a>
+                                {% endif %}
                                 <a class="subLog" href="/recipes/{{ item.pk }}/modify/">Modify recipe</a>
                                 <a class="subLog"
                                    href="/recipes/{{ item.pk }}/delete/?next={{ request.path|urlencode }}">Delete
                                     recipe</a>
                             {% elif user.is_authenticated %}
-                                <a class="subLog" href="/accounts/favourites/{{ item.pk }}">Favourite</a>
+                                {% if item in favourites %}
+                                    <a class="subLog" style="color:red" href="/accounts/favourites/{{ item.pk }}">Not favourite anymore</a>
+                                {% else %}
+                                    <a class="subLog" href="/accounts/favourites/{{ item.pk }}">Favourite</a>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </li>

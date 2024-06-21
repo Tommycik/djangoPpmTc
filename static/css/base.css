@@ -183,7 +183,7 @@ header {
     z-index: 200;
     margin-top: 40px;
     justify-content: flex-end;
-    border: green solid 1px;
+    border: black solid 1px;
     background-color: green;
 
 }

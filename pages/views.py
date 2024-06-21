@@ -35,8 +35,11 @@ def search_page_view(request):
             ingredients = Ingredient.objects.filter(title__icontains=search)
             cooks = Cook.objects.filter(title__id__icontains=search)
             results = [recipes, categories, ingredients, cooks]
+            favourites = []
+            if request.user.is_authenticated:
+                favourites = Recipe.objects.filter(pk__in=Cook.objects.get(title=request.user).favourites.all())
             return render(request, "../templates/searchResults.html",
-                          {"results": results, "mode": form.cleaned_data["filter_field"]})
+                          {"results": results, "mode": form.cleaned_data["filter_field"], "favourites": favourites})
 
     else:
         form = SearchForm()
