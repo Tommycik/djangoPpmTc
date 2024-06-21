@@ -4,89 +4,112 @@
 {% block title %}Search Results{% endblock title %}
 
 {% block css %}
+    <link rel="stylesheet" href="{% static 'sublist.css' %}">
     <link rel="stylesheet" href="{% static 'recent.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
-{% endblock %}
+{% endblock css %}
 
 {% block content %}
-{% block head %}<h2>Search Results:</h2>{% endblock head %}
-<ul>
-
+    {% block head %}<h2>Search Results:</h2>{% endblock head %}
+    <ul>
+        <a class="subLog" href="{% url 'search' %}">Search something else</a>
         {% if mode == "recipe" or mode == "all" %}
             {% if results.0 %}
                 <h2>Recipes:</h2>
+                <h3 style="text-align: left; font-size: 1.17em;">{{ results.0|length }} recipes have been found</h3>
                 {% for item in results.0 %}
                     <li>
                         <div class="imageWrapper">
-                            <a href="{{ item.get_absolute_url }}"><img src="{{ item.image }}" alt="recipe photo"></a>
+                            <a href="{{ item.get_absolute_url }}"><img src="{{ item.image.url }}"
+                                                                       alt="recipe photo"></a>
                         </div>
                         <div class="recipeText">
                             <a href="{{ item.get_absolute_url }}">
-                                <h3>{{ item.title }}</h3>
+                                <h3 style="font-size: 1.17em;">{{ item.title }}</h3>
                                 <p>{{ item.description }}</p>
                             </a>
                         </div>
                         <div class="recipeInfo">
-                            <a href="/recipes/{{ item.author }}/authorRecipes/">{{ item.author }}</a>
+                            <p>Cook:</p>
+                            <a style="font-size: 20px" href="/recipes/{{ item.author }}/authorRecipes/">{{ item.author }}</a>
+                            <p>Created:</p>
                             <p class="date">{{ item.date }}</p>
+                            <p>Time to prepare:</p>
                             <p class="time">{{ item.time }}min</p>
                             {% if user.is_authenticated and item.author == user %}
-                                <a class="choice" href="/accounts/favourites/{{ item.pk }}">favourite</a>
-                                <a class="choice" href="/recipes/{{ item.pk }}/modify/">modify recipe</a>
-                                <a class="choice" href="/recipes/{{ item.pk }}/delete/">Delete recipe</a>
+                                {% if item in favourites %}
+                                    <a class="subLog" style="color:red" href="/accounts/favourites/{{ item.pk }}">Not favourite anymore</a>
+                                {% else %}
+                                    <a class="subLog" href="/accounts/favourites/{{ item.pk }}">Favourite</a>
+                                {% endif %}
+                                <a class="subLog" href="/recipes/{{ item.pk }}/modify/">Modify recipe</a>
+                                <a class="subLog"
+                                   href="/recipes/{{ item.pk }}/delete/?next={{ request.path|urlencode }}">Delete
+                                    recipe</a>
                             {% elif user.is_authenticated %}
-                                <a class="choice" href="/accounts/favourites/{{ item.pk }}">favourite</a>
+                                {% if item in favourites %}
+                                    <a class="subLog" style="color:red" href="/accounts/favourites/{{ item.pk }}">Not favourite anymore</a>
+                                {% else %}
+                                    <a class="subLog" href="/accounts/favourites/{{ item.pk }}">Favourite</a>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </li>
                 {% endfor %}
             {% else %}
-                No recipe match your search
+                <h3>No recipe match your search</h3>
             {% endif %}
         {% endif %}
         {% if  mode == "category" or mode == "all" %}
-             {% if results.1 %}
-                 <h2>Categories:</h2>
+            {% if results.1 %}
+                <h2>Categories:</h2>
+                <h3 style="text-align: left; font-size: 1.17em;">{{ results.1|length }} categories have been found</h3>
                 {% for item in results.1 %}
-                    <li>
-                        <a href="{{ item.get_absolute_url }}">
-                            <h3>{{ item.title }}</h3>
-                        </a>
+                    <li class="sublist">
+                        <div class="element">
+                            <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                            <p>{{ item.description }}</p>
+                        </div>
                     </li>
                 {% endfor %}
             {% else %}
-                No category match your search
+                <h3>No category match your search</h3>
             {% endif %}
         {% endif %}
         {% if  mode == "ingredient" or mode == "all" %}
-             {% if results.2 %}
-                 <h2>Ingredients:</h2>
+            {% if results.2 %}
+                <h2>Ingredients:</h2>
+                <h3 style="text-align: left; font-size: 1.17em;">{{ results.2|length }} ingredients have been found</h3>
                 {% for item in results.2 %}
-                    <li>
-                        <a href="{{ item.get_absolute_url }}">
-                            <h3>{{ item.title }}</h3>
-                        </a>
+                    <li class="sublist">
+                        <div class="element">
+                            <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                            <p>{{ item.description }}</p>
+                        </div>
                     </li>
                 {% endfor %}
             {% else %}
-                No ingredient match your search
+                <h3>No ingredient match your search</h3>
             {% endif %}
         {% endif %}
         {% if mode == "cook" or mode == "all" %}
             {% if results.3 %}
                 <h2>Cooks:</h2>
+                <h3 style="text-align: left; font-size: 1.17em;">{{ results.3|length }} cooks have been found</h3>
                 {% for item in results.3 %}
-                    <li>
-                        <a href="{{ item.get_absolute_url }}">
-                            <h3>{{ item.title }}</h3>
-                        </a>
+                    <li class="sublist">
+                        <div class="element">
+                            <a href="/recipes/{{ item.pk }}/authorRecipes/">
+                                <h3>{{ item.title }}</h3>
+                            </a>
+                        </div>
                     </li>
                 {% endfor %}
             {% else %}
-                No cook match your search
+                <h3>No cook match your search</h3>
             {% endif %}
 
         {% endif %}
 
-</ul>
+    </ul>
 {% endblock content %}

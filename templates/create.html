@@ -1,22 +1,140 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}New Recipe{% endblock title %}
 
+{% block script %}
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'formManagement.js' %}"></script>
+    <script type="text/javascript"></script>
+{% endblock script %}
+
 {% block css %}
-    <link rel="stylesheet" href="{% static 'detail.css' %}">
+    <link rel="stylesheet" href="{% static 'form.css' %}">
+    <link rel="stylesheet" href="{% static 'formCreate.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
-{% endblock %}
+{% endblock css %}
 
 {% block content %}
-  {% block head %}<h2>New Recipe</h2>{% endblock %}
+    {% block head %}<h2 style="text-align: center">New Recipe</h2>{% endblock %}
     <form method="POST" enctype="multipart/form-data">
-
-        <!-- Security token -->
         {% csrf_token %}
-
-        <!-- Using the formset -->
-        {{ form.as_p }}
-
-        <input type="submit" value="Submit">
+        {% for message in messages %}
+            {% if "ingredients" in message.tags %}
+                <p> {{ message }} </p>
+            {% endif %}
+        {% endfor %}
+        {% block ingredients %}{% endblock ingredients %}
+        {{ formset1.management_form }}
+        {% for formSub in formset1 %}
+            {% for hidden in formSub.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            <div class="form-row ingredient" id="ingredient0">
+                <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
+                        height: 5%;margin-top: 1.4%;font-weight: bold;">Ingredient 1:</span>
+                {{ formSub.as_p }}
+                {% with index=forloop.counter0 %}
+                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;">
+                        <button type="button" class="btn btn-danger"
+                                id="del-form-{{ index }}" onclick="deleteForm({{ index }},'ingredient')">Delete
+                        </button>
+                    </div>
+                {% endwith %}
+            </div>
+        {% endfor %}
+        <div class="form-row">
+            <button style="font-family:EmberBold,serif; font-weight: bold;" type="button"
+                    class="btn btn-success"
+                    id="add" onclick="cloneMore('ingredient')">Add ingredients
+            </button>
+        </div>
+        {{ formset2.management_form }}
+        {% for formSub in formset2 %}
+            {% for hidden in formSub.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            <div class="form-row newingredient" id="newingredient0">
+                <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
+                        height: 5%;margin-top: 1.4%;font-weight: bold;">New ingredient 1:</span>
+                {{ formSub.as_p }}
+                {% with index=forloop.counter0 %}
+                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;">
+                        <button type="button" class="btn btn-danger"
+                                id="del-form-{{ index }}" onclick="deleteForm({{ index }},'newingredient')">Delete
+                        </button>
+                    </div>
+                {% endwith %}
+            </div>
+        {% endfor %}
+        <div class="form-row">
+            <button style="font-family:EmberBold,serif; font-weight: bold;" type="button"
+                    class="btn btn-success"
+                    id="add" onclick="cloneMore('newingredient')">Add new ingredients
+            </button>
+        </div>
+        {{ formset3.management_form }}
+        {% for formSub in formset3 %}
+            {% for hidden in formSub.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            <div class="form-row category" style="flex-direction: column; align-items: center" id="category0">
+                <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
+                        height: 5%;margin-top: 1.4%;font-weight: bold;">Category 1:</span>
+                {{ formSub.as_p }}
+                {% with index=forloop.counter0 %}
+                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;">
+                        <button type="button" class="btn btn-danger"
+                                id="del-form-{{ index }}" onclick="deleteForm({{ index }},'category')">Delete
+                        </button>
+                    </div>
+                {% endwith %}
+            </div>
+        {% endfor %}
+        <div class="form-row">
+            <button style="font-family:EmberBold,serif;font-weight: bold;" type="button"
+                    class="btn btn-success"
+                    id="add" onclick="cloneMore('category')">Add new categories
+            </button>
+        </div>
+        {% for message in messages %}
+            {% if "recipe" in message.tags %}
+                <p> {{ message }} </p>
+            {% endif %}
+        {% endfor %}
+        <div class="form">
+            {{ form.as_p }}
+        </div>
+        {% for message in messages %}
+            {% if "steps" in message.tags %}
+                <p> {{ message }} </p>
+            {% endif %}
+        {% endfor %}
+        {% block steps %}{% endblock steps %}
+        {{ formset4.management_form }}
+        {% for formSub in formset4 %}
+            {% for hidden in formSub.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            <div class="form-row step" style="flex-direction: column; align-items: center" id="step0">
+                <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
+                        height: 5%;margin-top: 1.4%;font-weight: bold;">Step 1:</span>
+                {{ formSub.as_p }}
+                {% with index=forloop.counter0 %}
+                    <div class="form-group col-md-1 mb-0 ml-2" style="position: relative;">
+                        <button type="button" class="btn btn-danger"
+                                id="del-form-{{ index }}" onclick="deleteForm({{ index }},'step')">Delete
+                        </button>
+                    </div>
+                {% endwith %}
+            </div>
+        {% endfor %}
+        <div class="form-row">
+            <button style="font-family:EmberBold,serif; font-weight: bold;" type="button"
+                    class="btn btn-success"
+                    id="add" onclick="cloneMore('step')">Add recipe steps
+            </button>
+        </div>
+        <input class="create subLog" type="submit" value="Submit">
     </form>
-{% endblock %}
+{% endblock content %}

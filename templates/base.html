@@ -1,44 +1,77 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>{% block title %}Newspaper App{% endblock title %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% block css %}
-        <link rel="stylesheet" href="{% static 'base.css' %}">
-    {% endblock %}
 
-<body id="body">
-    <header>
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{{ title }}{% endblock title %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block script %}
+        {% endblock script %}
+        {% block css %}
+            <link rel="stylesheet" href="{% static 'base.css' %}">
+        {% endblock css %}
+        <script type="text/javascript">
+            function menu() {
+                let menu = document.getElementById("menu1")
+                if (menu.style.display !== "none") {
+                    menu.style.display = "none";
+                } else {
+                    menu.style.display = "flex"
+                }
+            }
+        </script>
+    </head>
 
-        <div class="homeLogo">
-            <a href="{% url 'home' %}"><h1>Recipe world</h1></a>
-        </div>
-        <div class="userInteraction">
-            <div class="userAction">
-                {% if user.is_authenticated %}
-                    <div class="sub">
-                        <p>{{ user.username }}</p>
-                        <a class="subLog" href="{% url 'reset_password' %}">Change your password</a>
-                        <a class="subLog" href="{% url 'logout' %}">Log out</a>
-                    </div>
-                {% else %}
-                    <div class="sub">
-                        <a class="subLog" href="{% url 'login' %}">Log In</a>
-                        <a class="subLog" href="{% url 'signup' %}">Sign Up</a>
-                    </div>
-
-                {% endif %}
+    <body id="body">
+        <header>
+            <div class="homeLogo">
+                <a href="{% url 'home' %}"><h1>Recipe world</h1></a>
             </div>
-        </div>
+            <div class="userInteraction">
+                <div class="userAction">
+                    {% if user.is_authenticated %}
+                        <div class="sub">
+                            <p>Hi {{ user.username }}</p>
+                            <a class="subLog" href="/accounts/{{ user.pk }}/user">Your account</a>
+                            <a class="subLog" href="{% url 'logout' %}">Log out</a>
+                        </div>
+                    {% else %}
+                        <div class="sub">
+                            <a class="subLog" href="{% url 'login' %}">Log In</a>
+                            <a class="subLog" href="{% url 'signup' %}">Sign Up</a>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="menuButton">
+                    <button id="menuButton" class="subLog" onclick="menu()">Menu</button>
+                    {% block menu %}
+                        <div class="menu" id="menu1">
+                            <div class="menuChoices">
+                                <a class="menuChoice" href="{% url 'recent' %}">See new recipes</a>
+                                <a class="menuChoice" href="{% url 'recipe_best' %}">Best recipes</a>
+                                <a class="menuChoice" href="{% url 'search' %}">Search</a>
+                                <a class="menuChoice" href="{% url 'recipe_categories' %}">Categories</a>
+                                <a class="menuChoice" href="{% url 'recipe_ingredients' %}">Ingredients</a>
+                                {% if user.is_authenticated %}
+                                    <a class="menuChoice" href="{% url 'recipe_yours' %}">See your recipes</a>
+                                    <a class="menuChoice" href="{% url 'recipe_favourites' %}">See your favorites</a>
+                                    <a class="menuChoice" href="{% url 'recipe_new' %}">New recipe</a>
+                                    <a class="menuChoice" href="{% url 'ingredient_new' %}">New ingredient</a>
+                                    <a class="menuChoice" href="{% url 'category_new' %}">New category</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endblock menu %}
+                </div>
+            </div>
+        </header>
+        <section class="main">
+            <div class="container">
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </section>
+    </body>
 
-    </header>
-     <section class="main">
-         <div class="container">
-          {% block content %}
-          {% endblock content %}
-        </div>
-     </section>
-</body>
 </html>

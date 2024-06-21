@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ object.username }}{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <link rel="stylesheet" href="{% static 'detail.css' %}">
+    <link rel="stylesheet" href="{% static 'account.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <div class="account">
+        <h3>Username:</h3>
+        <h4>{{ object.username }}</h4>
+        <h3>Email:</h3>
+        <h4>{{ object.email }}</h4>
+    </div>
+    <div class="choices">
+        {% if user.is_authenticated %}
+            <a class="subLog" href="{% url 'recipe_yours' %}">See your recipes</a>
+            <a class="subLog" href="{% url 'recipe_favourites' %}">See your favorites</a>
+            <a class="subLog" href="{% url 'recipe_new' %}">New recipe</a>
+            <a class="subLog" href="{% url 'user_delete' %}?next={{ request.path|urlencode }}">Delete your account</a>
+            <a class="subLog" href="{% url 'password_reset' %}">Forgot your password?</a>
+        {% endif %}
+    </div>
+{% endblock content %}

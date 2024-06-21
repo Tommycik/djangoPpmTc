@@ -1,42 +1,82 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{{object.title }}{% endblock title %}
+
+{% block title %}{{ object.title }}{% endblock title %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'detail.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
-{% endblock %}
-
+{% endblock css %}
 
 {% block content %}
-    <h2>{{object.title}}</h2>
     <div class="recipe">
         <div class="imageWrapper">
-            <span><img src="{{ item.image}}" alt="recipe photo"></span>
+            <span><img src="{{ object.image.url }}" alt="recipe photo"></span>
         </div>
+        <h2>{{ object.title }}</h2>
         <p>{{ object.description }}</p>
+        {% if user.is_authenticated and object.author == user %}
+            {% if item in favourites %}
+                <a class="subLog" style="color:red" href="/accounts/favourites/{{ object.pk }}">Not favourite anymore</a>
+            {% else %}
+                <a class="subLog" href="/accounts/favourites/{{ object.pk }}">Favourite</a>
+            {% endif %}
+            <a class="subLog" href="/recipes/{{ object.pk }}/modify/">Modify recipe</a>
+            <a class="subLog" href="/recipes/{{ object.pk }}/delete/?next={{ request.path|urlencode }}">Delete
+                recipe</a>
+        {% elif user.is_authenticated %}
+            {% if item in favourites %}
+                <a class="subLog" style="color:red" href="/accounts/favourites/{{ object.pk }}">Not favourite anymore</a>
+            {% else %}
+                <a class="subLog" href="/accounts/favourites/{{ object.pk }}">Favourite</a>
+            {% endif %}
+        {% endif %}
         <div class="preparation">
-            <div class="ingredients">
+            <h4>Ingredients:</h4>
+            <div class="list">
                 <ul>
                     {% for ingredient in ingredients %}
                         <li>
-                            <p>{{ingredient.title}}</p>
+                            <a href="{{ ingredient.ingredient.get_absolute_url }}">{{ ingredient.ingredient }}</a>
+                            <p>{{ ingredient.quantity }}{{ ingredient.unit }}</p>
                         </li>
                     {% endfor %}
                 </ul>
-
             </div>
-            <p class="time">{{ object.time}}min</p>
         </div>
-        <a href="/recipes/{{ object.author}}/authorRecipes/">{{ object.author}}</a>
-        <p class="date">{{ object.date}}</p>
-        {% if user.is_authenticated and object.author == user %}
-            <a class="choice" href="/accounts/favourites/{{ object.pk }}" >favourite</a>
-            <a class="choice" href="/recipes/{{ object.pk }}/modify/">modify recipe</a>
-            <a class="choice" href="/recipes/{{ object.pk }}/delete/">Delete recipe</a>
-        {% elif user.is_authenticated%}
-             <a class="choice" href="/accounts/favourites/{{ object.pk }}" >favourite</a>
+        {% if object.people == 1 %}
+            <h4 style="font-size: 20px; font-weight: 500">This recipe is for {{ object.people }} person</h4>
+        {% else %}
+             <h4 style="font-size: 20px; font-weight: 500">This recipe is for {{ object.people }} people</h4>
         {% endif %}
-        <p>{{ object.body }}</p>
+        <h4>Time to prepare:</h4>
+        <p style="margin-left:10px" class="time">{{ object.time }}min</p>
+        <h4>Categories:</h4>
+        <div class="categories">
+            <div class="list">
+                <ul>
+                    {% for category in categories %}
+                        <li>
+                            <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <h4>Steps:</h4>
+        <div class="list">
+            <ul>
+                {% for step in steps %}
+                    <li>
+                        <p>{{ step.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+        <h4>Cook:</h4>
+        <a style="margin-left:10px; font-size: 20px" href="/recipes/{{ object.author }}/authorRecipes/">{{ object.author }}</a>
+        <h4>Created:</h4>
+        <p style="margin-left:10px" class="date">{{ object.date }}</p>
     </div>
 {% endblock content %}

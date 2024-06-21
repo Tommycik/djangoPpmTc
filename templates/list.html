@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <link rel="stylesheet" href="{% static 'recent.css' %}">
+{% endblock css %}
+
+{% block content %}
+    {% block head %}<h2>{{ title }}</h2>{% endblock head %}
+    {% if object_list %}
+        <h1>{{ object_list|length }} recipes have been found</h1>
+    {% else %}
+        <h1>No recipes have been found</h1>
+    {% endif %}
+    <ul>
+        {% for item in object_list %}
+            <li class="recipe">
+                <div class="imageWrapper">
+                    <a href="{{ item.get_absolute_url }}"><img src="{{ item.image.url }}" alt="recipe photo"></a>
+                </div>
+                <div class="recipeText">
+                    <a href="{{ item.get_absolute_url }}">
+                        <h3>{{ item.title }}</h3>
+                        <p>{{ item.description }}</p>
+                    </a>
+                </div>
+                <div class="recipeInfo">
+                    <p>Cook:</p>
+                    <a style="font-size: 20px" href="/recipes/{{ item.author }}/authorRecipes/">{{ item.author }}</a>
+                    <p>Created:</p>
+                    <p class="date">{{ item.date }}</p>
+                    <p>Time to prepare:</p>
+                    <p class="time">{{ item.time }}min</p>
+                    {% if user.is_authenticated and item.author == user %}
+                        {% if item in favourites %}
+                            <a class="subLog" style="color:red" href="/accounts/favourites/{{ item.pk }}">Not favourite anymore</a>
+                        {% else %}
+                            <a class="subLog" href="/accounts/favourites/{{ item.pk }}">Favourite</a>
+                        {% endif %}
+                        <a class="subLog" href="/recipes/{{ item.pk }}/modify/">Modify recipe</a>
+                        <a class="subLog" href="/recipes/{{ item.pk }}/delete/?next={{ request.path|urlencode}}">Delete
+                            recipe</a>
+                    {% elif user.is_authenticated %}
+                        {% if item in favourites %}
+                            <a class="subLog" style="color:red" href="/accounts/favourites/{{ item.pk }}">Not favourite anymore</a>
+                        {% else %}
+                            <a class="subLog" href="/accounts/favourites/{{ item.pk }}">Favourite</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

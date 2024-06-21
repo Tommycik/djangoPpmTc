@@ -1,27 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Delete recipe}{% endblock title %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'detail.css' %}">
+    <link rel="stylesheet" href="{% static 'form.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
-{% endblock %}
-
+{% endblock css %}
 
 {% block content %}
-
-<form method="post">{% csrf_token %}
-
-
-
-
-<p>Are you sure you want to delete "{{ object }}"?</p>
-
-
-
-
-    <input type="submit" value="Confirm">
-</form>
+    <form style="gap:20px" method="post">
+        {% csrf_token %}
+        <h1 style="font-size:35px">Are you sure you want to delete {{ object }}?</h1>
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+        <input class="create subLog" style="margin:0" type="submit" name="confirm" value="Confirm">
+        <input class="create subLog" style="margin:0" type="submit" name="keep" value="Keep {{ object }}">
+    </form>
 {% endblock content %}
 
 

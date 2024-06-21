@@ -1,69 +1,82 @@
-.search{
-  border: green solid 1px;
-  height: fit-content;
-  padding: 10px 0;
+.search {
+    border: green solid 1px;
+    height: fit-content;
+    padding: 10px 0;
 }
 
-.search div{
-  justify-content: center;
-  align-items: center;
-  width: fit-content;
-  margin-right: 5px;
+.search form {
+    display: flex;
+    padding: 5px;
+    position: relative;
+    width: 100%;
+    justify-content: space-between;
 }
 
-.search img{
-  width: 20px;
-  height: 20px;
+form div {
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
-.search form{
-  display: flex;
-  padding: 5px;
-  position: relative;
-  width: 100%;
+.search form input {
+    border: none;
+    width: 60%;
+    font-size: 17px;
+    color: black;
+    font-weight: lighter;
+    background-color: inherit;
 }
 
-.search form input{
-  border: none;
-  width: 60%;
-  font-size: 17px;
-  color: black;
-  font-weight: lighter;
-  background-color: inherit;
-  margin-right: auto;
+.search form button, .search form select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #005d9c;
+    cursor: pointer;
+    color: white;
+    border: none;
+    font-size: 20px;
+    margin-right: 0;
+    z-index: 100;
+    font-weight: bolder;
+    padding: 8px 10px;
+    border-radius: 5px;
 }
 
-.search form button{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #005d9c;
-  cursor:pointer;
-  color:white ;
-  border: none;
-  font-size: 15px;
-  position: absolute;
-  left:  calc( 100% - 75px);
-  bottom: 0;
-  margin-right: 0;
-  z-index: 10000;
-  font-weight: bolder;
-  padding: 8px 10px;
-  border-radius: 5px;
+.search form select {
+    font-size: 13px;
 }
 
-.search label{
-  width: 100%;
-  min-width: fit-content;
-  display: flex;
+.search label {
+    width: 100%;
+    min-width: fit-content;
+    display: flex;
 }
 
 .search :focus {
-  outline: white;
+    outline: white;
 }
 
 ::placeholder {
-  color: #7d7d7d ;
-  background-color: inherit;
-  opacity: 1;
+    color: #7d7d7d;
+    background-color: inherit;
+    opacity: 1;
+}
+
+@media only screen and (max-width: 450px) {
+    .search {
+        border: none;
+    }
+
+    form {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .search form input {
+        padding: 15px 5px;
+        width: auto;
+        border: green solid 1px;
+    }
+
 }

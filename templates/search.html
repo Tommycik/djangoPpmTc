@@ -6,22 +6,18 @@
 {% block css %}
     <link rel="stylesheet" href="{% static 'search.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
-{% endblock %}
+{% endblock css %}
 
 {% block content %}
     <h1>Search what you want:</h1>
     <div class="search">
-
-        <div>
-{#            <img alt="search" src="img/search.svg">#}
-        </div>
-
-        <form  method="post">
+        <form method="post">
             {% csrf_token %}
             {{ form.search }}
-            {{ form.filter_field }}
-            <button type="submit"  value="Submit">Search</button>
+            <div>
+                {{ form.filter_field }}
+                <button type="submit" value="Submit">Search</button>
+            </div>
         </form>
-
     </div>
 {% endblock content %}

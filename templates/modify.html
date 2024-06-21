@@ -3,4 +3,39 @@
 
 {% block title %}Modify Recipe{% endblock title %}
 
-{% block head %}<h2>Modify Recipe</h2>{% endblock %}
+{% block script %}
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'formManagement.js' %}"></script>
+    <script type="text/javascript">
+        window.onload = (event) => {
+            setter('ing', 0);
+            setter('stp', 1);
+        };
+    </script>
+{% endblock script %}
+
+{% block head %}<h2 style="text-align: center">Modify Recipe</h2>{% endblock %}
+
+{% block ingredients %}
+    {% for formSub in ingredients %}
+        <div class="form-row ing" id="ing0" style="margin-top:35px">
+            <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
+                    height: 5%;margin-top: 1.4%;font-weight: bold;">Ingredient 1:</span>
+            {{ formSub.as_p }}
+            {% with index=forloop.counter0 %}
+            {% endwith %}
+        </div>
+    {% endfor %}
+{% endblock ingredients %}
+
+{% block steps %}
+    {% for formSub in steps %}
+        <div class="form-row st" id="stp0" style="margin-top:35px">
+            <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
+                    height: 5%;margin-top: 1.4%;font-weight: bold;">Step 1:</span>
+            {{ formSub.as_p }}
+            {% with index=forloop.counter0 %}
+            {% endwith %}
+        </div>
+    {% endfor %}
+{% endblock steps %}
