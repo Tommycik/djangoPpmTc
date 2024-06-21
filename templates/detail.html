@@ -16,7 +16,7 @@
         <h2>{{ object.title }}</h2>
         <p>{{ object.description }}</p>
         {% if user.is_authenticated and object.author == user %}
-            {% if item in favourites %}
+            {% if object in favourites %}
                 <a class="subLog" style="color:red" href="/accounts/favourites/{{ object.pk }}">Not favourite anymore</a>
             {% else %}
                 <a class="subLog" href="/accounts/favourites/{{ object.pk }}">Favourite</a>
@@ -25,7 +25,7 @@
             <a class="subLog" href="/recipes/{{ object.pk }}/delete/?next={{ request.path|urlencode }}">Delete
                 recipe</a>
         {% elif user.is_authenticated %}
-            {% if item in favourites %}
+            {% if object in favourites %}
                 <a class="subLog" style="color:red" href="/accounts/favourites/{{ object.pk }}">Not favourite anymore</a>
             {% else %}
                 <a class="subLog" href="/accounts/favourites/{{ object.pk }}">Favourite</a>
