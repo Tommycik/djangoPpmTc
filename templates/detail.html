@@ -37,12 +37,12 @@
             </div>
         </div>
         {% if object.people == 1 %}
-            <h4>This recipe is for {{ object.people }} person/h4>
+            <h4 style="font-size: 20px; font-weight: 500">This recipe is for {{ object.people }} person</h4>
         {% else %}
-             <h4>This recipe is for {{ object.people }} people</h4>
+             <h4 style="font-size: 20px; font-weight: 500">This recipe is for {{ object.people }} people</h4>
         {% endif %}
         <h4>Time to prepare:</h4>
-        <p class="time">{{ object.time }}min</p>
+        <p style="margin-left:10px" class="time">{{ object.time }}min</p>
         <h4>Categories:</h4>
         <div class="categories">
             <div class="list">
@@ -67,8 +67,8 @@
 
         </div>
         <h4>Cook:</h4>
-        <a href="/recipes/{{ object.author }}/authorRecipes/">{{ object.author }}</a>
+        <a style="margin-left:10px;font-size: 20px" href="/recipes/{{ object.author }}/authorRecipes/">{{ object.author }}</a>
         <h4>Created:</h4>
-        <p class="date">{{ object.date }}</p>
+        <p style="margin-left:10px" class="date">{{ object.date }}</p>
     </div>
 {% endblock content %}

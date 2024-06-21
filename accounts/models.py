@@ -7,7 +7,7 @@ from recipes.models import Recipe
 
 
 class Cook(models.Model):
-    title = models.OneToOneField(User, on_delete=models.CASCADE)
+    title = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     favourites = models.ManyToManyField(Recipe)
 
 
