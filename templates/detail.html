@@ -36,6 +36,11 @@
                 </ul>
             </div>
         </div>
+        {% if object.people == 1 %}
+            <h4>This recipe is for {{ object.people }} person/h4>
+        {% else %}
+             <h4>This recipe is for {{ object.people }} people</h4>
+        {% endif %}
         <h4>Time to prepare:</h4>
         <p class="time">{{ object.time }}min</p>
         <h4>Categories:</h4>

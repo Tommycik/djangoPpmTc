@@ -7,11 +7,12 @@ from recipes.models import Category, Recipe, Ingredient, RecipeIngredient, Recip
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['categories', 'title', 'description', 'time', 'image']
+        fields = ['categories', 'title', 'description', 'time', 'people', 'image']
         help_texts = {
             'title': 'You can use max 100 characters',
             'description': 'You can use max 280 characters',
             'time': 'time in minutes',
+            'people': 'how many people is this for',
         }
         widgets = {
             'title': forms.Textarea(attrs={'placeholder': 'Enter the name of the recipe'}),

@@ -42,6 +42,7 @@ class Recipe(models.Model):
     description = models.TextField(blank=True, max_length=280)
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
     time = models.IntegerField(default=0, validators=[MinValueValidator(int('0'))])
+    people = models.IntegerField(default=1, validators=[MinValueValidator(int('1'))])
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
