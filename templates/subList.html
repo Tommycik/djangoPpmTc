@@ -7,15 +7,13 @@
     <link rel="stylesheet" href="{% static 'sublist.css' %}">
     <link rel="stylesheet" href="{% static 'recent.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
-{% endblock %}
+{% endblock css %}
 
 {% block content %}
     {% block head %}<h2>{{ title }}:</h2>{% endblock head %}
     <ul>
         {% for letter in alphabet %}
             <h3>{{ letter }}:</h3>
-
-
             <li class="sublist">
                 {% for item in object_list|filter_first:letter %}
                     <div class="element">
@@ -24,8 +22,6 @@
                     </div>
                 {% endfor %}
             </li>
-
-
         {% endfor %}
         {% for number in numbers %}
             <h3>{{ number }}:</h3>
@@ -38,6 +34,5 @@
                 {% endfor %}
             </li>
         {% endfor %}
-
     </ul>
 {% endblock content %}

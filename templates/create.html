@@ -1,32 +1,27 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}New Recipe{% endblock title %}
+
 {% block script %}
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'formManagement.js' %}"></script>
-    <script type="text/javascript">
-
-    </script>
+    <script type="text/javascript"></script>
 {% endblock script %}
+
 {% block css %}
     <link rel="stylesheet" href="{% static 'form.css' %}">
     <link rel="stylesheet" href="{% static 'formCreate.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
 {% endblock css %}
 
-
-
-
 {% block content %}
     {% block head %}<h2 style="text-align: center">New Recipe</h2>{% endblock %}
     <form method="POST" enctype="multipart/form-data">
-
-        <!-- Security token -->
         {% csrf_token %}
-        <!-- Using the formset -->
         {% for message in messages %}
             {% if "ingredients" in message.tags %}
-                <p> {{ message }} </p>   {# show signup error message #}
+                <p> {{ message }} </p>
             {% endif %}
         {% endfor %}
         {% block ingredients %}{% endblock ingredients %}
@@ -84,7 +79,7 @@
                 {{ hidden }}
             {% endfor %}
             <div class="form-row category" style="flex-direction: column; align-items: center" id="category0">
-            <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
+                <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">Category 1:</span>
                 {{ formSub.as_p }}
                 {% with index=forloop.counter0 %}
@@ -104,7 +99,7 @@
         </div>
         {% for message in messages %}
             {% if "recipe" in message.tags %}
-                <p> {{ message }} </p>   {# show signup error message #}
+                <p> {{ message }} </p>
             {% endif %}
         {% endfor %}
         <div class="form">
@@ -112,7 +107,7 @@
         </div>
         {% for message in messages %}
             {% if "steps" in message.tags %}
-                <p> {{ message }} </p>   {# show signup error message #}
+                <p> {{ message }} </p>
             {% endif %}
         {% endfor %}
         {% block steps %}{% endblock steps %}
@@ -122,7 +117,7 @@
                 {{ hidden }}
             {% endfor %}
             <div class="form-row step" style="flex-direction: column; align-items: center" id="step0">
-            <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
+                <span style="font-family:Bookerly,serif;font-size: large;margin-right:11px;background-color: #28a745;color: #fff;padding:13px;
                         height: 5%;margin-top: 1.4%;font-weight: bold;">Step 1:</span>
                 {{ formSub.as_p }}
                 {% with index=forloop.counter0 %}
@@ -140,7 +135,6 @@
                     id="add" onclick="cloneMore('step')">Add recipe steps
             </button>
         </div>
-
         <input class="create subLog" type="submit" value="Submit">
     </form>
 {% endblock content %}

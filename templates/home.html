@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block css %}
     <link rel="stylesheet" href="{% static 'home.css' %}">
     <link rel="stylesheet" type=text/css href="{% static 'base.css' %}">
-{% endblock %}
+{% endblock css %}
 
 {% block menu %}
     <div class="menu" id="menu1">
@@ -19,6 +18,7 @@
         </div>
     </div>
 {% endblock menu %}
+
 {% block content %}
     <div class="choices">
         {% if user.is_authenticated %}

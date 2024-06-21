@@ -1,13 +1,7 @@
-/*let categories = 0;
-let ingredients = 0
-let newIngredients = 0
-let steps = 0*/
-
 function setter(id, number) {
     let list = document.querySelectorAll(`[id^=id]`)
 
     for (let i = 0; i < list.length; i++) {
-
         list[i].querySelectorAll("input,select,textarea").forEach(
             function (e, item) {
                 let oldName = e.getAttribute("name")
@@ -18,7 +12,6 @@ function setter(id, number) {
                 e.setAttribute("id", oldId)
             }
         )
-
         list[i].querySelector("span").innerHTML = list[i].querySelector("span").innerHTML.replace("1", `${i + 1}`)
         list[i].id = id + `${i}`
     }
@@ -27,7 +20,7 @@ function setter(id, number) {
 function cloneMore(element = 'ingredient') {
     let newElement;
     newElement = document.getElementsByClassName(element)[0].cloneNode(true);
-    var total = Number(document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value)
+    let total = Number(document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value)
     let count = total + 1
     document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value = count
     newElement.querySelectorAll("input,select,textarea").forEach(
@@ -43,14 +36,13 @@ function cloneMore(element = 'ingredient') {
         }
     )
     newElement.querySelector("button").setAttribute("onClick", `deleteForm(${count - 1},'${element}')`)
-    let spanValue = newElement.querySelector("span").innerHTML.replace(1, `${count}`)
-    newElement.querySelector("span").innerHTML = spanValue
+    newElement.querySelector("span").innerHTML = newElement.querySelector("span").innerHTML.replace(1, `${count}`)
     newElement.id = element + `${count - 1}`
     $(newElement).insertAfter($(document.getElementsByClassName(element)[`${count - 2}`]));
 }
 
 function deleteForm(formNum, element = 'ingredient') {
-    var totalForms = Number(document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value)
+    let totalForms = Number(document.querySelector(`[id^=${"id_" + element + "-TOTAL_FORMS"} ]`).value)
     if (totalForms <= 1) {
         return
     }
@@ -61,12 +53,12 @@ function deleteForm(formNum, element = 'ingredient') {
     for (let i = 0; i < collection.length; i++) {
         collection[i].remove();
     }
+
     let forms = document.querySelectorAll(`[id^=${element}]`)
 
     for (k = 0; k < totalForms; k++) {
         forms[k].querySelector("span").innerHTML = `${element}${k + 1}` + " :";
         forms[k].querySelector("button").setAttribute("onClick", `deleteForm(${k},'${element}')`)
-
         forms[k].setAttribute('id', element + `${k}`)
         forms[k].querySelectorAll("input,select,textarea").forEach(
             function (i, item) {

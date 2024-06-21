@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{{ title }}{% endblock title %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'base.css' %}">
     <link rel="stylesheet" href="{% static 'recent.css' %}">
-{% endblock %}
+{% endblock css %}
 
 {% block content %}
     {% block head %}<h2>{{ title }}</h2>{% endblock head %}

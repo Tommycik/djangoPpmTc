@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block css %}
     <link rel="stylesheet" href="{% static 'form.css' %}">
     <link rel="stylesheet" href="{% static 'formCreate.css' %}">
@@ -15,4 +16,4 @@
         <button type="submit">Sign Up</button>
     </form>
     <a style="text-align:center; margin: 20px 0;font-size: 25px" href="{% url 'login' %}">Already have an account?</a>
-{% endblock %}
+{% endblock content %}

@@ -9,7 +9,6 @@
 {% endblock css %}
 
 {% block content %}
-
     {% if form.errors %}
         <p>Your username and password didn't match. Please try again.</p>
     {% endif %}
@@ -41,9 +40,6 @@
         <input class="subLog" id="log" type="submit" value="login">
         <input type="hidden" name="next" value="{{ next }}">
     </form>
-
-    {# Assumes you set up the password_reset view in your URLconf #}
     <p style="margin: 15px 0;font-size: 25px"><a href="{% url 'password_reset' %}">Lost password?</a></p>
     <p style="margin: 15px 0;font-size: 25px"><a href="{% url 'signup' %}">Don't have an account?</a></p>
-
-{% endblock %}
+{% endblock content %}

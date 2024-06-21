@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}{{ object.username }}{% endblock title %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'base.css' %}">
     <link rel="stylesheet" href="{% static 'detail.css' %}">
     <link rel="stylesheet" href="{% static 'account.css' %}">
-{% endblock %}
-
+{% endblock css %}
 
 {% block content %}
     <div class="account">

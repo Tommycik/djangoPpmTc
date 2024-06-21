@@ -6,12 +6,11 @@
 {% block css %}
     <link rel="stylesheet" href="{% static 'search.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
-{% endblock %}
+{% endblock css %}
 
 {% block content %}
     <h1>Search what you want:</h1>
     <div class="search">
-
         <form method="post">
             {% csrf_token %}
             {{ form.search }}
@@ -20,6 +19,5 @@
                 <button type="submit" value="Submit">Search</button>
             </div>
         </form>
-
     </div>
 {% endblock content %}

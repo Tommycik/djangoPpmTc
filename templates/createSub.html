@@ -1,23 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{{ title }}{% endblock title %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'form.css' %}">
     <link rel="stylesheet" href="{% static 'base.css' %}">
-{% endblock %}
+{% endblock css %}
 
 {% block content %}
     {% block head %}<h2 style="text-align: center">{{ title }}</h2>{% endblock %}
     <form method="POST" enctype="multipart/form-data">
-
-        <!-- Security token -->
         {% csrf_token %}
-
-        <!-- Using the formset -->
         {{ form.as_p }}
         <input type="hidden" name="next" value="{{ request.GET.next }}">
-
         <input class="create subLog" type="submit" value="Submit">
     </form>
-{% endblock %}
+{% endblock content %}
